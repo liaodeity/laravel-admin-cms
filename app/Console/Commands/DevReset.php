@@ -38,13 +38,13 @@ class DevReset extends Command
      */
     public function handle()
     {
-        DB::table ('admins')->where('username','<>','admin')->delete ();
+        DB::table ('admins')->delete ();
         DB::table ('agent_regions')->delete ();
         DB::table ('agents')->delete ();
         DB::table ('article_cates')->delete ();
         DB::table ('article_reads')->delete ();
         DB::table ('articles')->delete ();
-        //DB::table ('auth_infos')->delete ();
+        DB::table ('auth_infos')->delete ();
         DB::table ('bills')->delete ();
         //DB::table ('configs')->delete ();
         DB::table ('coordinates')->delete ();
@@ -71,15 +71,15 @@ class DevReset extends Command
         DB::table ('order_sales')->delete ();
         DB::table ('orders')->delete ();
         DB::table ('pay_trades')->delete ();
-        //DB::table ('permissions')->delete ();
+        DB::table ('permissions')->delete ();
         DB::table ('pictures')->delete ();
         DB::table ('product_cates')->delete ();
         DB::table ('product_prices')->delete ();
         DB::table ('products')->delete ();
         DB::table ('receipt_addresses')->delete ();
         //DB::table ('regions')->delete ();
-        //DB::table ('role_has_permissions')->delete ();
-        //DB::table ('roles')->delete ();
+        DB::table ('role_has_permissions')->delete ();
+        DB::table ('roles')->delete ();
         DB::table ('serial_numbers')->delete ();
         DB::table ('share_qrcodes')->delete ();
         DB::table ('template_message_logs')->delete ();
@@ -90,5 +90,7 @@ class DevReset extends Command
         DB::table ('express_deliveries')->delete ();
         //DB::table ('wx_reply')->delete ();
         //DB::table ('wx_reply_keywords')->delete ();
+
+
     }
 }
