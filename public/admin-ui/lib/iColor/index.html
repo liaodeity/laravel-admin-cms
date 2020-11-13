@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jquery拾色器插件iColor</title>
+<link rel="stylesheet" type="text/css" href="iColor-min.css" />
+<script type="text/javascript" src="jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="iColor-min.js"></script>
+<script type="text/javascript">
+$(function() {
+	$('input').iColor({'x': 10, 'y': -50});
+	$('#lineColor').iColor(function(hx) {
+		console.log('自定义回调：去掉内容');
+		this.val('').css('background', '#' + hx);
+	});
+	$('#color').iColor(function(hx) {
+		console.log('自定义回调：我不修改背景色');
+		this.val('#' + hx)
+	});
+    $('#mycolor2').iColor();
+    $('[name="mousecolor"]').iColor({
+        'type': 'mouseover', 
+        'open': function(e) {
+            var color = this.data('color');
+            console.log('事件类型' + e.type);
+            console.log(color ? '之前设置的颜色为：' + color : '之前没有设置颜色');
+        },
+        'set': function(hx) {
+            this.data('color', '#'+hx);
+            this.val('').css('background', '#' + hx);
+            
+            console.log('现在设置的颜色为：' + '#'+hx);
+        }
+    });
+});
+</script>
+</head>
+<body>
+<center>
+<div style="margin: 50px;">
+  <input name="mycolor" id="lineColor" type="text" value="" hx="#c00" />
+  <input name="mycolor" id="color" type="text" value="" hx="#ccc" />
+</div>
+<div style="margin: 50px;">
+  <input name="mycolor" type="text" value="" hx="#ccc" />
+  <div id="mycolor2" style="width: 80px; height: 24px; line-height: 24px" hx="#f00"></div>
+</div>
+<div style="margin: 50px;"><input name="mousecolor" type="text" value="" hx="#c0c" />鼠标悬停看看 </div>
+</center>
+</body>
+</html>

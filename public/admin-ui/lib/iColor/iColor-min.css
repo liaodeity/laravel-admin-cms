@@ -1,0 +1,23 @@
+#iColorPicker {
+	color: #fff;
+	background: #333;
+	border: 1px solid #ccc;
+	padding: 5px;
+	z-index: 9999
+}
+#colorPreview {
+	height: 50px;
+	border: 1px solid #000;
+	background: #fff;
+	cursor: pointer;
+	height: 60px
+}
+table.pickerTable {
+	border-collapse: collapse
+}
+table.pickerTable td {
+	width: 12px;
+	height: 14px;
+	border: 1px solid #000;
+	cursor: pointer
+}
