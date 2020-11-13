@@ -73,7 +73,7 @@ class RegionsController extends Controller
             if ($level) $regions = $regions->where('level', $level);
             if ($status) $regions = $regions->where('status', $status);
             if($pidName){
-                $regions = $regions->whereRaw(DB::raw(" pid IN (select id from tb_regions where ( name LIKE '%$pidName%' OR area_region_name LIKE '%$pidName%' ) ) "));
+                $regions = $regions->whereRaw(DB::raw(" pid IN (select id from DROP TABLE IF EXISTS `regions where ( name LIKE '%$pidName%' OR area_region_name LIKE '%$pidName%' ) ) "));
             }
             //dd($regions->toSql());
 

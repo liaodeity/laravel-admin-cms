@@ -61,7 +61,7 @@ class RolesController extends Controller
             $orderBy = $request->_order_by ?? 'id desc';
             $roles   = app($this->repository->model())
             ->select('auth_infos.*')
-            ->selectRaw(DB::raw('(SELECT count(1) FROM `tb_role_has_permissions` WHERE role_id=tb_auth_infos.role_id) as p_count'));
+            ->selectRaw(DB::raw('(SELECT count(1) FROM `role_has_permissions` WHERE role_id=auth_infos.role_id) as p_count'));
             if ($keyword) $roles = $roles->where(function ($query) use ($keyword) {
                 $query->where('name', 'like', '%' . $keyword . '%')->orWhere('desc', 'like', '%' . $keyword . '%');
             });

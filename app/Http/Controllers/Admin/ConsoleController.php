@@ -47,8 +47,8 @@ class ConsoleController extends Controller
 	SUM(op.number) AS number,
 	SUM(op.price*op.number) AS amount
 FROM
-	`tb_orders` o
-INNER JOIN tb_order_products op ON o.id = op.order_id
+	`orders` o
+INNER JOIN order_products op ON o.id = op.order_id
 WHERE
 	o.`status` IN (1,3,5)
 GROUP BY
@@ -70,7 +70,7 @@ GROUP BY
 	DATE_FORMAT(b.bill_at, '%Y-%m') AS dmonth,
 	SUM(b.amount) AS amount
 FROM
-	`tb_bills` b WHERE status<>4
+	`bills` b WHERE status<>4
 GROUP BY
 	dmonth";
         $list = DB::select ($sql);
@@ -89,7 +89,7 @@ GROUP BY
 	DATE_FORMAT(m.reg_date, '%Y-%m') AS dmonth,
 	count(m.id) AS count
 FROM
-	`tb_members` m
+	`members` m
 GROUP BY
 	dmonth";
         $list = DB::select ($sql);
@@ -109,7 +109,7 @@ GROUP BY
 	DATE_FORMAT(b.bill_at, '%Y-%m') AS dmonth,
 	SUM(b.amount) AS amount
 FROM
-	`tb_bills` b WHERE b.status=1
+	`bills` b WHERE b.status=1
 GROUP BY
 	dmonth";
         $list = DB::select ($sql);

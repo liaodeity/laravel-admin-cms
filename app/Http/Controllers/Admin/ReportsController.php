@@ -55,7 +55,7 @@ class ReportsController extends ReportBaseController
             $where_sql .= " AND a.contact_phone LIKE '%$contact_phone%' ";
         }
         if ($region_id) {
-            $where_sql .= " AND a.id IN(SELECT ar.agent_id FROM `tb_agent_regions` ar INNER JOIN tb_regions r on ar.proxy_region_id=r.id WHERE area_region like '%|$region_id|%') ";
+            $where_sql .= " AND a.id IN(SELECT ar.agent_id FROM `agent_regions` ar INNER JOIN regions r on ar.proxy_region_id=r.id WHERE area_region like '%|$region_id|%') ";
         }
 
         $this->reportSql = "SELECT
@@ -64,9 +64,9 @@ class ReportsController extends ReportBaseController
 	SUM(op.price * op.number) AS order_amount,
 	sum(op.number) AS product_number
 FROM
-	`tb_orders` o
-INNER JOIN tb_order_products op ON o.id = op.order_id
-INNER JOIN tb_agents a ON o.agent_id=a.id
+	`orders` o
+INNER JOIN order_products op ON o.id = op.order_id
+INNER JOIN agents a ON o.agent_id=a.id
 $where_sql
 GROUP BY
 	o.agent_id";
@@ -112,11 +112,11 @@ GROUP BY
 	op.product_id,
 	sum(op.number) AS order_number
 FROM
-	`tb_orders` o
-INNER JOIN tb_order_products op ON o.id = op.order_id
-INNER JOIN tb_products p ON op.product_id=p.id
-INNER JOIN tb_agents a ON o.agent_id = a.id
-LEFT JOIN tb_regions r ON a.office_region_id = r.id
+	`orders` o
+INNER JOIN order_products op ON o.id = op.order_id
+INNER JOIN products p ON op.product_id=p.id
+INNER JOIN agents a ON o.agent_id = a.id
+LEFT JOIN regions r ON a.office_region_id = r.id
 $where_sql AND $field_count>0
 GROUP BY
 	{$field_count},op.product_id";
@@ -147,15 +147,15 @@ GROUP BY
             $this->reportParams['reg_date_end'] = $reg_date_end;
         }
         if ($region_id) {
-            $where_sql .= " AND m.resident_region_id IN(SELECT r.id FROM tb_regions r  WHERE area_region like '%|$region_id|%') ";
+            $where_sql .= " AND m.resident_region_id IN(SELECT r.id FROM regions r  WHERE area_region like '%|$region_id|%') ";
         }
 
         $this->reportSql = "SELECT
 	{$field_count} AS count_type,
 	count(1) AS count
 FROM
-	`tb_members` m
-INNER JOIN tb_member_agents ma ON m.id = ma.member_id
+	`members` m
+INNER JOIN member_agents ma ON m.id = ma.member_id
  $where_sql
 GROUP BY
 	count_type";
@@ -207,16 +207,16 @@ GROUP BY
             }
         }
         if ($region_id) {
-            $where_sql .= " AND a.id IN(SELECT ar.agent_id FROM `tb_agent_regions` ar INNER JOIN tb_regions r on ar.proxy_region_id=r.id WHERE area_region like '%|$region_id|%') ";
+            $where_sql .= " AND a.id IN(SELECT ar.agent_id FROM `agent_regions` ar INNER JOIN regions r on ar.proxy_region_id=r.id WHERE area_region like '%|$region_id|%') ";
         }
         $this->reportSql = "SELECT
 	a.id as agent_id,
 	count(1) AS number,
-	(SELECT SUM(amount) from tb_bills where agent_id=a.id) as amount
+	(SELECT SUM(amount) from bills where agent_id=a.id) as amount
 FROM
-	`tb_agents` a
-INNER JOIN tb_member_agents ma ON a.id = ma.agent_id
-LEFT JOIN tb_bills b ON a.id = b.agent_id
+	`agents` a
+INNER JOIN member_agents ma ON a.id = ma.agent_id
+LEFT JOIN bills b ON a.id = b.agent_id
 $where_sql
 GROUP BY
 	a.id";
@@ -265,7 +265,7 @@ GROUP BY
 //            $this->reportParams['product_name'] = $product_name;
         }
         if ($region_id) {
-            $where_sql .= " AND a.id IN(SELECT ar.agent_id FROM `tb_agent_regions` ar INNER JOIN tb_regions r on ar.proxy_region_id=r.id WHERE area_region like '%|$region_id|%') ";
+            $where_sql .= " AND a.id IN(SELECT ar.agent_id FROM `agent_regions` ar INNER JOIN regions r on ar.proxy_region_id=r.id WHERE area_region like '%|$region_id|%') ";
         }
         $this->reportSql = "SELECT
 	o.agent_id,
@@ -274,10 +274,10 @@ GROUP BY
 	SUM(op.price*op.number) AS order_amount,
 	sum(op.number) AS product_number
 FROM
-	`tb_orders` o
-INNER JOIN tb_order_products op ON o.id = op.order_id
-INNER JOIN tb_products p ON op.product_id=p.id
-INNER JOIN tb_agents a ON o.agent_id=a.id
+	`orders` o
+INNER JOIN order_products op ON o.id = op.order_id
+INNER JOIN products p ON op.product_id=p.id
+INNER JOIN agents a ON o.agent_id=a.id
 $where_sql
 GROUP BY
 	o.agent_id,op.product_id";
@@ -318,10 +318,10 @@ GROUP BY
             $where_sql .= " AND m.mobile LIKE '%$mobile%' ";
         }
         if ($member_region_id) {
-            $where_sql .= " AND m.resident_region_id IN(SELECT r.id FROM tb_regions r  WHERE area_region like '%|$member_region_id|%') ";
+            $where_sql .= " AND m.resident_region_id IN(SELECT r.id FROM regions r  WHERE area_region like '%|$member_region_id|%') ";
         }
         if ($agent_region_id) {
-            $where_sql .= " AND b.agent_id IN(SELECT ar.agent_id FROM `tb_agent_regions` ar INNER JOIN tb_regions r on ar.proxy_region_id=r.id WHERE area_region like '%|$agent_region_id|%') ";
+            $where_sql .= " AND b.agent_id IN(SELECT ar.agent_id FROM `agent_regions` ar INNER JOIN regions r on ar.proxy_region_id=r.id WHERE area_region like '%|$agent_region_id|%') ";
         }
 
         $this->reportSql = "SELECT
@@ -345,8 +345,8 @@ GROUP BY
 		END
 	) AS no_pay
 FROM
-	`tb_bills` b
-INNER JOIN tb_members m ON b.member_id = m.id
+	`bills` b
+INNER JOIN members m ON b.member_id = m.id
 $where_sql
 GROUP BY
 	count_type,
@@ -383,7 +383,7 @@ GROUP BY
             $this->reportParams['gender'] = $gender;
         }
         if ($region_id) {
-            $where_sql .= " AND m.resident_region_id IN(SELECT r.id FROM tb_regions r  WHERE area_region like '%|$region_id|%') ";
+            $where_sql .= " AND m.resident_region_id IN(SELECT r.id FROM regions r  WHERE area_region like '%|$region_id|%') ";
         }
 
         $this->reportSql = "SELECT
@@ -407,8 +407,8 @@ GROUP BY
 		END
 	) AS no_pay
 FROM
-	`tb_bills` b
-INNER JOIN tb_members m ON b.member_id = m.id
+	`bills` b
+INNER JOIN members m ON b.member_id = m.id
 $where_sql
 GROUP BY
 	count_type,
@@ -540,8 +540,8 @@ END AS new_age,
 	END
 ) AS no_pay
 FROM
-	`tb_bills` b
-INNER JOIN tb_members m ON b.member_id = m.id
+	`bills` b
+INNER JOIN members m ON b.member_id = m.id
 $where_sql
 GROUP BY
 	count_type,
@@ -586,7 +586,7 @@ GROUP BY
 //            $this->reportParams['mobile'] = $mobile;
         }
         if ($region_id) {
-            $where_sql .= " AND m.resident_region_id IN(SELECT r.id FROM tb_regions r  WHERE area_region like '%|$region_id|%') ";
+            $where_sql .= " AND m.resident_region_id IN(SELECT r.id FROM regions r  WHERE area_region like '%|$region_id|%') ";
         }
         $this->reportSql = "SELECT
 	{$field_count} AS count_type,
@@ -609,8 +609,8 @@ GROUP BY
 		END
 	) AS no_pay
 FROM
-	`tb_bills` b
-INNER JOIN tb_members m ON b.member_id = m.id
+	`bills` b
+INNER JOIN members m ON b.member_id = m.id
 $where_sql
 GROUP BY
 	count_type,
@@ -643,14 +643,14 @@ GROUP BY
             $where_sql .= " AND m.mobile LIKE '%$mobile%' ";
         }
         if ($region_id) {
-            $where_sql .= " AND m.resident_region_id IN(SELECT r.id FROM tb_regions r  WHERE area_region like '%|$region_id|%') ";
+            $where_sql .= " AND m.resident_region_id IN(SELECT r.id FROM regions r  WHERE area_region like '%|$region_id|%') ";
         }
         $this->reportSql = "SELECT
 	ma.referrer_member_id AS member_id,
 	count(1) AS count
 FROM
-	`tb_members` m
-INNER JOIN tb_member_agents ma ON m.id = ma.referrer_member_id
+	`members` m
+INNER JOIN member_agents ma ON m.id = ma.referrer_member_id
 $where_sql
 GROUP BY
 	ma.referrer_member_id";
@@ -684,7 +684,7 @@ GROUP BY
             $this->reportParams['bill_at_end'] = $bill_at_end;
         }
         if ($region_id) {
-            $where_sql .= " AND m.resident_region_id IN(SELECT r.id FROM tb_regions r  WHERE area_region like '%|$region_id|%') ";
+            $where_sql .= " AND m.resident_region_id IN(SELECT r.id FROM regions r  WHERE area_region like '%|$region_id|%') ";
         }
         $this->reportSql = "SELECT
 	{$field_count} AS count_type,
@@ -706,8 +706,8 @@ GROUP BY
 		END
 	) AS no_pay
 FROM
-	`tb_bills` b
-INNER JOIN tb_members m ON b.member_id = m.id
+	`bills` b
+INNER JOIN members m ON b.member_id = m.id
 $where_sql
 GROUP BY
 	count_type";
@@ -747,7 +747,7 @@ GROUP BY
 //            $this->reportParams['product_name'] = $product_name;
         }
         if ($region_id) {
-            $where_sql .= " AND m.resident_region_id IN(SELECT r.id FROM tb_regions r  WHERE area_region like '%|$region_id|%') ";
+            $where_sql .= " AND m.resident_region_id IN(SELECT r.id FROM regions r  WHERE area_region like '%|$region_id|%') ";
         }
 
         $this->reportSql = "SELECT
@@ -771,11 +771,11 @@ GROUP BY
 		END
 	) AS no_member_num
 FROM
-	`tb_order_qrcode_logs` oql
-INNER JOIN tb_order_qrcodes oq ON oql.qrcode_id = oq.id
-INNER JOIN tb_order_products op ON oq.order_product_id = op.id
-INNER JOIN tb_products p ON op.product_id = p.id
-LEFT JOIN tb_members m ON oql.member_id=m.id
+	`order_qrcode_logs` oql
+INNER JOIN order_qrcodes oq ON oql.qrcode_id = oq.id
+INNER JOIN order_products op ON oq.order_product_id = op.id
+INNER JOIN products p ON op.product_id = p.id
+LEFT JOIN members m ON oql.member_id=m.id
 $where_sql
 GROUP BY
 	count_type,
@@ -828,8 +828,8 @@ GROUP BY
 	pt.type,
 	pt.trade_price
 FROM
-	`tb_pay_trades` pt
-INNER JOIN tb_orders o ON pt.access_id = o.id
+	`pay_trades` pt
+INNER JOIN orders o ON pt.access_id = o.id
 WHERE
  pt.`status` = 1 $where_sql";
 //        echo $this->reportSql;

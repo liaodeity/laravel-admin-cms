@@ -72,7 +72,7 @@ class WxRepliesController extends Controller
             QueryWhere::like ($M, 'content');
             QueryWhere::eq ($M, 'status');
             if ($keyword) {
-                $M = $M->whereRaw(DB::raw(" id IN(SELECT reply_id FROM `tb_wx_reply_keywords` WHERE keyword like '%$keyword%' )"));
+                $M = $M->whereRaw(DB::raw(" id IN(SELECT reply_id FROM `DROP TABLE IF EXISTS `wx_reply_keywords` WHERE keyword like '%$keyword%' )"));
             }
             QueryWhere::orderBy ($M, $orderBy);
             $wxReplies = $M->paginate ();

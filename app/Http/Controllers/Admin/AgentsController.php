@@ -163,13 +163,13 @@ class AgentsController extends Controller
         QueryWhere::like($M, 'office_address');
 //        QueryWhere::region ($M, 'regions.area_region');
         if ($area_region) {
-            $M = $M->whereRaw(" tb_agents.id IN( SELECT
-	tb_agent_regions.`agent_id`
+            $M = $M->whereRaw(" DROP TABLE IF EXISTS `agents.id IN( SELECT
+	DROP TABLE IF EXISTS `agent_regions.`agent_id`
 FROM
-	`tb_agent_regions`
-LEFT JOIN `tb_regions` ON `tb_agent_regions`.`proxy_region_id` = `tb_regions`.`id`
+	`DROP TABLE IF EXISTS `agent_regions`
+LEFT JOIN `DROP TABLE IF EXISTS `regions` ON `DROP TABLE IF EXISTS `agent_regions`.`proxy_region_id` = `DROP TABLE IF EXISTS `regions`.`id`
 WHERE
-	`tb_regions`.`area_region` LIKE '%|$area_region|%')");
+	`DROP TABLE IF EXISTS `regions`.`area_region` LIKE '%|$area_region|%')");
         }
 
         QueryWhere::date($M, 'join_date');

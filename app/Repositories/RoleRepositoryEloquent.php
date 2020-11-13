@@ -106,7 +106,7 @@ class RoleRepositoryEloquent extends BaseRepository
     {
         $info    = $this->find($id);
         $role_id = $info->role_id ?? 0;
-        $info    = DB::select('select count(1) as total from tb_model_has_roles where role_id = ? LIMIT 1', [$role_id]);
+        $info    = DB::select('select count(1) as total from model_has_roles where role_id = ? LIMIT 1', [$role_id]);
         $count   = $info{0}->total ?? 0;
         if ($count) {
             return false;

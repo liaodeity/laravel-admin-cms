@@ -176,30 +176,30 @@ class MembersController extends Controller
         } elseif ($source == 'indirect') {
             //代理商间接会员
 
-            $sql_agent_where .= " AND ma.referrer_member_id IN(SELECT member_id FROM `tb_member_agents` where referrer_member_id='$referrer_id') ";
+            $sql_agent_where .= " AND ma.referrer_member_id IN(SELECT member_id FROM `DROP TABLE IF EXISTS `member_agents` where referrer_member_id='$referrer_id') ";
         }
 
         if ($sql_agent_where) {
-            $M = $M->whereRaw (DB::raw (" tb_members.id IN(SELECT
+            $M = $M->whereRaw (DB::raw (" DROP TABLE IF EXISTS `members.id IN(SELECT
                                 DISTINCT ma.member_id
                             FROM
-                                `tb_member_agents` ma
-                            INNER JOIN tb_agents a ON ma.agent_id = a.id
+                                `DROP TABLE IF EXISTS `member_agents` ma
+                            INNER JOIN DROP TABLE IF EXISTS `agents a ON ma.agent_id = a.id
                             WHERE
                                     1=1 $sql_agent_where)"));
         }
 
         if ($referrer) {
-            $M = $M->whereRaw (" tb_members.id IN(SELECT DISTINCT
+            $M = $M->whereRaw (" DROP TABLE IF EXISTS `members.id IN(SELECT DISTINCT
 	ma.member_id
 FROM
-	`tb_member_agents` ma
-INNER JOIN tb_members m ON ma.referrer_member_id = m.id
+	`DROP TABLE IF EXISTS `member_agents` ma
+INNER JOIN DROP TABLE IF EXISTS `members m ON ma.referrer_member_id = m.id
 WHERE
 	m.real_name LIKE '%$referrer%')");
         }
         if ($region_id) {
-            //            $M = $M->whereRaw(DB::raw(" resident_region_id IN(SELECT id FROM `tb_regions` where area_region like '%|$region_id|%')"));
+            //            $M = $M->whereRaw(DB::raw(" resident_region_id IN(SELECT id FROM `DROP TABLE IF EXISTS `regions` where area_region like '%|$region_id|%')"));
         }
         //        dd($M->toSql());
         //        if ($phone) $members = $members->where('phone', 'like', "%{$phone}%");

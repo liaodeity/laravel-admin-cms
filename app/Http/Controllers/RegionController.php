@@ -121,8 +121,8 @@ class RegionController extends Controller
             $regions = $regions->whereRaw (DB::raw (" id NOT IN(SELECT
 	ar.proxy_region_id
 FROM
-	`tb_agent_regions` ar
-INNER JOIN tb_agents a ON a.id = ar.agent_id
+	`DROP TABLE IF EXISTS `agent_regions` ar
+INNER JOIN DROP TABLE IF EXISTS `agents a ON a.id = ar.agent_id
 WHERE
 	a.`status` = 1
 AND ar.agent_id <> $source_value)"));
@@ -159,8 +159,8 @@ AND ar.agent_id <> $source_value)"));
             $regions = $regions->whereRaw (DB::raw (" id NOT IN(SELECT
 	ar.proxy_region_id
 FROM
-	`tb_agent_regions` ar
-INNER JOIN tb_agents a ON a.id = ar.agent_id
+	`DROP TABLE IF EXISTS `agent_regions` ar
+INNER JOIN DROP TABLE IF EXISTS `agents a ON a.id = ar.agent_id
 WHERE
 	a.`status` = 1
 AND ar.agent_id <> $source_value)"));

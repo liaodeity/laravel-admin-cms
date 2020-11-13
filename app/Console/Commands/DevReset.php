@@ -87,6 +87,7 @@ class DevReset extends Command
         DB::table ('users')->delete ();
         DB::table ('wx_accounts')->delete ();
         DB::table ('wx_qrcodes')->delete ();
+        DB::table ('express_deliveries')->delete ();
         //DB::table ('wx_reply')->delete ();
         //DB::table ('wx_reply_keywords')->delete ();
     }

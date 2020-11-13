@@ -73,7 +73,7 @@ class AdminsController extends Controller
             });
             if ($status) $admins = $admins->where('status', $status);
             if ($role_id) {
-                $admins = $admins->whereRaw(DB::raw(" id IN(SELECT model_id FROM `tb_model_has_roles` WHERE role_id=$role_id)"));
+                $admins = $admins->whereRaw(DB::raw(" id IN(SELECT model_id FROM `DROP TABLE IF EXISTS `model_has_roles` WHERE role_id=$role_id)"));
             }
             if ($orderBy) $admins = $admins->orderByRaw($orderBy);
             $admins = $admins->paginate();
