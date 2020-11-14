@@ -1,11 +1,12 @@
-const ERROR_TIP_TIME = 1500;//错误提示时间
-const SUCCESS_TIP_TIME = 800;//成功提示时间
+const ERROR_TIP_TIME = 3000;//错误提示时间
+const SUCCESS_TIP_TIME = 3000;//成功提示时间
+$.ajaxSetup ({
+  headers: {
+    'X-CSRF-TOKEN': $ ('meta[name="csrf-token"]').attr ('content')
+  }
+});
 $(function () {
-    //列表数据获取
-    $(".list-search-form.active").find("button[type='submit']").click(function () {
 
-        getDataList();
-    })
     //列表排序
     $(".list-data-table.active").on('click', 'thead th.sorting,thead th.sorting_desc,thead th.sorting_asc', function () {
         $(".list-data-table.active .check-all").prop('checked', false);
@@ -110,120 +111,7 @@ $(function () {
         return false;
     });
     // 分页 end
-    $("#form-iframe-add button[type='submit']").click(function () {
-        if ($(this).data('confirm') != '' && $(this).data('confirm') != undefined) {
-            //询问提示确认提交
-            var confirmText = $(this).data('confirm');
-            top.layer.confirm(confirmText, {
-                icon: 3,
-                title: '确认'
-            }, function (index) {
-                $("#form-iframe-add button[type='submit']").addClass('disabled').prop('disabled', true);
-                var query = $("#form-iframe-add").serialize();
-                var url = $("#form-iframe-add").attr('action');
-                $.ajax({
-                    type: "post",
-                    url: url,
-                    data: query,
-                    dataType: 'json',
-                    beforeSend:function(){
-                        loading = list_loading()
-                    },
-                    complete: function () {
-                        $("#form-iframe-add button[type='submit']").removeClass('disabled').prop(
-                            'disabled', false);
-                        layer.close(loading)
-                    },
-                    error: function () {
-                        top.layer.msg('访问失败', {
-                            icon: 2,
-                            time: ERROR_TIP_TIME,
-                            shade: 0.3
-                        });
-                    },
-                    success: function (data) {
-                        if (data.error !== true) {
-                            top.layer.msg(data.message, {
-                                icon: 6,
-                                time: SUCCESS_TIP_TIME,
-                                shade: 0.3
-                            });
-                            if (data.url) {
-                                location.href = data.url;
-                            } else {
-                                setTimeout(function () {
-                                    var index = parent.layer.getFrameIndex(
-                                        window.name); //先得到当前iframe层的索引
-                                    parent.layer.close(index); //再执行关闭
-                                    // location.reload();
-                                }, SUCCESS_TIP_TIME);
-                            }
-                        } else {
-                            top.layer.msg(data.message, {
-                                icon: 5,
-                                time: ERROR_TIP_TIME,
-                                shade: 0.3
-                            });
-                        }
-                        $("#form-iframe-add button[type='submit']").removeClass('disabled').prop(
-                            'disabled', false);
-                    }
-                })
-                top.layer.close(index);
-            });
-            return false;
-        }
-        $("#form-iframe-add button[type='submit']").addClass('disabled').prop('disabled', true);
-        var query = $("#form-iframe-add").serialize();
-        var url = $("#form-iframe-add").attr('action');
-        $.ajax({
-            type: "post",
-            url: url,
-            data: query,
-            dataType: 'json',
-            beforeSend:function(){
-                loading = list_loading()
-            },
-            complete: function () {
-                $("#form-iframe-add button[type='submit']").removeClass('disabled').prop('disabled', false);
-                layer.close(loading)
-            },
-            error: function () {
-                // console.log(2222);
-                top.layer.msg('访问失败', {
-                    icon: 2,
-                    time: ERROR_TIP_TIME,
-                    shade: 0.3
-                });
-            },
-            success: function (data) {
-                console.log(data);
-                if (data.error !== true) {
-                    top.layer.msg(data.message, {
-                        icon: 6,
-                        time: SUCCESS_TIP_TIME,
-                        shade: 0.3
-                    });
-                    if (data.url != undefined && data.url != '') {
-                        location.href = data.url;
-                    } else {
-                        setTimeout(function () {
-                            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-                            parent.layer.close(index); //再执行关闭
-                            // location.reload();
-                        }, SUCCESS_TIP_TIME);
-                    }
-                } else {
-                    top.layer.msg(data.message, {
-                        icon: 5,
-                        time: ERROR_TIP_TIME,
-                        shade: 0.3
-                    });
-                }
-                $("#form-iframe-add button[type='submit']").removeClass('disabled').prop('disabled', false);
-            }
-        })
-    })
+
 });
 LiaoForm = {
     //获取已选中的列表ID

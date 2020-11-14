@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    <form id="form-iframe-add" class="form-horizontal" action="{{$action_url ?? ''}}" onsubmit="return false;">
+                    <form id="form-iframe-add" data-pjax class="form-horizontal" action="{{$action_url ?? ''}}" onsubmit="return false;">
                         @method($method ?? '')
                         <div class="form-group">
                             <label for="inputName" class="col-sm-2 control-label"> <span
@@ -80,7 +80,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="btn btn-info width-100 margin-top-15" data-confirm="确认保存？">保
+                                <button type="submit" class="btn btn-info width-100 margin-top-15" data-confirm="">保
                                     存
                                 </button>
                             </div>

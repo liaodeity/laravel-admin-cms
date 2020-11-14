@@ -44,11 +44,6 @@
 {{--    <script src="{{asset ('admin-ui/lib/jquery/dist/jquery.min.js')}}"></script>--}}
     <script>
         var SYS_TOKEN = '{{csrf_token()}}'
-      // $.ajaxSetup ({
-      //   headers: {
-      //     'X-CSRF-TOKEN': $ ('meta[name="csrf-token"]').attr ('content')
-      //   }
-      // });
     </script>
     @yield('style')
 </head>
@@ -210,7 +205,7 @@
     </nav>
     <!-- /.navbar -->
     <!-- Content Wrapper. Contains page content -->
-    <div id="pjax-container" class="content-wrapper text-sm">
+    <div id="pjax-container" class="content-wrapper">
         @yield('content')
     </div>
     <!-- /.content-wrapper -->
@@ -242,7 +237,7 @@
 <script type="text/javascript" src="{{mix_build_dist('js/manifest.js')}}"></script>
 <script type="text/javascript" src="{{mix_build_dist('js/vendor.js')}}"></script>
 <script type="text/javascript" src="{{mix_build_dist('js/app.js')}}"></script>
-
+<script src="{{asset ('admin-ui/js/main.js?v='.get_version())}}"></script>
 {{--<!-- Bootstrap 3.3.7 -->--}}
 {{--<script src="{{asset ('admin-ui/lib/bootstrap/dist/js/bootstrap.min.js')}}"></script>--}}
 {{--<!-- AdminLTE App -->--}}
@@ -285,6 +280,7 @@
 {{--      $('input:not([autocomplete]),textarea:not([autocomplete]),select:not([autocomplete])').attr('autocomplete', 'off');--}}
 {{--  })--}}
 {{--</script>--}}
+
 <!-- /底部 -->
 <a id="jump_blank_url" href="" class="hidden" target="_blank">跳转</a>
 </body>

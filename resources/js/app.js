@@ -1,7 +1,7 @@
 require('./bootstrap');
 
 window.ERROR_TIP_TIME = 3000;
-window.SUCCESS_TIP_TIME = 2000;
+window.SUCCESS_TIP_TIME = 3000;
 
 window.jQuery = require("jquery");
 window.$ = jQuery;
@@ -10,6 +10,7 @@ require("bootstrap");
 require("admin-lte");
 require("jquery-pjax");
 require("./admin/login")
+require("./admin/form")
 
 $.pjax.defaults.timeout = 10000;
 $(document).pjax('a', '#pjax-container')
@@ -17,6 +18,12 @@ if ($.support.pjax) {
     $(document).on('click', 'a[data-pjax]', function(event) {
         var container = $(this).closest('[data-pjax-container]')
         $.pjax.click(event, {container: container})
+    })
+    $(document).on('pjax:send', function() {
+        layer.load()
+    })
+    $(document).on('pjax:complete', function() {
+        layer.closeAll()
     })
 }
 

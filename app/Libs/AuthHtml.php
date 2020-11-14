@@ -159,7 +159,8 @@ class AuthHtml
                 $this->html = "<button type=\"button\" onclick=\"{$this->function}('" . $this->title . "','" . $this->route . "','" . $this->title . "')\" class=\"btn btn-sm {$this->class}\">" . $this->name . "</button>";
                 break;
             default:
-                $this->html = "<button type=\"button\" onclick=\"{$this->function}('" . $this->title . "','" . $this->route . "')\" class=\"btn btn-sm {$this->class}\">" . $this->name . "</button>";
+                //$this->html = "<button type=\"button\" onclick=\"{$this->function}('" . $this->title . "','" . $this->route . "')\" class=\"btn btn-sm {$this->class}\">" . $this->name . "</button>";
+                $this->html = "<a href=\"" . $this->route . "\" class=\"btn btn-sm {$this->class}\">" . $this->name . "</a>";
         }
     }
 

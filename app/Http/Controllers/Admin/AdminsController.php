@@ -62,7 +62,6 @@ class AdminsController extends Controller
 
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
 
-        if (request()->wantsJson()) {
             $keyword = $request->keyword ?? '';
             $role_id = $request->role_id ?? '';
             $status  = $request->status ?? '';
@@ -122,18 +121,18 @@ class AdminsController extends Controller
 
             $total = $admins->total();
 
-            return response()->json([
-                'html'  => $html,
-                'page'  => $page,
-                'total' => $total,
-            ]);
-        }
+            //return response()->json([
+            //    'html'  => $html,
+            //    'page'  => $page,
+            //    'total' => $total,
+            //]);
+
         $buttonHtml = '';
         $admin      = app($this->repository->model());
         Log::createAdminLog(Log::SHOW_TYPE, '管理员列表 查看记录');
         $roleList = $this->repository->getRoleList();
 
-        return view('admin.admins.index', compact('admin', 'buttonHtml', 'roleList'));
+        return view('admin.admins.index', compact('admin', 'buttonHtml', 'roleList' ,'page','total','html'));
     }
 
     /**
@@ -183,6 +182,7 @@ class AdminsController extends Controller
 
             $response = [
                 'message' => trans('添加成功'),
+                'url'=>route('admins.index'),
                 'data'    => $admin->toArray(),
             ];
             Log::createAdminLog(Log::ADD_TYPE, '管理员列表 创建记录');
@@ -295,6 +295,7 @@ class AdminsController extends Controller
 
             $response = [
                 'message' => trans('修改成功'),
+                'url'=>route('admins.show',$admin->id),
                 'data'    => $admin->toArray(),
             ];
             Log::createAdminLog(Log::EDIT_TYPE, '管理员列表 修改记录');

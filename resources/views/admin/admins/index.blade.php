@@ -19,14 +19,14 @@
 
         <!-- Main content -->
         <section class="content">
-            <div class="row">
-                <div class="col-xs-12">
+            <div class="">
+                <div class="">
                     <div class="box">
                         <div class="box-body">
-                            <form class="form-inline list-search-form active" action="" onsubmit="return false;">
+                            <form data-pjax class="form-inline list-search-form active" action="{{route('admins.index')}}" onsubmit="return false;">
                                 <div class="form-group">
                                     <label for="exampleInputName2">管理员名称</label>
-                                    <input type="text" name="keyword" class="form-control" id=""
+                                    <input type="text" name="keyword" class="form-control" value="{{request ()->input ('keyword')}}"
                                            autocomplete="off" placeholder="用户名、名称">
                                 </div>
                                 <div class="form-group">
@@ -34,7 +34,7 @@
                                     <select name="role_id" id="" class="form-control">
                                         <option value=""></option>
                                         @foreach($roleList as $role)
-                                        <option value="{{$role->id}}">{{$role->title}}</option>
+                                        <option @if(request ()->input ('role_id') == $role->id) selected @endif value="{{$role->id}}">{{$role->title}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -43,7 +43,7 @@
                                     <select name="status" class="form-control select2">
                                         <option value=""></option>
                                         @foreach($admin->statusItem() as $ind => $item)
-                                            <option value="{{$ind}}">{{$item}}</option>
+                                            <option @if(request ()->input ('status') == $ind) selected @endif value="{{$ind}}">{{$item}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -52,6 +52,7 @@
                                             data-target="#modal-success">
                                         搜索
                                     </button>
+                                <a type="reset" class="btn btn-default" href="{{route('admins.index')}}">重置</a>
                                 </div>
                             </form>
 
@@ -74,14 +75,14 @@
                                 </button>
                             @endif
                             @if(check_admin_permission('create admins'))
-                                <button type="button" onclick="dialog_fun('添加管理员信息','{{route('admins.create')}}')"
+                                <a href="{{route('admins.create')}}"
                                         class="btn btn-sm btn-info pull-right"><i
                                         class="fa fa-plus"></i> 添加
-                                </button>
+                                </a>
                             @endif
                         </div>
                         <div class="box-body">
-                            <table class="table table-bordered table-hover dataTable list-data-table active">
+                            <table class="table  table-hover dataTable list-data-table active">
                                 <thead>
                                 <tr>
                                     <th style="width: 10px"><input class="check-all" type="checkbox"></th>
@@ -94,6 +95,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                {!! $html ?? '' !!}
                                 </tbody>
                             </table>
 
@@ -116,7 +118,7 @@
 @section('footer')
     <script type="text/javascript">
         $ (function () {
-            getDataList ();
+            // getDataList ();
         })
     </script>
 @endsection
