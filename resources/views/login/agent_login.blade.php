@@ -1,4 +1,4 @@
-@extends('common.layouts')
+@extends('common.page_layouts')
 @section('body_class','login-page')
 @section('style')
 
