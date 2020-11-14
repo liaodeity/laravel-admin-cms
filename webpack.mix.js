@@ -13,6 +13,7 @@ const mix = require('laravel-mix');
 if(mix.inProduction()){
     mix.setPublicPath('public/dist');
     mix.setResourceRoot('/dist');
+    mix.version();
 }else{
     mix.setPublicPath('public/build');
     mix.setResourceRoot('/build');
