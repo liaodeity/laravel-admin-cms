@@ -6,16 +6,21 @@
 @section('content')
     <div class="main-content">
         <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                工作台
-                <small></small>
-            </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
-                <li class="active">工作台</li>
-            </ol>
-        </section>
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">工作台</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">首页</a></li>
+                            <li class="breadcrumb-item active">工作台</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div>
+        </div>
 
         <!-- Main content -->
         <section class="content">
