@@ -131,7 +131,7 @@ class AdminsController extends Controller
         $admin      = app($this->repository->model());
         Log::createAdminLog(Log::SHOW_TYPE, '管理员列表 查看记录');
         $roleList = $this->repository->getRoleList();
-
+        sleep (3);
         return view('admin.admins.index', compact('admin', 'buttonHtml', 'roleList' ,'page','total','html'));
     }
 

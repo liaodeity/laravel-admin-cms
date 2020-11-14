@@ -145,3 +145,15 @@
 .min-width-tip{
     min-width: 300px;
 }
+
+/*加载颜色*/
+#nprogress .bar {
+    background: #ff2d20;
+}
+#nprogress .peg {
+    box-shadow: 0 0 10px #ff2d20, 0 0 5px #ff2d20;
+}
+#nprogress .spinner-icon {
+    border-top-color: #ff2d20;
+    border-left-color: #ff2d20;
+}

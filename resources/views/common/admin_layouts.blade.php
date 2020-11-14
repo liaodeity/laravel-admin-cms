@@ -47,7 +47,7 @@
     </script>
     @yield('style')
 </head>
-<body class="hold-transition layout-navbar-fixed layout-top-nav @yield('body_class') ">
+<body class="hold-transition layout-top-nav @yield('body_class') ">
 <!-- 主体 -->
 <div class="wrapper">
     <!-- Navbar -->
