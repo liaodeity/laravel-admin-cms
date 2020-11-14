@@ -32,8 +32,8 @@ class ConsoleController extends Controller
         $chart['bill']    = $this->billAll ();
         $chart['member']  = $this->memberAll ();
         $chart['no_bill'] = $this->noBillAll ();
-
-        return view ('admin.console.index', compact ('admin', 'order_count', 'member_count', 'bill_amount', 'yes_bill_amount', 'chart'));
+        $title = '工作台';
+        return view ('admin.console.index', compact ('title','admin', 'order_count', 'member_count', 'bill_amount', 'yes_bill_amount', 'chart'));
     }
 
     /**

@@ -653,3 +653,10 @@ function ajax_error_message($message)
 
     return response()->json($arr);
 }
+
+function mix_build_dist ($path)
+{
+    $dir = config ('app.debug') ? 'build' : 'dist';
+
+    return mix ($path, $dir);
+}

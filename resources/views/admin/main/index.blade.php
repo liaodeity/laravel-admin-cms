@@ -1,228 +1,199 @@
-@extends('common.layouts')
+@extends('common.page_layouts')
+@section('body_class','layout-top-nav ')
 @section('style')
-    <style type="text/css">
-        .sidebar-menu {
-            overflow: auto !important;
-            max-height: calc(100vh - 50px);
-        }
-    </style>
+{{--    <style type="text/css">--}}
+{{--        .sidebar-menu {--}}
+{{--            overflow: auto !important;--}}
+{{--            max-height: calc(100vh - 50px);--}}
+{{--        }--}}
+{{--    </style>--}}
 @endsection
 
 @section('content')
     <div class="wrapper">
-
-        <!-- Main Header -->
-        <header class="main-header">
-
-            <!-- Logo -->
-            <a href="javascript:;" class="logo">
-                <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini">后台</span>
-                <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg">后台管理平台</span>
-            </a>
-
-            <!-- Header Navbar -->
-            <nav class="navbar navbar-static-top" role="navigation">
-                <!-- Sidebar toggle button-->
-                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-                    <span class="sr-only">Toggle navigation</span>
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand-md border-bottom-0 navbar-dark navbar-primary">
+            <div class="container-fluid">
+                <a href="../../index3.html" class="navbar-brand">
+                    <img src="{{asset('admin-ui/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                    <span class="brand-text font-weight-light">AdminLTE 3</span>
                 </a>
-                <!-- Navbar Right Menu -->
-                <div class="navbar-custom-menu">
-                    <ul class="nav navbar-nav">
-                        <!-- Messages: style can be found in dropdown.less-->
 
-                        <!-- User Account Menu -->
-                        <li class="dropdown user user-menu">
-                            <!-- Menu Toggle Button -->
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <!-- The user image in the navbar-->
-                                <img src="{{show_user_image($admin->wxAccount->headimgurl ?? '')}}" class="user-image"
-                                     alt="User Image">
-                                <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                <span class="hidden-xs">{{$admin->showName($admin->id)}}</span>
-                                <i class="fa fa-fw fa-angle-down"></i>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <!-- The user image in the menu -->
-                                <li class="user-header">
-                                    <img src="{{show_user_image($admin->wxAccount->headimgurl ?? '')}}" class="img-circle"
-                                         alt="User Image">
+                <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                                    <p>
-                                        {{$admin->showName($admin->id)}}
-                                        <small>加盟日期：{{$admin->created_at->format('Y-m-d')}}</small>
-                                    </p>
-                                </li>
-                                <!-- Menu Body -->
-                                <li class="user-body">
-                                    <div class="row">
-                                        <div class="col-xs-4 text-center">
-                                            <a target="content-iframe" href="{{route('personals.show')}}">账号管理</a>
-                                        </div>
-                                        <div class="col-xs-4 text-center">
-                                            <a target="content-iframe" href="{{route('personals.password')}}">修改密码</a>
-                                        </div>
-                                        <div class="col-xs-4 text-center">
-                                            <a target="content-iframe" href="{{route('logs.index')}}">操作日志</a>
-                                        </div>
-                                    </div>
-                                    <!-- /.row -->
-                                </li>
-                                <!-- Menu Footer-->
-                                <li class="user-footer">
-                                    <div class="pull-left">
-                                        <a href="{{url('admin-lockscreen')}}" class="btn btn-default btn-flat">锁屏</a>
-                                    </div>
-                                    <div class="pull-right">
-                                        <a href="{{url('admin-logout')}}" class="btn btn-default btn-flat">退出</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
-        <!-- Left side column. contains the logo and sidebar -->
-        <aside class="main-sidebar">
+                <div class="collapse navbar-collapse order-3" id="navbarCollapse">
+                    <!-- Left navbar links -->
+                    <ul class="navbar-nav">
+                        @inject("menuRepositoryEloquent", "App\Repositories\MenuRepositoryEloquent")
 
-            <!-- sidebar: style can be found in sidebar.less -->
-            <section class="sidebar">
-                <ul id="menu-bar" class="sidebar-menu" data-widget="tree">
-                    @foreach ($menus as $menu)
-                        @if(isset($menu->child) && count($menu->child))
-                            <li class=" treeview">
-                                <a href="#">
-                                    <i class="{{$menu->icon}}"></i> <span>{{$menu->title}}</span>
-                                    <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-                                        <small id="{{$menu->auth_name}}" class="label pull-right bg-yellow hide">0</small>
-            </span>
-                                </a>
-                                <ul class="treeview-menu">
-                                    @foreach ($menu->child as $child2)
-                                        @if(isset($child2->child) && count($child2->child) > 0)
-                                        <li class="treeview">
-                                            <a href="#">{{$child2->title}}
-                                                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-                                            </a>
-                                            <ul class="treeview-menu">
-                                                @foreach ($child2->child as $child3)
-                                                <li><a target="content-iframe" href="{{url($child3->route_url)}}">{{$child3->title}}</a>
+                        @foreach ($menuRepositoryEloquent->getMenuList () as $menu)
+                            @if(isset($menu->child) && count($menu->child))
+                                <li class="nav-item dropdown">
+                                    <a id="dropdownSubMenu{{$menu->id}}" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">{{$menu->title}}</a>
+                                    <ul aria-labelledby="dropdownSubMenu{{$menu->id}}" class="dropdown-menu border-0 shadow">
+                                        @foreach ($menu->child as $child2)
+                                            @if(isset($child2->child) && count($child2->child) > 0)
+                                                <li class="dropdown-submenu dropdown-hover">
+                                                    <a id="dropdownSubMenu{{$child2->id}}" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle disabled">{{$child2->title}}</a>
+                                                    <ul aria-labelledby="dropdownSubMenu{{$child2->id}}" class="dropdown-menu border-0 shadow">
+                                                        @foreach ($child2->child as $child3)
+                                                            <li><a class="dropdown-item" href="{{url($child3->route_url)}}">{{$child3->title}}</a></li>
+                                                        @endforeach
+                                                    </ul>
                                                 </li>
-                                                @endforeach
-                                            </ul>
-                                        </li>
-                                        @else
-                                        <li class=""><a target="content-iframe" href="{{url($child2->route_url)}}"><i
-                                                    class="{{$child2->icon}}"></i> <span
-                                                >{{$child2->title}}</span><span id="{{$child2->auth_name}}" class="pull-right-container hide">
-              <small class="label pull-right bg-yellow">0</small>
-            </span></a></li>
-                                        @endif
-                                    @endforeach
-                                </ul>
-                            </li>
+                                            @else
+                                                <li class="nav-item"><a class="dropdown-item" href="{{url($child2->route_url)}}">{{$child2->title}}</a></li>
+                                            @endif
+                                        @endforeach
+                                        <!-- End Level two -->
+                                    </ul>
+                                </li>
+                            @else
+                                <li class="nav-item"><a class="nav-link" href="{{url($menu->route_url)}}">{{$menu->title}}</a></li>
+                            @endif
+                        @endforeach
+                    </ul>
 
-                        @else
-                            <li class=""><a target="content-iframe" href="{{url($menu->route_url)}}"><i
-                                        class="{{$menu->icon}}"></i> <span
-                                    >{{$menu->title}}</span></a></li>
-                        @endif
-                    @endforeach
+                    <!-- SEARCH FORM -->
+                    <form class="form-inline ml-0 ml-md-3">
+                        <div class="input-group input-group-sm">
+                            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                            <div class="input-group-append">
+                                <button class="btn btn-navbar" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Right navbar links -->
+                <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+                    <!-- Messages Dropdown Menu -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-toggle="dropdown" href="#">
+                            <i class="fas fa-comments"></i>
+                            <span class="badge badge-danger navbar-badge">3</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                            <a href="#" class="dropdown-item">
+                                <!-- Message Start -->
+                                <div class="media">
+                                    <img src="../../dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                                    <div class="media-body">
+                                        <h3 class="dropdown-item-title">
+                                            Brad Diesel
+                                            <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
+                                        </h3>
+                                        <p class="text-sm">Call me whenever you can...</p>
+                                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                                    </div>
+                                </div>
+                                <!-- Message End -->
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <!-- Message Start -->
+                                <div class="media">
+                                    <img src="../../dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                                    <div class="media-body">
+                                        <h3 class="dropdown-item-title">
+                                            John Pierce
+                                            <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
+                                        </h3>
+                                        <p class="text-sm">I got your message bro</p>
+                                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                                    </div>
+                                </div>
+                                <!-- Message End -->
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <!-- Message Start -->
+                                <div class="media">
+                                    <img src="../../dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                                    <div class="media-body">
+                                        <h3 class="dropdown-item-title">
+                                            Nora Silvester
+                                            <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
+                                        </h3>
+                                        <p class="text-sm">The subject goes here</p>
+                                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                                    </div>
+                                </div>
+                                <!-- Message End -->
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+                        </div>
+                    </li>
+                    <!-- Notifications Dropdown Menu -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-toggle="dropdown" href="#">
+                            <i class="far fa-bell"></i>
+                            <span class="badge badge-warning navbar-badge">15</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                            <span class="dropdown-header">15 Notifications</span>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-envelope mr-2"></i> 4 new messages
+                                <span class="float-right text-muted text-sm">3 mins</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-users mr-2"></i> 8 friend requests
+                                <span class="float-right text-muted text-sm">12 hours</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-file mr-2"></i> 3 new reports
+                                <span class="float-right text-muted text-sm">2 days</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+                            <i class="fas fa-th-large"></i>
+                        </a>
+                    </li>
                 </ul>
-            </section>
-            <!-- /.sidebar -->
-        </aside>
-
+            </div>
+        </nav>
+        <!-- /.navbar -->
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
-            <iframe name="content-iframe" id="content-iframe" src="{{url('admin-console')}}" frameborder="0"></iframe>
+        <div id="pjax-container" class="content-wrapper">
+
         </div>
         <!-- /.content-wrapper -->
 
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+            <div class="p-3">
+                <h5>Title</h5>
+                <p>Sidebar content</p>
+            </div>
+        </aside>
+        <!-- /.control-sidebar -->
+
         <!-- Main Footer -->
-        <footer class="main-footer">
+        <footer class="main-footer text-sm">
             <!-- To the right -->
-            <div class="pull-right hidden-xs">
-                Version {{get_version()}}
+            <div class="float-right d-none d-sm-inline">
+                Anything you want
             </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; <?= date ('Y') ?> <a href="#">{{get_config_value('system_company_name','')}}</a>.</strong> All rights reserved.
+            <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
         </footer>
-
-        <div class="control-sidebar-bg"></div>
-        <div id="pay_new_order" style="display:none">
-
-        </div>
-
     </div>
+    <!-- ./wrapper -->
 @endsection
 
 @section('footer')
-    <script>
-      $ (function () {
-        $ ("body").css ('overflow', 'hidden')
-          get_sync_tips_number();
-      })
-      function get_sync_tips_number(){
-          $.ajax({
-              type: 'post',
-              url: '{{route('admin-main-tips')}}',
-              data: [],
-              dataType: 'json',
-              error: function () {
 
-              },
-              complete: function () {
-                  setTimeout(function () {
-                      get_sync_tips_number();
-                  },10000);
-              },
-              success: function (json) {
-                  if (json.error !== true) {
-                      result = json.result
-                      if(result.order_menu !== undefined){
-                          $("#order_menu").text(result.order_menu)
-                          if(result.order_menu > 0){
-                              $("#order_menu").removeClass('hide')
-                          }else{
-                              $("#order_menu").addClass('hide')
-                          }
-                      }
-                      if(result.orderPending !== undefined){
-                          $("#orderPending small").text(result.orderPending)
-                          if(result.orderPending > 0){
-                              $("#orderPending").removeClass('hide')
-                          }else{
-                              $("#orderPending").addClass('hide')
-                          }
-                      }
-                      if(result.orderSales !== undefined){
-                          $("#orderSales small").text(result.orderSales)
-                          if(result.orderSales > 0){
-                              $("#orderSales").removeClass('hide')
-                          }else{
-                              $("#orderSales").addClass('hide')
-                          }
-                      }
-                      if(result.has_new_order !== undefined){
-                          if(result.has_new_order > 0){
-                              //有新订单，播放提醒音频
-
-                              $("#pay_new_order").html('<audio controls="controls" autoplay="autoplay">\n' +
-                                  '                <source src="{{asset('admin-ui/tips.mp3')}}" type="audio/mpeg" />\n' +
-                                  '                Your browser does not support the audio element.\n' +
-                                  '            </audio>');
-                          }
-                      }
-                  }
-              }
-          })
-      }
-    </script>
 @endsection

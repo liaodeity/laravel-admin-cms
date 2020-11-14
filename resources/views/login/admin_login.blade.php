@@ -6,21 +6,23 @@
 
 @section('content')
     <div class="login-box">
-        <div class="login-logo">
-            后台管理平台登录
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+                后台管理平台登录
+            </div>
+            @include('login.login')
         </div>
-        @include('login.login')
+        <!-- /.login-box -->
     </div>
-    <!-- /.login-box -->
 @endsection
 
 @section('footer')
-<script>
-    $(function () {
-        $("#captcha").click(function () {
-            url = '{{ route('admin-login-captcha')}}';
-            $("#captcha").attr("src",url+'?t='+Math.random());
+    <script>
+        $(function () {
+            $("#captcha").click(function () {
+                url = '{{ route('admin-login-captcha')}}';
+                $("#captcha").attr("src", url + '?t=' + Math.random());
+            });
         });
-    });
-</script>
+    </script>
 @endsection

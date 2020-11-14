@@ -22,9 +22,10 @@ class MainController extends Controller
 {
     public function index (MenuRepositoryEloquent $menuRepositoryEloquent)
     {
-        $menus = $menuRepositoryEloquent->getMenuList ();
-        $admin = Admin::find (get_admin_id ());
-        return view ('admin.main.index', compact ('menus', 'admin'));
+        return redirect (url('admin-console'));
+        //$menus = $menuRepositoryEloquent->getMenuList ();
+        //$admin = Admin::find (get_admin_id ());
+        //return view ('admin.main.index', compact ('menus', 'admin'));
     }
 
     /**
