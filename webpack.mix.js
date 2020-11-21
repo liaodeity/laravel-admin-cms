@@ -21,4 +21,5 @@ if(mix.inProduction()){
 
 
 mix.js('resources/js/app.js', 'js').extract(['axios','admin-lte','jquery','jquery-pjax']);
+mix.js('resources/js/vue.js', 'js');
 mix.sass('resources/sass/admin/app.scss', 'css/admin').sass('resources/sass/admin/vendor.scss', 'css/admin');

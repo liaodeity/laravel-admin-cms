@@ -23,8 +23,10 @@
         "@fortawesome/fontawesome-free": "^5.15.1",
         "admin-lte": "^3.0.5",
         "bootstrap": "^4.5.2",
+        "element-ui": "^2.14.1",
         "jquery": "^3.5.1",
         "jquery-pjax": "^2.0.1",
-        "nprogress": "^0.2.0"
+        "nprogress": "^0.2.0",
+        "vue": "^2.6.12"
     }
 }

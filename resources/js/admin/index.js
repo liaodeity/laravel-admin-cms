@@ -1,10 +1,11 @@
-
+console.log(222);
 $("#search-choice").click(function () {
-    if($("#filter-body").is(':visible')){
-        $("#filter-body").addClass('hidden')
-        $(this).removeClass('active')
+    console.log(3333);
+    if(jQuery("#filter-body").is(':visible')){
+        jQuery("#filter-body").addClass('hidden')
+        jQuery(this).removeClass('active')
     }else{
-        $("#filter-body").removeClass('hidden')
-        $(this).addClass('active')
+        jQuery("#filter-body").removeClass('hidden')
+        jQuery(this).addClass('active')
     }
 });

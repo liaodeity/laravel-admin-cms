@@ -7,11 +7,12 @@ window.jQuery = require("jquery");
 window.$ = jQuery;
 require("../../public/admin-ui/lib/layer/layer.js")
 // window.WdatePicker = require("../../public/admin-ui/lib/datejs/WdatePicker")
+
 require("bootstrap");
 require("admin-lte");
 require("jquery-pjax");
-NProgress = require("nprogress")
-require('./admin')
+window.NProgress = require("nprogress")
+require('./admin/index')
 require("./admin/login")
 require("./admin/form")
 
@@ -35,6 +36,16 @@ if ($.support.pjax) {
         NProgress.done();
     })
 }
+
+
+// import App from './App.vue';
+
+
+
+// new Vue({
+//     el: '#app',
+//     render: h => h(App)
+// });
 
 
 

@@ -51,7 +51,7 @@
 <!-- 主体 -->
 <div class="wrapper">
     <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand-md border-bottom-0 navbar-dark navbar-primary">
+    <nav class="main-header navbar navbar-expand-md border-bottom-0 navbar-dark navbar-primary hidden">
         <div class="container-fluid">
             <a href="../../index3.html" class="navbar-brand">
                 <img src="{{asset('admin-ui/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
@@ -237,7 +237,8 @@
 <script type="text/javascript" src="{{mix_build_dist('js/manifest.js')}}"></script>
 <script type="text/javascript" src="{{mix_build_dist('js/vendor.js')}}"></script>
 <script type="text/javascript" src="{{mix_build_dist('js/app.js')}}"></script>
-<script src="{{asset ('admin-ui/js/main.js?v='.get_version())}}"></script>
+<script type="text/javascript" src="{{mix_build_dist('js/vue.js')}}"></script>
+{{--<script src="{{asset ('admin-ui/js/main.js?v='.get_version())}}"></script>--}}
 {{--<!-- Bootstrap 3.3.7 -->--}}
 {{--<script src="{{asset ('admin-ui/lib/bootstrap/dist/js/bootstrap.min.js')}}"></script>--}}
 {{--<!-- AdminLTE App -->--}}
