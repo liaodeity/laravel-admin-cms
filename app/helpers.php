@@ -213,7 +213,11 @@ function show_picture_url($picture, $default = '')
 function html_date_input($field)
 {
     $str = <<<EOT
-        <input id="{$field}_start" type="text" name="{$field}_start" class="form-control Wdate-bg" autocomplete="off" onclick="WdatePicker({maxDate: '#F{\$dp.\$D(\\'{$field}_end\\')}'})" style="width:150px;"><span class="" style="line-height: 34px;">至</span><input id="{$field}_end" name="{$field}_end" class="form-control Wdate-bg" autocomplete="off" type="text" onclick="WdatePicker({minDate: '#F{\$dp.\$D(\\'{$field}_start\\')}'})" style="width:150px;">
+        <input id="{$field}_start" type="text" name="{$field}_start" class="form-control Wdate-bg " autocomplete="off" onclick="WdatePicker({maxDate: '#F{\$dp.\$D(\\'{$field}_end\\')}'})" style="width:150px;">
+        <div class="input-group-append " data-target="#reservationdate" data-toggle="datetimepicker">
+                            <div class="input-group-text">至</div>
+                        </div>
+        <input id="{$field}_end" name="{$field}_end" class="form-control Wdate-bg input-group-append" autocomplete="off" type="text" onclick="WdatePicker({minDate: '#F{\$dp.\$D(\\'{$field}_start\\')}'})" style="width:150px;">
 EOT;
 
     return $str;

@@ -205,7 +205,7 @@
     </nav>
     <!-- /.navbar -->
     <!-- Content Wrapper. Contains page content -->
-    <div id="pjax-container" class="content-wrapper">
+    <div id="pjax-container" class="content-wrapper  text-sm">
         @yield('content')
     </div>
     <!-- /.content-wrapper -->
@@ -244,7 +244,7 @@
 {{--<script src="{{asset ('admin-ui/dist/js/adminlte.min.js')}}"></script>--}}
 {{--<!--弹窗-->--}}
 {{----}}
-{{--<script src="{{asset ('admin-ui/lib/datejs/WdatePicker.js')}}"></script>--}}
+<script src="{{asset ('admin-ui/lib/datejs/WdatePicker.js')}}"></script>
 {{--<script src="{{asset ('admin-ui/lib/iColor/iColor-min.js')}}"></script>--}}
 {{--<script src="{{asset ('admin-ui/lib/webuploader/webuploader.min.js')}}"></script>--}}
 {{--<script src="{{asset ('js/units.js?v='.get_version ())}}"></script>--}}
@@ -256,6 +256,7 @@
 {{--<script type="text/javascript" src="{{asset ('admin-ui/lib/zTree/v3/js/jquery.ztree.core-3.5.js')}}"></script>--}}
 {{--<script type="text/javascript" src="{{asset ('admin-ui/lib/zTree/v3/js/jquery.ztree.excheck-3.5.js')}}"></script>--}}
 {{--<script src="{{asset ('admin-ui/lib/seiyria-bootstrap-slider/bootstrap-slider.min.js')}}"></script>--}}
+{{--<!--  地图统计图表  -->--}}
 {{--<!--  地图统计图表  -->--}}
 {{--<script src="{{asset('admin-ui/lib/echarts/echarts.min.js')}}"></script>--}}
 {{--<script src="{{asset('admin-ui/lib/echarts/echarts-gl.min.js')}}"></script>--}}

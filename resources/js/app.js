@@ -6,17 +6,19 @@ window.SUCCESS_TIP_TIME = 3000;
 window.jQuery = require("jquery");
 window.$ = jQuery;
 require("../../public/admin-ui/lib/layer/layer.js")
+// window.WdatePicker = require("../../public/admin-ui/lib/datejs/WdatePicker")
 require("bootstrap");
 require("admin-lte");
 require("jquery-pjax");
 NProgress = require("nprogress")
+require('./admin')
 require("./admin/login")
 require("./admin/form")
 
 $.pjax.defaults.timeout = 10000;
 $(document).pjax('a', '#pjax-container')
 NProgress.configure({ minimum: 0.25 });
-NProgress.inc();
+
 NProgress.configure({ parent: '#pjax-container' });
 if ($.support.pjax) {
     $(document).on('click', 'a[data-pjax]', function(event) {
@@ -25,8 +27,8 @@ if ($.support.pjax) {
     })
     $(document).on('pjax:start', function() {
         console.log('start');
-        e = NProgress.start();
-        console.log(e);
+        NProgress.inc();
+        NProgress.start();
     })
     $(document).on('pjax:end', function() {
         console.log('end');
