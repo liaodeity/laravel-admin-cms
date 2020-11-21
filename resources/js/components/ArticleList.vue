@@ -2,37 +2,47 @@
     <div class="">
         <el-tabs value="index" v-model="tabDefaultValue" type="border-card" @tab-click="handleTabClick">
             <el-tab-pane name="index" label="登记竣工记录">
-                <el-form :label-position="right" :inline="true" :model="formData" class="search-form-inline">
-                    <el-form-item label="登记时间">
-                        <el-date-picker
-                            v-model="formData.addtime"
-                            type="datetimerange"
-                            range-separator="至"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期" class="width-100p">
-                        </el-date-picker>
-                    </el-form-item>
-                    <el-form-item label="待办单编号">
-                        <el-input v-model="formData.serial_no" placeholder=""></el-input>
-                    </el-form-item>
-                    <el-form-item label="名称/身份证">
-                        <el-input v-model="formData.keyword" placeholder=""></el-input>
-                    </el-form-item>
-                    <el-form-item label="推送状态">
-                        <el-select v-model="formData.if_send" placeholder="请选择" clearable="" class="width-100p">
-                            <el-option
-                                v-for="item in selectVal.if_send"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item >
-                        <el-button type="primary" @click="onSearch">查询</el-button>
-                        <el-button type="primary" @click="dialogSearchVisible = true">登记竣工</el-button>
-                    </el-form-item>
-                </el-form>
+                <div class="row mar-b-15">
+                    <el-col :span="12">
+                        <el-button type="primary" icon="el-icon-search" @click="filterVisible = !filterVisible">筛选</el-button>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-button class="float-right" type="primary" @click="dialogSearchVisible = true">登记竣工</el-button>
+                    </el-col>
+                </div>
+
+                <el-collapse-transition>
+                    <el-form :label-position="right" :inline="true" v-show="filterVisible" :model="formData" class="search-form-inline">
+                        <el-form-item label="登记时间">
+                            <el-date-picker
+                                v-model="formData.addtime"
+                                type="datetimerange"
+                                range-separator="至"
+                                start-placeholder="开始日期"
+                                end-placeholder="结束日期" class="width-100p">
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="待办单编号">
+                            <el-input v-model="formData.serial_no" placeholder=""></el-input>
+                        </el-form-item>
+                        <el-form-item label="名称/身份证">
+                            <el-input v-model="formData.keyword" placeholder=""></el-input>
+                        </el-form-item>
+                        <el-form-item label="推送状态">
+                            <el-select v-model="formData.if_send" placeholder="请选择" clearable="" class="width-100p">
+                                <el-option
+                                    v-for="item in selectVal.if_send"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" icon="el-icon-search" @click="onSearch">查询</el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-collapse-transition>
                 <el-table
                     :data="tableData"
                     style="width: 100%">
@@ -72,6 +82,7 @@
         data() {
             return {
                 tabDefaultValue: 'index',
+                filterVisible: false,
                 formData: {},
                 selectVal: {},
                 pager: {
