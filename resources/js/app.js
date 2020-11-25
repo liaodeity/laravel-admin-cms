@@ -2,6 +2,9 @@ require('./bootstrap');
 
 window.ERROR_TIP_TIME = 3000;
 window.SUCCESS_TIP_TIME = 3000;
+import Vue from 'vue';
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 
 window.jQuery = require("jquery");
 window.$ = jQuery;
@@ -34,6 +37,7 @@ if ($.support.pjax) {
     $(document).on('pjax:end', function() {
         console.log('end');
         NProgress.done();
+        console.log(Vue);
     })
 }
 
@@ -65,3 +69,10 @@ $ (function () {
     //
     // $('input:not([autocomplete]),textarea:not([autocomplete]),select:not([autocomplete])').attr('autocomplete', 'off');
 })
+
+Vue.use(ElementUI);
+Vue.component('article-list', require('./components/ArticleList.vue').default)
+Vue.prototype.$ELEMENT = {size: 'mini'};
+const app = new Vue({
+    el: '#vue-app',
+});

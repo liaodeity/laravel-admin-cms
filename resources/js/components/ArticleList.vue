@@ -110,6 +110,9 @@
                 }]
             }
         },
+        created:function () {
+            console.log(222);
+        },
         methods: {
             handleTabClick() {
 
@@ -121,7 +124,7 @@
             handleCurrentChange(val) {
                 this.formData.currentPage = val;
                 this.getList();
-            },
+            }
         }
     }
 </script>
