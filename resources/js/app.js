@@ -37,8 +37,10 @@ if ($.support.pjax) {
     $(document).on('pjax:end', function() {
         console.log('end');
         NProgress.done();
-        console.log(Vue);
-    })
+    });
+    $(document).on('pjax:complete', function() {
+        // window.location.hash = window.location.hash + '?='+Math.random()
+    });
 }
 
 
@@ -72,7 +74,7 @@ $ (function () {
 
 Vue.use(ElementUI);
 Vue.component('article-list', require('./components/ArticleList.vue').default)
-Vue.prototype.$ELEMENT = {size: 'mini'};
+// Vue.prototype.$ELEMENT = {size: 'mini'};
 const app = new Vue({
     el: '#vue-app',
 });
