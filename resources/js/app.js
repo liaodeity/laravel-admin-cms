@@ -4,44 +4,44 @@ window.ERROR_TIP_TIME = 3000;
 window.SUCCESS_TIP_TIME = 3000;
 import Vue from 'vue';
 import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
-
+// import 'element-ui/lib/theme-chalk/index.css';
+window.Vue = Vue;
 window.jQuery = require("jquery");
 window.$ = jQuery;
-require("../../public/admin-ui/lib/layer/layer.js")
-// window.WdatePicker = require("../../public/admin-ui/lib/datejs/WdatePicker")
-
-require("bootstrap");
-require("admin-lte");
-require("jquery-pjax");
-window.NProgress = require("nprogress")
-require('./admin/index')
-require("./admin/login")
-require("./admin/form")
-
-$.pjax.defaults.timeout = 10000;
-$(document).pjax('a', '#pjax-container')
-NProgress.configure({ minimum: 0.25 });
-
-NProgress.configure({ parent: '#pjax-container' });
-if ($.support.pjax) {
-    $(document).on('click', 'a[data-pjax]', function(event) {
-        var container = $(this).closest('[data-pjax-container]')
-        $.pjax.click(event, {container: container})
-    })
-    $(document).on('pjax:start', function() {
-        console.log('start');
-        NProgress.inc();
-        NProgress.start();
-    })
-    $(document).on('pjax:end', function() {
-        console.log('end');
-        NProgress.done();
-    });
-    $(document).on('pjax:complete', function() {
-        // window.location.hash = window.location.hash + '?='+Math.random()
-    });
-}
+// require("../../public/admin-ui/lib/layer/layer.js")
+// // window.WdatePicker = require("../../public/admin-ui/lib/datejs/WdatePicker")
+//
+// require("bootstrap");
+// require("admin-lte");
+// require("jquery-pjax");
+// window.NProgress = require("nprogress")
+// require('./admin/index')
+// require("./admin/login")
+// require("./admin/form")
+//
+// $.pjax.defaults.timeout = 10000;
+// $(document).pjax('a', '#pjax-container')
+// NProgress.configure({ minimum: 0.25 });
+//
+// NProgress.configure({ parent: '#pjax-container' });
+// if ($.support.pjax) {
+//     $(document).on('click', 'a[data-pjax]', function(event) {
+//         var container = $(this).closest('[data-pjax-container]')
+//         $.pjax.click(event, {container: container})
+//     })
+//     $(document).on('pjax:start', function() {
+//         console.log('start');
+//         NProgress.inc();
+//         NProgress.start();
+//     })
+//     $(document).on('pjax:end', function() {
+//         console.log('end');
+//         NProgress.done();
+//     });
+//     $(document).on('pjax:complete', function() {
+//         // window.location.hash = window.location.hash + '?='+Math.random()
+//     });
+// }
 
 
 // import App from './App.vue';
@@ -73,8 +73,10 @@ $ (function () {
 })
 
 Vue.use(ElementUI);
-Vue.component('article-list', require('./components/ArticleList.vue').default)
-// Vue.prototype.$ELEMENT = {size: 'mini'};
-const app = new Vue({
-    el: '#vue-app',
-});
+// Vue.component('article-list', require('./components/ArticleList.vue').default)
+Vue.prototype.$ELEMENT = {size: 'mini'};
+// const app = new Vue({
+//     el: '#app',
+// });
+
+import article from './admin/article.js'
