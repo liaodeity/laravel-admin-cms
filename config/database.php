@@ -61,14 +61,6 @@ return [
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
-            'dump' => [
-                //'dump_binary_path' => 'C:/phpStudy/PHPTutorial/MySQL/bin', // only the path, so without `mysqldump` or `pg_dump`
-                'dump_binary_path' => env('MYSQL_DUMP_PATH', ''), // only the path, so without `mysqldump` or `pg_dump`
-                'use_single_transaction',
-                'timeout' => 60 * 5, // 5 minute timeout
-                'exclude_tables' => [''],
-                'add_extra_option' => '--databases '.env('DB_DATABASE', 'forge'),
-            ]
         ],
 
         'pgsql' => [
@@ -138,16 +130,16 @@ return [
             'url' => env('REDIS_URL'),
             'host' => env('REDIS_HOST', '127.0.0.1'),
             'password' => env('REDIS_PASSWORD', null),
-            'port' => env('REDIS_PORT', 6379),
-            'database' => env('REDIS_DB', 0),
+            'port' => env('REDIS_PORT', '6379'),
+            'database' => env('REDIS_DB', '0'),
         ],
 
         'cache' => [
             'url' => env('REDIS_URL'),
             'host' => env('REDIS_HOST', '127.0.0.1'),
             'password' => env('REDIS_PASSWORD', null),
-            'port' => env('REDIS_PORT', 6379),
-            'database' => env('REDIS_CACHE_DB', 1),
+            'port' => env('REDIS_PORT', '6379'),
+            'database' => env('REDIS_CACHE_DB', '1'),
         ],
 
     ],

@@ -5,8 +5,8 @@
 /vendor
 .env
 .env.backup
-.env.pro
 .phpunit.result.cache
+docker-compose.override.yml
 Homestead.json
 Homestead.yaml
 npm-debug.log
