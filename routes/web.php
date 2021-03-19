@@ -55,5 +55,6 @@ Route::middleware ('admin')->prefix ('admin')->group (function () {
     Route::any ('role/auth/{id}', [RoleController::class, 'auth']);
     Route::resource ('role', RoleController::class);
 
+    Route::resource ('menu', \App\Http\Controllers\Admin\MenuController::class);
 
 });
