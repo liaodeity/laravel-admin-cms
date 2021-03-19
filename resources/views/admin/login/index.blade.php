@@ -83,7 +83,7 @@
         }
 
         .captcha {
-            width: 60%;
+            width: 55%;
             display: inline-block;
         }
 

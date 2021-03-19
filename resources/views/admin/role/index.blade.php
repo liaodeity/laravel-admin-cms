@@ -52,11 +52,11 @@
 
 @section('footer')
     <script>
-        layui.use(['form', 'table', 'laydate', 'layuimini'], function () {
+        layui.use(['form', 'table', 'laydate', 'miniAdmin'], function () {
             var $ = layui.jquery,
                 form = layui.form,
                 table = layui.table,
-                layuimini = layui.layuimini;
+                miniAdmin = layui.miniAdmin;
             laydate = layui.laydate;
             table.render({
                 elem: '#currentTableId',

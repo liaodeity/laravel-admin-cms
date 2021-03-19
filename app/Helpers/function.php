@@ -152,6 +152,13 @@ function check_admin_auth ($auth)
     if (empty($uid)) {
         return false;
     }
+    if(!$auth){
+        return true;
+    }
+    if($auth){
+        \Spatie\Permission\Models\Permission::findOrCreate ($auth);
+    }
+
     $user    = \App\Models\User::find ($uid);
     $auth    = str_replace ('_', ' ', $auth);
     $isCheck = $user->hasPermissionTo ($auth);

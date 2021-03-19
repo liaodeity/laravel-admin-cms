@@ -17,7 +17,7 @@
                                 <div class="layui-input-inline">
                                     <select name="type">
                                         <option value="">请选择</option>
-                                        @foreach($user->typeItem() as $ind => $item)
+                                        @foreach($log->typeItem() as $ind => $item)
                                             <option value="{{$ind}}">{{$item}}</option>
                                         @endforeach
                                     </select>

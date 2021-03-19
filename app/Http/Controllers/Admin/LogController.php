@@ -7,8 +7,6 @@ use App\Libs\QueryWhere;
 use App\Models\Log;
 use App\Models\LogRead;
 use App\Models\User;
-use App\Repositories\FeedbackRepository;
-use App\Repositories\JoinUsRepository;
 use App\Repositories\LogRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
@@ -17,7 +15,7 @@ class LogController extends Controller
 {
     protected $module_name = 'log';
     /**
-     * @var FeedbackRepository
+     * @var LogRepository
      */
     private $repository;
 
@@ -68,9 +66,9 @@ class LogController extends Controller
             return ajax_success_result ('成功', $result);
 
         } else {
-            $user = $this->repository->makeModel ();
+            $log = $this->repository->makeModel ();
 
-            return view ('admin.' . $this->module_name . '.index', compact ('user'));
+            return view ('admin.' . $this->module_name . '.index', compact ('log'));
         }
     }
 

@@ -132,4 +132,9 @@ class ConfigController extends Controller
 
         return $input;
     }
+
+    public function setting ()
+    {
+        return view('admin.config.setting ');
+    }
 }

@@ -17,8 +17,8 @@
     <link rel="stylesheet" href="{{asset ('static/layuimini/css/layuimini.css')}}" media="all">
     <link rel="stylesheet" href="{{asset ('static/layuimini/lib/font-awesome-4.7.0/css/font-awesome.min.css')}}" media="all">
     <link rel="stylesheet" href="{{asset ('static/layuimini/css/public.css?v='.get_version ())}}" media="all">
-    <link rel="stylesheet" href="{{asset ('fonts/iconfont.css?v='.get_version ())}}">
-    <link rel="stylesheet" href="{{asset ('css/admin.min.css?v='.get_version ())}}" media="all">
+    <link rel="stylesheet" href="{{asset ('static/admin/fonts/iconfont.css?v='.get_version ())}}">
+    <link rel="stylesheet" href="{{asset ('static/admin/css/admin.min.css?v='.get_version ())}}" media="all">
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -48,11 +48,11 @@
 <script type="text/javascript" charset="utf-8" src="{{asset ('static/umeditor/umeditor.config.js')}}"></script>
 <script type="text/javascript" charset="utf-8" src="{{asset ('static/umeditor/umeditor.min.js')}}"></script>
 <script type="text/javascript" src="{{asset ('static/umeditor/lang/zh-cn/zh-cn.js')}}"></script>
-<script src="{{asset ('js/admin.min.js?v='.get_version ())}}" charset="utf-8"></script>
-<script src="{{asset ('js/area.region.min.js?v='.get_version ())}}" charset="utf-8"></script>
+<script src="{{asset ('static/admin/js/admin.min.js?v='.get_version ())}}" charset="utf-8"></script>
+<script src="{{asset ('static/admin/js/area.region.min.js?v='.get_version ())}}" charset="utf-8"></script>
 
 <script>
-layui.use(['element', 'layer', 'layuimini'], function () {
+layui.use(['element', 'layer'], function () {
     var $ = layui.jquery,
         element = layui.element,
         layer = layui.layer;

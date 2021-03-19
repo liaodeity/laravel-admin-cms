@@ -172,7 +172,7 @@ class MainController extends Controller
                 }
             }
 
-            $menuInfo[ 'menu' . $item->id ] = $row;
+            $menuInfo[] = $row;
 
         }
 
@@ -186,7 +186,9 @@ class MainController extends Controller
     protected function authMenu ($initData)
     {
         foreach ($initData['menuInfo'] as $key => $item) {
-
+            if(!isset($item['child'])){
+                continue;
+            }
             foreach ($item['child'] as $key2 => $child) {
                 $check       = false;
                 $permissions = Permission::where ('menu_id', $child['id'])->get ();
