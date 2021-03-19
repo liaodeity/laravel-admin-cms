@@ -45,6 +45,7 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
                 if (data == null) {
                     miniAdmin.error('暂无菜单信息')
                 } else {
+                    miniAdmin.deleteLoader(options.loadingTime);
                     miniAdmin.renderLogo(data.logoInfo);
                     miniAdmin.renderClear(options.clearUrl);
                     miniAdmin.renderHome(data.homeInfo);
@@ -71,7 +72,7 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
                         bgColorDefault: options.bgColorDefault,
                         listen: true,
                     });
-                    miniAdmin.deleteLoader(options.loadingTime);
+
                 }
             }).fail(function () {
                 miniAdmin.error('菜单接口有误');

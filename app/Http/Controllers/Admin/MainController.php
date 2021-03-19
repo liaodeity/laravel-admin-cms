@@ -80,12 +80,12 @@ class MainController extends Controller
      */
     public function init ()
     {
-        //$initData = cache ('ADMIN.MENU_INIT');
-        //if ($initData) {
-        //    $initData = $this->authMenu ($initData);
-        //
-        //    return response ()->json ($initData);
-        //}
+        $userId   = get_login_user_id ();
+        $cacheKey = 'ADMIN.MENU_INIT.' . $userId;
+        $initData = cache ($cacheKey);
+        if ($initData) {
+            return response ()->json ($initData);
+        }
         $initData = [
             'clearInfo' => [
                 'clearUrl' => route ('admin.main.clear')
@@ -177,8 +177,9 @@ class MainController extends Controller
         }
 
         $initData['menuInfo'] = $menuInfo;
-        cache ()->put ('ADMIN.MENU_INIT', $initData, 360);
-        $initData = $this->authMenu ($initData);
+        $initData             = $this->authMenu ($initData);
+        cache ()->put ($cacheKey, $initData, 360);
+
 
         return response ()->json ($initData);
     }
@@ -186,7 +187,7 @@ class MainController extends Controller
     protected function authMenu ($initData)
     {
         foreach ($initData['menuInfo'] as $key => $item) {
-            if(!isset($item['child'])){
+            if (!isset($item['child'])) {
                 continue;
             }
             foreach ($item['child'] as $key2 => $child) {
