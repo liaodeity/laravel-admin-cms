@@ -19,11 +19,6 @@ class ArticleRepository extends BaseRepository implements InterfaceRepository
         return Article::class;
     }
 
-    public function validator ()
-    {
-        return ArticleValidator::class;
-    }
-
     public function allowDelete ($id)
     {
         return true;

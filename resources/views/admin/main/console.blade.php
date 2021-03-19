@@ -256,7 +256,7 @@
                                             @foreach($shortcutList as $key => $item)
                                                 @if($key < 8)
                                                     <div class="layui-col-xs3 layuimini-qiuck-module">
-                                                        <a href="javascript:;" data-iframe-tab="{{$item->href ?? ''}}?mpi=m-p-i-{{$item->id}}"
+                                                        <a href="javascript:;" layuimini-content-href="{{$item->href ?? ''}}?mpi=m-p-i-{{$item->id}}"
                                                            data-title="{{$item->title ?? ''}}"
                                                            data-icon="{{$item->icon ?? 'fa fa-list-alt'}}">
                                                             <i class="{{$item->icon ?? 'fa fa-list-alt'}}"></i>
@@ -401,25 +401,26 @@
             }
         }
 
-        layui.use(['layer', 'layuimini', 'echarts', 'laydate'], function () {
+        layui.use(['layer', 'miniTab', 'echarts', 'laydate'], function () {
             var $ = layui.jquery,
                 layer = layui.layer,
-                layuimini = layui.layuimini,
+                miniTab = layui.miniTab,
                 echarts = layui.echarts;
             laydate = layui.laydate;
-            get_sync_real_num();
-            $(".real_second").text(SECOND);
-            setInterval(function () {
-                var num = $(".real_second:first").text();
-                num--;
-                if(num > 0){
-                    $(".real_second").text(num);
-                }else{
-                    $(".real_second").text(SECOND);
-                    get_sync_real_num()
-                }
-            }, 1000);
-            set_echart();
+            miniTab.listen();
+            // get_sync_real_num();
+            // $(".real_second").text(SECOND);
+            // setInterval(function () {
+            //     var num = $(".real_second:first").text();
+            //     num--;
+            //     if(num > 0){
+            //         $(".real_second").text(num);
+            //     }else{
+            //         $(".real_second").text(SECOND);
+            //         get_sync_real_num()
+            //     }
+            // }, 1000);
+            // set_echart();
             //日期
             laydate.render({
                 elem: '#start_date',

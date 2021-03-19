@@ -9,7 +9,6 @@
 namespace App\Repositories;
 
 use App\Exceptions\BusinessException;
-use App\Validators\BaseValidator;
 use Exception;
 use Illuminate\Container\Container as Application;
 use Illuminate\Database\Eloquent\Model;
@@ -21,16 +20,12 @@ class BaseRepository
      */
     protected $app;
     protected $model;
-    /**
-     * @var BaseValidator
-     */
-    protected $validator;
 
     public function __construct (Application $app)
     {
         $this->app = $app;
         $this->makeModel ();
-        $this->makeValidator ();
+        //$this->makeValidator ();
     }
 
     /**
@@ -48,22 +43,6 @@ class BaseRepository
 
         return $this->model = $model;
     }
-
-    /**
-     *  add by gui
-     * @return BaseValidator|mixed
-     * @throws BusinessException
-     */
-    public function makeValidator ()
-    {
-        $validator = $this->app->make ($this->validator ());
-        if (!$validator instanceof BaseValidator) {
-            throw new BusinessException("Class {$this->validator()} must be an instance of App\\Validators\\BaseValidator");
-        }
-
-        return $this->validator = $validator;
-    }
-
     /**
      * add by gui
      * @param $id
@@ -111,35 +90,4 @@ class BaseRepository
 
         return $model->delete ();
     }
-
-    /**
-     * 检查是否有记录是否有权限权限 add by gui
-     * @param array|object|integer $row 记录值或主键ID
-     * @return bool
-     * @throws BusinessException
-     */
-    public function checkAuth ($row = null)
-    {
-        if (is_numeric ($row)) {
-            $row = $this->find ($row);
-        }
-
-        return true;
-    }
-
-    /**
-     *  add by gui
-     * 检查是否有记录是否有权限权限 add by gui
-     * @param array|object|integer $row 记录值或主键ID
-     * @return bool
-     */
-    public function checkAuthToAbort ($row = null)
-    {
-        try {
-            return $this->checkAuth ($row);
-        } catch (BusinessException $e) {
-            abort (403, $e->getMessage ());
-        }
-    }
-
 }

@@ -14,7 +14,9 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.12",
         "laravel/helpers": "^1.4",
-        "laravel/tinker": "^2.5"
+        "laravel/tinker": "^2.5",
+        "mews/captcha": "^3.2",
+        "spatie/laravel-permission": "^4.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

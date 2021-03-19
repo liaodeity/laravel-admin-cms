@@ -6,10 +6,11 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -40,4 +41,107 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public static function showName ($id)
+    {
+        $user = User::find ($id);
+
+        return $user->username;
+    }
+
+    public static function showNameAndNo ($id)
+    {
+        $user = User::find ($id);
+        if (!$user) {
+            return '';
+        }
+        $user_no = '';
+        if ($user->user_no) {
+            $user_no = '(' . $user->user_no . ')';
+        }
+        $name = $user->username;
+        if($user->realname){
+            $name = $user->realname;
+        }
+
+        return $name . $user_no;
+    }
+
+    public static function isSuperAdmin ()
+    {
+        $uid = get_login_user_id ();
+        if (empty($uid)) {
+            return false;
+        }
+        $user = User::find ($uid);
+        //超级管理员
+        $isSuper = $user->hasRole ('super');
+        if ($isSuper) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 主管角色 add by gui
+     */
+    public static function isSupervisor ()
+    {
+        $uid = get_login_user_id ();
+        if (empty($uid)) {
+            return false;
+        }
+        $user = User::find ($uid);
+        //主管角色
+        $isCheck = $user->hasRole ('supervisor');
+        if ($isCheck) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 话务员角色 add by gui
+     */
+    public static function isOperator ()
+    {
+        $uid = get_login_user_id ();
+        if (empty($uid)) {
+            return false;
+        }
+        $user = User::find ($uid);
+        //话务员角色
+        $isCheck = $user->hasRole ('operator');
+        if ($isCheck) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 只有话务权限，现在个别操作及查询 add by gui
+     * @return bool
+     */
+    public static function onlyOperatorAuth ()
+    {
+        if(!User::isSupervisor () && User::isOperator ()){
+            //只有话务员权限的时候
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function statusItem ($ind = 'all', $html = false)
+    {
+        return get_item_parameter ('user_status', $ind, $html);
+    }
+
+    public function sexItem ($ind = 'all', $html = false)
+    {
+        return get_item_parameter ('sex', $ind, $html);
+    }
 }

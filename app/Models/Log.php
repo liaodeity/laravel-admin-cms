@@ -19,7 +19,7 @@ class Log extends Model
 
     public function typeItem ($ind = 'all', $html = false)
     {
-        return get_item_parameter ('log_type', $ind, $html);
+        return  get_item_parameter ('log_type', $ind, $html);
     }
 
     /**

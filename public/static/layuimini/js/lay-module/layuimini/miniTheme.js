@@ -430,9 +430,8 @@ layui.define(["jquery", "layer"], function (exports) {
                     '<ul>\n' + bgColorHtml + '</ul>\n' +
                     '</div>\n' +
                     '<div class="more-menu-list">\n' +
-                    '<a class="more-menu-item" href="http://layuimini.99php.cn/docs/index.html" target="_blank"><i class="layui-icon layui-icon-read" style="font-size: 19px;"></i> 开发文档</a>\n' +
-                    '<a class="more-menu-item" href="https://github.com/zhongshaofa/layuimini" target="_blank"><i class="layui-icon layui-icon-tabs" style="font-size: 16px;"></i> 开源地址</a>\n' +
-                    '<a class="more-menu-item" href="http://layuimini.99php.cn" target="_blank"><i class="layui-icon layui-icon-theme"></i> 官方网站</a>\n' +
+                    '<a class="more-menu-item" href="https://www.jianbaizhan.com/system/doc" target="_blank"><i class="layui-icon layui-icon-read" style="font-size: 19px;"></i> 开发文档</a>\n' +
+                    '<a class="more-menu-item" href="https://www.jianbaizhan.com/system" target="_blank"><i class="layui-icon layui-icon-theme"></i> 官方网站</a>\n' +
                     '</div>' +
                     '</div>';
                 layer.open({
@@ -460,6 +459,7 @@ layui.define(["jquery", "layer"], function (exports) {
                 $('.layuimini-color .color-content ul .layui-this').attr('class', '');
                 $(this).attr('class', 'layui-this');
                 sessionStorage.setItem('layuiminiBgcolorId', bgcolorId);
+                //TODO 存储到数据库
                 miniTheme.render({
                     bgColorDefault: bgcolorId,
                     listen: false,
