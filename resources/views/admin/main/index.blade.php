@@ -182,6 +182,7 @@
 
 @section('footer')
     <script>
+        console.log(new Date())
         function layer_module_tips(module) {
             var index = layer.open({
                 title: '',
@@ -210,6 +211,7 @@
                 pageAnim: true,             // iframe窗口动画
                 maxTabNum: 20,              // 最大的tab打开数量
             };
+            console.log(new Date())
             miniAdmin.render(options);
             //
             $('.login-out').on("click", function () {
