@@ -42,6 +42,7 @@ class DevBackUp extends Command
     {
         $tables = [
             'users',
+            'user_admins',
             'configs',
             'menus',
             'roles',

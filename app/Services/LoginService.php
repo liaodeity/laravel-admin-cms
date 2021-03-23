@@ -81,13 +81,8 @@ class LoginService
     protected function setLoginSession ($user_id)
     {
         session ()->put ('LOGIN_USER_ID', $user_id);
-        session ()->put ('LOGIN_ADMIN', 'admin');
         //登录日志
         Log::createLog (Log::LOGIN_TYPE, User::showName ($user_id) . '成功登录了后台', '', $user_id, User::class);
-        $user = User::find ($user_id);
-        $user->login_count++;
-        $user->last_login_at = now ();
-        $user->save ();
     }
 
     /**
@@ -99,7 +94,7 @@ class LoginService
      */
     private function checkAdmin (string $username, string $password)
     {
-        $user = User::where ('username', $username)->first ();
+        $user = User::where ('name', $username)->first ();
         if (!$user) {
             throw new BusinessException('账号不存在');
         }
@@ -107,10 +102,19 @@ class LoginService
         if (!Hash::check ($password, $e_password)) {
             throw new BusinessException('账号密码不正确');
         }
-        if ($user->status != 1) {
-            throw new BusinessException('账号' . $user->statusItem ($user->status) . '，无法进行登录');
+        if(!$user->admin){
+            throw new BusinessException('非管理员账号，无法进行登录');
+        }
+        if ($user->admin->status != 1) {
+            throw new BusinessException('账号' . $user->statusItem ($user->admin->status) . '，无法进行登录');
         }
         $this->setLoginSession ($user->id);
+        session ()->put ('LOGIN_ADMIN', 'admin');
+        //登录日志
+        $userAdmin = $user->admin;
+        $userAdmin->login_count++;
+        $userAdmin->last_login_at = now ();
+        $userAdmin->save ();
 
         return true;
     }

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\User\UserAdmin;
+use App\Models\User\UserInfo;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -135,13 +137,23 @@ class User extends Authenticatable
         }
     }
 
-    public function statusItem ($ind = 'all', $html = false)
+    //public function statusItem ($ind = 'all', $html = false)
+    //{
+    //    return get_item_parameter ('user_status', $ind, $html);
+    //}
+    //
+    //public function sexItem ($ind = 'all', $html = false)
+    //{
+    //    return get_item_parameter ('sex', $ind, $html);
+    //}
+
+    public function admin ()
     {
-        return get_item_parameter ('user_status', $ind, $html);
+        return $this->hasOne (UserAdmin::class);
     }
 
-    public function sexItem ($ind = 'all', $html = false)
+    public function info ()
     {
-        return get_item_parameter ('sex', $ind, $html);
+        return $this->hasOne (UserInfo::class);
     }
 }
