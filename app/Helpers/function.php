@@ -148,19 +148,20 @@ function isPhoneOrMobile ($Phone)
  */
 function check_admin_auth ($auth)
 {
-    $uid = get_login_user_id ();
+    $auth = trim ($auth);
+    $uid  = get_login_user_id ();
     if (empty($uid)) {
         return false;
     }
-    if(!$auth){
+    if (!$auth) {
         return true;
     }
-    if($auth){
+    $auth = str_replace ('_', ' ', $auth);
+    if ($auth) {
         \Spatie\Permission\Models\Permission::findOrCreate ($auth);
     }
 
     $user    = \App\Models\User::find ($uid);
-    $auth    = str_replace ('_', ' ', $auth);
     $isCheck = $user->hasPermissionTo ($auth);
     //超级管理员
     $isSuper = $user->hasRole ('super');

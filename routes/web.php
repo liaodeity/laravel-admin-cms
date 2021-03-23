@@ -48,6 +48,7 @@ Route::middleware ('admin')->prefix ('admin')->group (function () {
     Route::any ('/user/setting', [UserController::class, 'setting']);
     Route::any ('/user/password', [UserController::class, 'password']);
     Route::resource ('user', UserController::class);
+    Route::resource ('user_admin', \App\Http\Controllers\Admin\UserAdminController::class);
     Route::resource ('log', LogController::class);
 
     Route::any ('role/auth/list', [RoleController::class, 'listAuth']);

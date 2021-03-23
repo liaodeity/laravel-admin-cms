@@ -1,3 +1,4 @@
 {
-    "Forbidden": "禁止访问"
+    "Forbidden": "禁止访问",
+    "The given data was invalid.": "必填参数缺失"
 }

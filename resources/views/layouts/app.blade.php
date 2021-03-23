@@ -50,6 +50,7 @@
 <script type="text/javascript" src="{{asset ('static/umeditor/lang/zh-cn/zh-cn.js')}}"></script>
 <script src="{{asset ('static/admin/js/admin.min.js?v='.get_version ())}}" charset="utf-8"></script>
 <script src="{{asset ('static/admin/js/area.region.min.js?v='.get_version ())}}" charset="utf-8"></script>
+<script src="{{asset ('static/axios/axios.min.js')}}" charset="utf-8"></script>
 
 <script>
 layui.use(['element', 'layer'], function () {
