@@ -206,5 +206,21 @@
         "sort": 9,
         "created_at": "2021-03-19 11:08:16",
         "updated_at": null
+    },
+    {
+        "id": 59,
+        "pid": 42,
+        "type": 1,
+        "cate_module": "",
+        "auth_name": "user admin",
+        "title": "管理员账号",
+        "href": "admin\/user_admin",
+        "icon": "",
+        "target": "",
+        "is_shortcut": 0,
+        "status": 1,
+        "sort": 1,
+        "created_at": "2021-03-23 10:45:31",
+        "updated_at": null
     }
 ]
