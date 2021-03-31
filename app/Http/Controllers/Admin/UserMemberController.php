@@ -4,28 +4,25 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exceptions\BusinessException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserAdminStoreRequest;
 use App\Libs\Parameter;
 use App\Libs\QueryWhere;
 use App\Models\Log;
 use App\Models\User;
-use App\Models\User\UserInfo;
-use App\Repositories\UserAdminRepository;
-use App\Validators\UserValidator;
+use App\Repositories\UserMemberRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\View;
 use Spatie\Permission\Models\Role;
 
-class UserAdminController extends Controller
+class UserMemberController extends Controller
 {
-    protected $module_name = 'user_admin';
+    protected $module_name = 'user_member';
     /**
-     * @var UserAdminRepository
+     * @var UserMemberRepository
      */
     private $repository;
 
-    public function __construct (UserAdminRepository $repository)
+    public function __construct (UserMemberRepository $repository)
     {
         View::share ('MODULE_NAME', $this->module_name);//模块名称
         $this->repository = $repository;
@@ -44,10 +41,10 @@ class UserAdminController extends Controller
         if (request ()->ajax ()) {
             $limit = $request->input ('limit', 15);
             QueryWhere::defaultOrderBy ('users.id', 'DESC')->setRequest ($request->all ());
-            $M = $this->repository->makeModel ()->select ('user_admins.*', 'users.name', 'user_infos.real_name', 'user_infos.gender', 'user_infos.telephone', 'user_infos.address');
-            $M->join ('users', 'users.id', '=', 'user_admins.user_id');
+            $M = $this->repository->makeModel ()->select ('user_members.*', 'users.name', 'user_infos.real_name', 'user_infos.gender', 'user_infos.telephone', 'user_infos.address');
+            $M->join ('users', 'users.id', '=', 'user_members.user_id');
             $M->leftJoin ('user_infos', 'user_infos.user_id', '=', 'users.id');
-            QueryWhere::eq ($M, 'user_admins.status');
+            QueryWhere::eq ($M, 'user_members.status');
             QueryWhere::like ($M, 'users.name');
             QueryWhere::like ($M, 'users.realname');
             QueryWhere::orderBy ($M);
@@ -111,17 +108,25 @@ class UserAdminController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store (UserAdminStoreRequest $request)
+    public function store (Request $request)
     {
-        $request->validated ();
+        $request->validate ([
+            'User.name'     => 'required',
+            'User.password' => 'required',
+        ], [], [
+            'User.name'     => '登录名称',
+            'User.password' => '登录密码',
+        ]);
 
         if (!check_admin_auth ($this->module_name . '_create')) {
             return auth_error_return ();
         }
 
 
-        $input = $request->input ('User');
-        $input = $this->formatRequestInput (__FUNCTION__, $input);
+        $inputUser   = $request->input ('User');
+        $inputInfo   = $request->input ('UserInfo');
+        $inputMember = $request->input ('UserMember');
+        $input       = $this->formatRequestInput (__FUNCTION__, $inputUser);
         try {
             if (!User::isSuperAdmin ()) {
                 throw new BusinessException('非超级管理员，无法操作');
@@ -141,7 +146,8 @@ class UserAdminController extends Controller
                     }
                 }
 
-                Log::createLog (Log::ADD_TYPE, '添加用户账号', '', $user->id, User::class);
+
+                Log::createLog (Log::ADD_TYPE, '添加会员账号', '', $user->id, User::class);
 
                 return ajax_success_result ('添加成功');
             } else {
@@ -236,9 +242,9 @@ class UserAdminController extends Controller
                         $user->removeRole ($role->name);
                     }
                 }
-                Log::createLog (Log::EDIT_TYPE, '修改用户账号', $user->toArray (), $ret->id, User::class);
+                Log::createLog (Log::EDIT_TYPE, '修改会员账号', $user->toArray (), $ret->id, User::class);
                 if (array_get ($input, 'password')) {
-                    Log::createLog (Log::EDIT_TYPE, '重置用户[' . $ret->username . ']账号密码', '', $ret->id, User::class);
+                    Log::createLog (Log::EDIT_TYPE, '重置会员[' . $ret->username . ']账号密码', '', $ret->id, User::class);
                 }
 
                 return ajax_success_result ('更新成功');

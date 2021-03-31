@@ -261,7 +261,7 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
                 if (clearUrl != undefined && clearUrl != '' && clearUrl != null) {
                     $.getJSON(clearUrl, function (data, status) {
                         layer.close(loading);
-                        if (data.code != 1) {
+                        if (data.code !== 0) {
                             return miniAdmin.error(data.msg);
                         } else {
                             return miniAdmin.success(data.msg);
