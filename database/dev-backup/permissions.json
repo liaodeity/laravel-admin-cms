@@ -340,5 +340,32 @@
         "title": "",
         "created_at": "2021-03-23 10:47:11",
         "updated_at": "2021-03-23 10:47:11"
+    },
+    {
+        "id": 50,
+        "name": "user member",
+        "guard_name": "web",
+        "menu_id": 0,
+        "title": "",
+        "created_at": "2021-03-31 12:00:55",
+        "updated_at": "2021-03-31 12:00:55"
+    },
+    {
+        "id": 51,
+        "name": "user member create",
+        "guard_name": "web",
+        "menu_id": 0,
+        "title": "",
+        "created_at": "2021-03-31 12:01:15",
+        "updated_at": "2021-03-31 12:01:15"
+    },
+    {
+        "id": 52,
+        "name": "user member edit",
+        "guard_name": "web",
+        "menu_id": 0,
+        "title": "",
+        "created_at": "2021-03-31 12:01:15",
+        "updated_at": "2021-03-31 12:01:15"
     }
 ]
