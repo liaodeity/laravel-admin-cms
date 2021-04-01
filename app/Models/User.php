@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\User\UserAdmin;
 use App\Models\User\UserInfo;
+use App\Models\User\UserMember;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -48,25 +49,7 @@ class User extends Authenticatable
     {
         $user = User::find ($id);
 
-        return $user->username;
-    }
-
-    public static function showNameAndNo ($id)
-    {
-        $user = User::find ($id);
-        if (!$user) {
-            return '';
-        }
-        $user_no = '';
-        if ($user->user_no) {
-            $user_no = '(' . $user->user_no . ')';
-        }
-        $name = $user->username;
-        if($user->realname){
-            $name = $user->realname;
-        }
-
-        return $name . $user_no;
+        return $user->name ?? '';
     }
 
     public static function isSuperAdmin ()
@@ -152,6 +135,10 @@ class User extends Authenticatable
         return $this->hasOne (UserAdmin::class);
     }
 
+    public function member ()
+    {
+        return $this->hasOne (UserMember::class);
+    }
     public function info ()
     {
         return $this->hasOne (UserInfo::class);

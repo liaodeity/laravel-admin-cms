@@ -28,6 +28,73 @@ class UserRepository extends BaseRepository implements InterfaceRepository
         return true;
     }
 
+    public function formatRequestInput (array $input, $type = null)
+    {
+        empty_value_null ($input, 'email');
+
+        return $input;
+    }
+
+    public function saveMember ($user, $request)
+    {
+        $input = $request->input ('UserMember');
+        $info  = User\UserMember::where ('user_id', $user->id)->first ();
+        if ($info) {
+            $info->fill ($input);
+            $info->save ();
+        } else {
+            $input['user_id'] = $user->id;
+            $info             = User\UserMember::create ($input);
+        }
+        if (isset($info->id)) {
+            Log::createLog (Log::EDIT_TYPE, '修改会员账号', $info->toArray (), $info->id, User\UserMember::class);
+
+            return $info;
+        } else {
+            return false;
+        }
+    }
+
+    public function saveAgent ($user, $request)
+    {
+        $input = $request->input ('UserAgent');
+        $info  = User\UserAgent::where ('user_id', $user->id)->first ();
+        if ($info) {
+            $info->fill ($input);
+            $info->save ();
+        } else {
+            $input['user_id'] = $user->id;
+            $info             = User\UserAgent::create ($input);
+        }
+        if (isset($info->id)) {
+            Log::createLog (Log::EDIT_TYPE, '修改代理商账号', $info->toArray (), $info->id, User\UserAgent::class);
+
+            return $info;
+        } else {
+            return false;
+        }
+    }
+
+    public function saveAdmin ($user, $request)
+    {
+        $input = $request->input ('UserAdmin');
+        $info  = User\UserAdmin::where ('user_id', $user->id)->first ();
+        if ($info) {
+            $info->fill ($input);
+            $info->save ();
+        } else {
+            $input['user_id'] = $user->id;
+            $info             = User\UserAdmin::create ($input);
+        }
+        if (isset($info->id)) {
+            Log::createLog (Log::EDIT_TYPE, '修改管理员账号', $info->toArray (), $info->id, User\UserAdmin::class);
+
+            return $info;
+        } else {
+            return false;
+        }
+    }
+
     /**
      *  add by gui
      * @param $user_id
@@ -63,6 +130,26 @@ class UserRepository extends BaseRepository implements InterfaceRepository
             }
         } else {
             throw new BusinessException('原密码不正确');
+        }
+    }
+
+    public function saveInfo ($user, \Illuminate\Http\Request $request)
+    {
+        $input = $request->input ('UserInfo');
+        $info  = User\UserInfo::where ('user_id', $user->id)->first ();
+        if ($info) {
+            $info->fill ($input);
+            $info->save ();
+        } else {
+            $input['user_id'] = $user->id;
+            $info             = User\UserInfo::create ($input);
+        }
+        if (isset($info->id)) {
+            Log::createLog (Log::EDIT_TYPE, '修改账号资料', $info->toArray (), $info->id, User\UserInfo::class);
+
+            return $info;
+        } else {
+            return false;
         }
     }
 }

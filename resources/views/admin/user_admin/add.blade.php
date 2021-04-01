@@ -9,56 +9,9 @@
             <form class="layui-form" action="" lay-filter="example" onsubmit="return false;">
                 {{ method_field($_method ?? '') }}
                 {{csrf_field ()}}
-                <input type="hidden" name="id" value="{{$user->id ?? ''}}">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">登录账号 <span class="color-red">*</span></label>
-                    <div class="layui-input-inline ">
-                        <input type="text" class="layui-input " name="User[name]" maxlength="50" value="{{$user->username ?? ''}}" >
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">用户密码 <span class="color-red"></span></label>
-                    <div class="layui-input-inline ">
-                        <input type="password" class="layui-input " maxlength="64" name="User[password]" value="" >
-                    </div>
-                    <div class="layui-form-mid layui-word-aux ">如为空，表示不修改密码</div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">真实名称 <span class="color-red"></span></label>
-                    <div class="layui-input-inline ">
-                        <input type="text" class="layui-input " maxlength="20" name="UserInfo[real_name]" value="{{$user->info->real_name ?? ''}}" >
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">联系电话 <span class="color-red"></span></label>
-                    <div class="layui-input-inline ">
-                        <input type="text" class="layui-input " maxlength="20" name="UserInfo[telephone]" value="{{$user->info->telephone ?? ''}}" >
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">电子邮件 <span class="color-red"></span></label>
-                    <div class="layui-input-inline ">
-                        <input type="text" class="layui-input " maxlength="50" name="User[email]" value="{{$user->email ?? ''}}" >
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">地址 <span class="color-red"></span></label>
-                    <div class="layui-input-inline ">
-                        <input type="text" class="layui-input " maxlength="100" name="UserInfo[address]" value="{{$user->info->address ?? ''}}" >
-                    </div>
-                </div>
-
-                <div class="layui-form-item">
-                    <label class="layui-form-label">性别</label>
-                    <div class="layui-input-block">
-                        @foreach(\App\Libs\Parameter::genderItem () as $ind => $item)
-                            <input type="radio" name="UserInfo[gender]" value="{{$ind}}" @if(isset($user->info->gender) && $user->info->gender == $ind) checked
-                                   @endif title="{{$item}}">
-
-                        @endforeach
-                    </div>
-                    <div class="layui-form-mid layui-word-aux "></div>
-                </div>
+                <input type="hidden" name="id" value="{{$user->admin->id ?? ''}}">
+                @include('admin.user.form_user_add')
+                @include('admin.user.form_user_info_add')
                 <div class="layui-form-item">
                     <label class="layui-form-label">所属角色<span class="color-red">*</span></label>
                     <div class="layui-input-block">
@@ -134,7 +87,7 @@
                     });
                     return Promise.reject(error);
                 });
-                axios.post(_url,data.field).then((response) => {
+                axios.post(_url, $(data.form).serialize()).then((response) => {
                     var data = response.data;
                     if (data.code === 0) {
                         layer.msg(data.msg, {icon: 6, time: SUCCESS_TIME, shade: 0.2});

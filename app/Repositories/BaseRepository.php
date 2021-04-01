@@ -9,7 +9,6 @@
 namespace App\Repositories;
 
 use App\Exceptions\BusinessException;
-use Exception;
 use Illuminate\Container\Container as Application;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,7 +24,6 @@ class BaseRepository
     {
         $this->app = $app;
         $this->makeModel ();
-        //$this->makeValidator ();
     }
 
     /**
@@ -43,15 +41,6 @@ class BaseRepository
 
         return $this->model = $model;
     }
-    /**
-     * add by gui
-     * @param $id
-     * @return mixed
-     */
-    public function find ($id)
-    {
-        return $this->model->find ($id);
-    }
 
     /**
      * add by gui
@@ -60,7 +49,14 @@ class BaseRepository
      */
     public function create (array $attributes)
     {
+        $attributes = $this->formatRequestInput ($attributes, __FUNCTION__);
+
         return $this->model->create ($attributes);
+    }
+
+    public function formatRequestInput (array $input, $type = null)
+    {
+        return $input;
     }
 
     /**
@@ -71,8 +67,8 @@ class BaseRepository
      */
     public function update (array $attributes, $id)
     {
-
-        $model = $this->model->findOrFail ($id);
+        $attributes = $this->formatRequestInput ($attributes, __FUNCTION__);
+        $model      = $this->model->findOrFail ($id);
         $model->fill ($attributes);
         $model->save ();
 
@@ -89,5 +85,15 @@ class BaseRepository
         $model = $this->find ($id);
 
         return $model->delete ();
+    }
+
+    /**
+     * add by gui
+     * @param $id
+     * @return mixed
+     */
+    public function find ($id)
+    {
+        return $this->model->find ($id);
     }
 }
