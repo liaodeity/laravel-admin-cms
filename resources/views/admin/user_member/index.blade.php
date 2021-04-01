@@ -13,26 +13,15 @@
                     <form class="layui-form layui-form-pane" lay-filter="data-search-filter" action="">
                         <div class="layui-form-item">
                             <div class="layui-inline">
-                                <label class="layui-form-label">所属角色</label>
-                                <div class="layui-input-inline">
-                                    <select name="role_id">
-                                        <option value="">请选择</option>
-                                        @foreach($roles as $ind => $item)
-                                            <option value="{{$item->id}}">{{$item->title}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="layui-inline">
                                 <label class="layui-form-label">用户名</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="username" autocomplete="off" class="layui-input">
+                                    <input type="text" name="name" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-inline">
                                 <label class="layui-form-label">真实姓名</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="realname" autocomplete="off" class="layui-input">
+                                    <input type="text" name="real_name" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-inline">
@@ -65,8 +54,11 @@
                 </div>
             </script>
             <script type="text/html" id="currentTableBar">
-                @if( check_admin_auth ($MODULE_NAME.' edit'))
+                @if( check_admin_auth ($MODULE_NAME.'_edit'))
                 <a class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+                @endif
+                @if( check_admin_auth ($MODULE_NAME.'_show'))
+                <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="view">查看</a>
                 @endif
             </script>
         </div>
@@ -87,7 +79,6 @@
                 toolbar: '#toolbarFilter',
                 defaultToolbar: ['filter', ],
                 cols: [[
-                    {field: 'role', title: '所属角色', hide: false,sort:true},
                     {field: 'name', title: '登录账号',sort:true},
                     {field: 'real_name', title: '真实姓名',sort:true},
                     {field: 'telephone', title: '电话',hide:true,sort:true},

@@ -9,7 +9,7 @@
             <form class="layui-form" action="" lay-filter="example" onsubmit="return false;">
                 {{ method_field($_method ?? '') }}
                 {{csrf_field ()}}
-                <input type="hidden" name="id" value="{{$user->id ?? ''}}">
+                <input type="hidden" name="id" value="{{$user->member->id ?? ''}}">
                 @include('admin.user.form_user_add')
                 @include('admin.user.form_user_info_add')
                 <div class="layui-form-item">
@@ -79,7 +79,8 @@
                     });
                     return Promise.reject(error);
                 });
-                axios.post(_url, data.field).then((response) => {
+                // console.log($(data.form).serializeArray());
+                axios.post(_url, $(data.form).serialize()).then((response) => {
                     var data = response.data;
                     if (data.code === 0) {
                         layer.msg(data.msg, {icon: 6, time: SUCCESS_TIME, shade: 0.2});

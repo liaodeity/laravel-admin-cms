@@ -1,7 +1,7 @@
 <div class="layui-form-item">
     <label class="layui-form-label">登录账号 <span class="color-red">*</span></label>
     <div class="layui-input-inline ">
-        <input type="text" class="layui-input " name="User[name]" maxlength="50" value="{{$user->username ?? ''}}" >
+        <input type="text" class="layui-input " name="User[name]" maxlength="50" value="{{$user->name ?? ''}}" >
     </div>
 </div>
 <div class="layui-form-item">

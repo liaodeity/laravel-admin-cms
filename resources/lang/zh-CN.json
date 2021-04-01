@@ -1,4 +1,5 @@
 {
     "Forbidden": "禁止访问",
+    "Server Error": "服务器错误异常",
     "The given data was invalid.": "必填参数缺失"
 }

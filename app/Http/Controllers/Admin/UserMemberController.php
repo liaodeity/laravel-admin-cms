@@ -8,8 +8,10 @@ use App\Libs\Parameter;
 use App\Libs\QueryWhere;
 use App\Models\Log;
 use App\Models\User;
-use App\Repositories\UserMemberRepository;
+use App\Models\User\UserMember;
+use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\View;
 use Spatie\Permission\Models\Role;
@@ -18,11 +20,11 @@ class UserMemberController extends Controller
 {
     protected $module_name = 'user_member';
     /**
-     * @var UserMemberRepository
+     * @var UserRepository
      */
     private $repository;
 
-    public function __construct (UserMemberRepository $repository)
+    public function __construct (UserRepository $repository)
     {
         View::share ('MODULE_NAME', $this->module_name);//模块名称
         $this->repository = $repository;
@@ -42,32 +44,26 @@ class UserMemberController extends Controller
             $limit = $request->input ('limit', 15);
             QueryWhere::defaultOrderBy ('users.id', 'DESC')->setRequest ($request->all ());
             $M = $this->repository->makeModel ()->select ('user_members.*', 'users.name', 'user_infos.real_name', 'user_infos.gender', 'user_infos.telephone', 'user_infos.address');
-            $M->join ('users', 'users.id', '=', 'user_members.user_id');
+            $M->join ('user_members', 'users.id', '=', 'user_members.user_id');
             $M->leftJoin ('user_infos', 'user_infos.user_id', '=', 'users.id');
             QueryWhere::eq ($M, 'user_members.status');
             QueryWhere::like ($M, 'users.name');
-            QueryWhere::like ($M, 'users.realname');
+            QueryWhere::like ($M, 'user_infos.real_name');
             QueryWhere::orderBy ($M);
 
             $roleId = QueryWhere::input ('role_id');
             if ($roleId) {
                 $role    = Role::find ($roleId);
                 $usersid = $role->users ()->pluck ('model_id');
-                QueryWhere::in ($M, 'id', $usersid);
+                QueryWhere::in ($M, 'users.id', $usersid);
             }
 
             $M     = $M->paginate ($limit);
             $count = $M->total ();
             $data  = $M->items ();
             foreach ($data as $key => $item) {
-                $roles = [];
-                $user  = $item->user;
-                foreach ($user->roles as $role) {
-                    $roles[] = $role->title;
-                }
                 $data[ $key ]['gender'] = Parameter::genderItem ($item->gender);
                 $data[ $key ]['status'] = Parameter::userStatusItem ($item->status);
-                $data[ $key ]['role']   = implode ('|', $roles);
             }
             $result = [
                 'count' => $count,
@@ -111,22 +107,20 @@ class UserMemberController extends Controller
     public function store (Request $request)
     {
         $request->validate ([
-            'User.name'     => 'required',
-            'User.password' => 'required',
+            'User.name'         => 'required',
+            'User.password'     => 'required',
+            'UserMember.status' => 'required'
         ], [], [
-            'User.name'     => '登录名称',
-            'User.password' => '登录密码',
+            'User.name'         => '登录账号',
+            'User.password'     => '登录密码',
+            'UserMember.status' => '状态'
         ]);
-
         if (!check_admin_auth ($this->module_name . '_create')) {
             return auth_error_return ();
         }
-
-
-        $inputUser   = $request->input ('User');
-        $inputInfo   = $request->input ('UserInfo');
-        $inputMember = $request->input ('UserMember');
-        $input       = $this->formatRequestInput (__FUNCTION__, $inputUser);
+        DB::beginTransaction ();
+        $inputUser = $request->input ('User');
+        $input     = $this->formatRequestInput (__FUNCTION__, $inputUser);
         try {
             if (!User::isSuperAdmin ()) {
                 throw new BusinessException('非超级管理员，无法操作');
@@ -134,6 +128,8 @@ class UserMemberController extends Controller
             $input['password'] = Hash::make ($input['password']);
             $user              = $this->repository->create ($input);
             if ($user) {
+                $this->repository->saveInfo ($user, $request);
+                $this->repository->saveMember ($user, $request);
                 $roleAll = Role::all ();
                 $roles   = $request->role ?? [];
                 foreach ($roleAll as $role) {
@@ -148,6 +144,7 @@ class UserMemberController extends Controller
 
 
                 Log::createLog (Log::ADD_TYPE, '添加会员账号', '', $user->id, User::class);
+                DB::commit ();
 
                 return ajax_success_result ('添加成功');
             } else {
@@ -174,78 +171,74 @@ class UserMemberController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\User $user
+     * @param \App\Models\UserMember $userMember
      * @return \Illuminate\Http\Response
      */
-    public function show (User $user)
+    public function show (UserMember $userMember)
     {
-        //
+        if (!check_admin_auth ($this->module_name . '_edit')) {
+            return auth_error_return ();
+        }
+        $user    = $userMember->user;
+
+        return view ('admin.' . $this->module_name . '.show', compact ('user'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\User $user
+     * @param \App\Models\UserMember $userMember
      * @return \Illuminate\Http\Response
      */
-    public function edit (User $user)
+    public function edit (UserMember $userMember)
     {
         if (!check_admin_auth ($this->module_name . ' edit')) {
             return auth_error_return ();
         }
         $_method = 'PUT';
-        $roleAll = Role::all ();
+        $user    = $userMember->user;
 
-        return view ('admin.' . $this->module_name . '.add', compact ('user', '_method', 'roleAll'));
+        return view ('admin.' . $this->module_name . '.add', compact ('user', '_method'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\User         $user
+     * @param UserMember               $userMember
      * @return \Illuminate\Http\Response
      */
-    public function update (Request $request, User $user)
+    public function update (Request $request, UserMember $userMember)
     {
+        $request->validate ([
+            'User.name'         => 'required',
+            'UserMember.status' => 'required'
+        ], [], [
+            'User.name'         => '登录账号',
+            'User.password'     => '登录密码',
+            'UserMember.status' => '状态'
+        ]);
         if (!check_admin_auth ($this->module_name . ' edit')) {
             return auth_error_return ();
         }
         $input = $request->input ('User');
         $input = $this->formatRequestInput (__FUNCTION__, $input);
         try {
-            $isSuper = $user->hasRole ('super');
-            if ($isSuper && $user->id != get_login_user_id ()) {
-                throw new BusinessException('无法修改超级管理员信息，需管理员自行修改');
-            }
-
-            $validator        = $this->repository->makeValidator ();
-            $rule             = $validator->getRules (UserValidator::RULE_UPDATE);
-            $rule['username'] = str_replace ('{id}', $user->id, $rule['username']);
-            $validator->setRules (UserValidator::RULE_UPDATE, $rule);
-            $validator->with ($input)->passes (UserValidator::RULE_UPDATE);
             if (array_get ($input, 'password')) {
                 $input['password'] = Hash::make ($input['password']);
             } else {
                 unset($input['password']);
             }
-            $ret = $this->repository->update ($input, $user->id);
-            if ($ret) {
-                $roleAll = Role::all ();
-                $roles   = $request->role ?? [];
-                foreach ($roleAll as $role) {
-                    if (in_array ($role->name, $roles)) {
-                        if (!$user->hasRole ($role->name)) {
-                            $user->assignRole ($role->name);
-                        }
-                    } else {
-                        $user->removeRole ($role->name);
-                    }
-                }
-                Log::createLog (Log::EDIT_TYPE, '修改会员账号', $user->toArray (), $ret->id, User::class);
+            DB::beginTransaction ();
+            $user = $this->repository->update ($input, $userMember->user_id);
+            if ($userMember) {
+                $this->repository->saveInfo ($user, $request);
+                $this->repository->saveMember ($user, $request);
+                Log::createLog (Log::EDIT_TYPE, '修改账号', $user->toArray (), $userMember->id, User::class);
                 if (array_get ($input, 'password')) {
-                    Log::createLog (Log::EDIT_TYPE, '重置会员[' . $ret->username . ']账号密码', '', $ret->id, User::class);
+                    Log::createLog (Log::EDIT_TYPE, '重置会员[' . $user->name . ']账号密码', '', $user->id, User::class);
                 }
+                DB::commit ();
 
                 return ajax_success_result ('更新成功');
             } else {
@@ -260,10 +253,10 @@ class UserMemberController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\User $user
+     * @param \App\Models\UserMember $userMember
      * @return \Illuminate\Http\Response
      */
-    public function destroy (User $user)
+    public function destroy (UserMember $userMember)
     {
         //
     }

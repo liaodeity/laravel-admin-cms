@@ -328,6 +328,19 @@ function get_age ($date)
 }
 
 /**
+ * 将空字符串转换成null add by gui
+ * @param $arr
+ * @param $key
+ * @return mixed
+ */
+function empty_value_null (&$arr, $key)
+{
+    if (isset($arr[ $key ]) && $arr[ $key ] == '') {
+        $arr[ $key ] = null;
+    }
+}
+
+/**
  * 获取时间常数 add by gui
  * @param string $_date [格式：2020-03-11 - 2020-03-20]
  * @param        $key
