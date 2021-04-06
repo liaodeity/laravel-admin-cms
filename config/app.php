@@ -175,6 +175,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /**
+         * 插件服务
+         */
+        App\Providers\PluginServiceProvider::class,
     ],
 
     /*
