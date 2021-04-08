@@ -31,7 +31,7 @@ composer install
 ```bash
 php artisan migrate
 ```
-- 基础数据信息填充（可对于删减）
+- 基础数据信息填充
 ```bash
 php artisan db:seed --class=InitSeeder
 ```
@@ -41,7 +41,11 @@ php artisan serve
 ```
 - 项目访问
 
-  默认地址：`http://127.0.0.1:8000`
+  后台地址：`http://127.0.0.1:8000/admin`
+  
+  后台账号：admin
+  
+  后台密码：123456（生产环境必须修改密码）
 
 ### 开发文档
 [https://www.jianbaizhan.com/cms](https://www.jianbaizhan.com/cms)
