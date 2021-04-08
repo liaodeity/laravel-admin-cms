@@ -34,17 +34,16 @@
 
 ## 插件扩展
 
+- 暂无
 
 ## 捐赠
 
-如果觉得本项目帮助到你，捐赠我们，支持本项目的开发维护。
+如果觉得本项目帮助到你，捐赠我们，支持本项目的开发维护(请作者喝杯咖啡吧:coffee:)。
 ![image](https://www.jianbaizhan.com/home/images/donate.png)
-
-请作者喝杯咖啡吧！
 
 ## 其他
 
-`gui-giggle` 基于以下插件或服务：
+`gui-giggle` 基于以下插件或服务（罗列部分，[更多查看](https://www.jianbaizhan.com/cms)）：
 
 - **[Laravel](https://laravel.com/)**
 - **[layui](https://gitee.com/sentsin/layui)**
