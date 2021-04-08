@@ -38,7 +38,7 @@
 ## 捐赠
 
 如果觉得本项目帮助到你，捐赠我们，支持本项目的开发维护。
-
+![image](https://www.jianbaizhan.com/home/images/donate.png)
 
 请作者喝杯咖啡吧！
 
