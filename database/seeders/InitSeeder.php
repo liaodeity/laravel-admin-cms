@@ -18,7 +18,8 @@ class InitSeeder extends Seeder
 
         $tables = [
             'users',
-            //'configs',
+            'user_admins',
+            'configs',
             'menus',
             'roles',
             'permissions',

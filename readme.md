@@ -27,6 +27,9 @@ cd laravel-admin-cms
 composer install
 ```
 - 配置数据库`.env`(如没有复制`.env.example`改名)
+```bash
+php artisan key:generate
+```
 - 数据库表迁移
 ```bash
 php artisan migrate
