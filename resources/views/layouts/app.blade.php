@@ -66,5 +66,6 @@ layui.use(['element', 'layer'], function () {
 });
 </script>
 @yield('footer')
+<!--基于 https://gitee.com/liaodeiy/laravel-admin-cms 后台系统开发.-->
 </body>
 </html>

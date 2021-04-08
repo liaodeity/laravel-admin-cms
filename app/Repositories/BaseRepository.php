@@ -1,10 +1,15 @@
 <?php
-/**
- * 基础业务类
- * Created by PhpStorm.
- * User: gui
- * Date: 2020/3/12
- */
+/*
+|-----------------------------------------------------------------------------------------------------------
+| laravel-admin-cms [ 简单高效的开发插件系统 ]
+|-----------------------------------------------------------------------------------------------------------
+| Licensed ( MIT )
+| ----------------------------------------------------------------------------------------------------------
+| Copyright (c) 2020-2021 https://gitee.com/liaodeiy/laravel-admin-cms All rights reserved.
+| ----------------------------------------------------------------------------------------------------------
+| Author: 廖春贵 < liaodeity@gmail.com >
+|-----------------------------------------------------------------------------------------------------------
+*/
 
 namespace App\Repositories;
 
@@ -12,6 +17,11 @@ use App\Exceptions\BusinessException;
 use Illuminate\Container\Container as Application;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * 基础业务类
+ * Class BaseRepository
+ * @package App\Repositories
+ */
 class BaseRepository
 {
     /**
