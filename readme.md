@@ -15,6 +15,34 @@
 
 希望本项目可以为你，节约开发时间。 
 
+### 如何使用
+- 使用前学习
+
+  需对`laravel`有基础了解，以及简单开发经验
+
+- 获取代码
+```bash
+git clone https://gitee.com/liaodeiy/laravel-admin-cms.git
+cd laravel-admin-cms
+composer install
+```
+- 配置数据库`.env`(如没有复制`.env.example`改名)
+- 数据库表迁移
+```bash
+php artisan migrate
+```
+- 基础数据信息填充（可对于删减）
+```bash
+php artisan db:seed --class=InitSeeder
+```
+- 项目启动
+```bash
+php artisan serve
+```
+- 项目访问
+
+  默认地址：`http://127.0.0.1:8000`
+
 ### 开发文档
 [https://www.jianbaizhan.com/cms](https://www.jianbaizhan.com/cms)
 
