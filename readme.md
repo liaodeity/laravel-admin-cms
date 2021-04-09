@@ -15,6 +15,17 @@
 
 希望本项目可以为你，节约开发时间。 
 
+### 演示demo
+
+- 地址：[https://cmf.jianbaizhan.com/admin](https://cmf.jianbaizhan.com/admin)
+
+- 账号：admin
+
+- 密码：123456
+
+- 演示说明：理性演示，误删除基础数据，可自行添加数据，自行删除（数据库会不定时重置抹除数据）
+
+
 ### 如何使用
 - 使用前学习
 
@@ -50,16 +61,11 @@ php artisan serve
   
   后台密码：123456（生产环境必须修改密码）
 
+
 ### 开发文档
 [https://www.jianbaizhan.com/cms](https://www.jianbaizhan.com/cms)
 
-### 如何贡献
- 
- - 发布[issue](https://gitee.com/liaodeiy/laravel-admin-cms/issues)进行问题反馈和建议
- 
- - 通过[Pull Request](https://gitee.com/liaodeiy/laravel-admin-cms/pulls)提交修复
- 
- - 完善我们的文档和例子
+
 
 ### 基础功能
 
@@ -79,6 +85,15 @@ php artisan serve
 
 - 暂无
 
+### 如何贡献
+ 
+ - 发布[issue](https://gitee.com/liaodeiy/laravel-admin-cms/issues)进行问题反馈和建议
+ 
+ - 通过[Pull Request](https://gitee.com/liaodeiy/laravel-admin-cms/pulls)提交修复
+ 
+ - 完善我们的文档和例子
+
+
 ## 捐赠
 
 如果觉得本项目帮助到你，捐赠我们，支持本项目的开发维护(请作者喝杯咖啡吧:coffee:)。
@@ -86,12 +101,24 @@ php artisan serve
 
 ## 其他
 
-`gui-giggle` 基于以下插件或服务（罗列部分，[更多查看](https://www.jianbaizhan.com/cms)）：
+`gui-giggle` 基于以下插件或服务（排名不分先后，罗列部分，[更多查看](https://www.jianbaizhan.com/cms)）：
 
-- **[Laravel](https://laravel.com/)**
-- **[layui](https://gitee.com/sentsin/layui)**
-- **[layui-mini](https://gitee.com/zhongshaofa/layuimini)**
+- [Laravel](https://laravel.com/)
+
+- [layui](https://gitee.com/sentsin/layui)
+
+- [layui-mini](https://gitee.com/zhongshaofa/layuimini)
+
+- [spatie/laravel-permission](https://github.com/spatie/laravel-permission)
+
+- [guzzlehttp/guzzle](https://github.com/guzzlehttp/guzzle)
+
+- [mews/captcha](https://github.com/mews/captcha)
+
+- [zanysoft/laravel-zip](https://github.com/zanysoft/laravel-zip)
+
+- ......
 
 ## 许可证
 
-本项目遵循开源协议 [MIT license](https://opensource.org/licenses/MIT).
+完全开源免费，请保留项目开源版权说明。本项目遵循开源协议 [MIT license](https://opensource.org/licenses/MIT).
