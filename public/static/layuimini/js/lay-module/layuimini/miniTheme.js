@@ -430,8 +430,9 @@ layui.define(["jquery", "layer"], function (exports) {
                     '<ul>\n' + bgColorHtml + '</ul>\n' +
                     '</div>\n' +
                     '<div class="more-menu-list">\n' +
-                    '<a class="more-menu-item" href="https://www.jianbaizhan.com/system/doc" target="_blank"><i class="layui-icon layui-icon-read" style="font-size: 19px;"></i> 开发文档</a>\n' +
-                    '<a class="more-menu-item" href="https://www.jianbaizhan.com/system" target="_blank"><i class="layui-icon layui-icon-theme"></i> 官方网站</a>\n' +
+                    '<a class="more-menu-item" href="https://www.jianbaizhan.com/cmf/doc" target="_blank"><i class="layui-icon layui-icon-read" style="font-size: 19px;"></i> 开发文档</a>\n' +
+                    '<a class="more-menu-item" href="https://www.jianbaizhan.com/cmf" target="_blank"><i class="layui-icon layui-icon-theme"></i> 官方网站</a>\n' +
+                    '<a class="more-menu-item" href="https://gitee.com/liaodeiy/laravel-admin-cms" target="_blank"><i class="layui-icon layui-icon-fonts-code"></i> 开源地址</a>\n' +
                     '</div>' +
                     '</div>';
                 layer.open({

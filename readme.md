@@ -63,7 +63,8 @@ php artisan serve
 
 
 ### 开发文档
-[https://www.jianbaizhan.com/cms](https://www.jianbaizhan.com/cms)
+
+- [https://www.jianbaizhan.com/cmf/docs](https://www.jianbaizhan.com/cmf/docs)
 
 
 
@@ -101,7 +102,7 @@ php artisan serve
 
 ## 其他
 
-`gui-giggle` 基于以下插件或服务（排名不分先后，罗列部分，[更多查看](https://www.jianbaizhan.com/cms)）：
+`gui-giggle` 基于以下插件或服务（排名不分先后，罗列部分，[更多查看](https://www.jianbaizhan.com/cmf)）：
 
 - [Laravel](https://laravel.com/)
 
@@ -121,4 +122,4 @@ php artisan serve
 
 ## 许可证
 
-完全开源免费，请保留项目开源版权说明。本项目遵循开源协议 [MIT license](https://opensource.org/licenses/MIT).
+完全开源免费，建议保留项目开源版权说明。本项目遵循开源协议 [MIT license](https://opensource.org/licenses/MIT).
