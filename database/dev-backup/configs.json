@@ -1,0 +1,98 @@
+[
+    {
+        "id": 1,
+        "group_id": 1,
+        "name": "site_title",
+        "title": "网站标题",
+        "type": 1,
+        "content": "某某公司网站",
+        "param_json": "",
+        "description": "",
+        "created_at": "2021-04-14 09:45:19",
+        "updated_at": "2021-04-14 09:45:19"
+    },
+    {
+        "id": 2,
+        "group_id": 1,
+        "name": "company_name",
+        "title": "公司名称",
+        "type": 1,
+        "content": "中山市某某有限公司",
+        "param_json": "",
+        "description": "",
+        "created_at": "2021-04-14 09:45:19",
+        "updated_at": "2021-04-14 09:45:19"
+    },
+    {
+        "id": 3,
+        "group_id": 1,
+        "name": "icp",
+        "title": "备案信息",
+        "type": 1,
+        "content": "",
+        "param_json": "",
+        "description": "",
+        "created_at": "2021-04-14 09:45:19",
+        "updated_at": "2021-04-14 09:45:19"
+    },
+    {
+        "id": 4,
+        "group_id": 2,
+        "name": "contact_name",
+        "title": "联系人名称",
+        "type": 1,
+        "content": "张三",
+        "param_json": "",
+        "description": "",
+        "created_at": "2021-04-14 09:45:19",
+        "updated_at": "2021-04-14 09:45:19"
+    },
+    {
+        "id": 5,
+        "group_id": 2,
+        "name": "telephone",
+        "title": "联系号码",
+        "type": 1,
+        "content": "020-00001111",
+        "param_json": "",
+        "description": "",
+        "created_at": "2021-04-14 09:45:20",
+        "updated_at": "2021-04-14 09:45:20"
+    },
+    {
+        "id": 6,
+        "group_id": 2,
+        "name": "email",
+        "title": "联系邮箱",
+        "type": 1,
+        "content": "exk@text.com",
+        "param_json": "",
+        "description": "",
+        "created_at": "2021-04-14 09:45:20",
+        "updated_at": "2021-04-14 09:45:20"
+    },
+    {
+        "id": 7,
+        "group_id": 2,
+        "name": "fax",
+        "title": "公司传真",
+        "type": 1,
+        "content": "020-00001111",
+        "param_json": "",
+        "description": "",
+        "created_at": "2021-04-14 09:45:20",
+        "updated_at": "2021-04-14 09:46:36"
+    },
+    {
+        "id": 8,
+        "group_id": 2,
+        "name": "address",
+        "title": "公司地址",
+        "type": 1,
+        "content": "中山市某某街道某某路某号",
+        "param_json": "",
+        "description": "",
+        "created_at": "2021-04-14 09:45:20",
+        "updated_at": "2021-04-14 09:45:20"
+    }
+]
