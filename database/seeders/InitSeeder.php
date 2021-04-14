@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Config;
-use App\Models\ConfigGroup;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -17,6 +16,10 @@ class InitSeeder extends Seeder
      */
     public function run ()
     {
+        $count = User::count ();
+        if ($count > 0) {
+            dd ('数据已经初始化过，无法操作');
+        }
         //恢复基础表内容
         $tables = [
             'users',
@@ -42,19 +45,5 @@ class InitSeeder extends Seeder
                 DB::table ($table)->updateOrInsert ($item);
             }
         }
-
-        //配置内容
-        $groupId = ConfigGroup::insertGroup ('base_info', '基本信息');
-        Config::setConfig ($groupId, 'site_title', '网站标题', Config::STR_TYPE, '某某公司网站');
-        Config::setConfig ($groupId, 'company_name', '公司名称', Config::STR_TYPE, '中山市某某有限公司');
-        Config::setConfig ($groupId, 'icp', '备案信息', Config::STR_TYPE, '');
-        $groupId = ConfigGroup::insertGroup ('contact_info', '联系人信息');
-        Config::setConfig ($groupId, 'contact_name', '联系人名称', Config::STR_TYPE, '张三');
-        Config::setConfig ($groupId, 'telephone', '联系号码', Config::STR_TYPE, '020-00001111');
-        Config::setConfig ($groupId, 'email', '联系邮箱', Config::STR_TYPE, 'exk@text.com');
-        Config::setConfig ($groupId, 'fax', '公司传真', Config::STR_TYPE, '020-00001111');
-        Config::setConfig ($groupId, 'qq', 'QQ', Config::STR_TYPE, '00000000');
-        Config::setConfig ($groupId, 'weixin', '微信', Config::STR_TYPE, '00000001');
-        Config::setConfig ($groupId, 'address', '公司地址', Config::STR_TYPE, '中山市某某街道某某路某号');
     }
 }

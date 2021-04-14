@@ -217,9 +217,9 @@ function format_size ($size)
  */
 function get_config_value ($key, $default = '')
 {
-    $config = \App\Models\Config::getConfig ();
+    $value = \App\Models\Config::getValue ($key, $default);
 
-    return object_get ($config, $key, $default);
+    return $value;
 }
 
 /**
