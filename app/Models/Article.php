@@ -12,10 +12,12 @@
 */
 namespace App\Models;
 
+use App\Traits\DateTimeFormat;
 use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
+    use DateTimeFormat;
     protected $fillable = ['category_id','user_id','username','title','is_relevant','subhead','smalltitle','keyword','copy_from','from_link','link_url','description','content','tags','template','attach','attach_image','attach_thumb','istop','status','recommend','display_order','view_count','created_at','updated_at'];
     protected $dates = ['created_at'];
     public function statusItem ($ind = 'all', $html = false)

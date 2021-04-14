@@ -10,21 +10,18 @@
 | Author: 廖春贵 < liaodeity@gmail.com >
 |-----------------------------------------------------------------------------------------------------------
 */
+namespace App\Traits;
 
-namespace App\Models\User;
 
-
-use App\Models\User;
-use App\Traits\DateTimeFormat;
-use Illuminate\Database\Eloquent\Model;
-
-class UserAdmin extends Model
+trait DateTimeFormat
 {
-    use DateTimeFormat;
-    protected $fillable = ['user_id', 'login_count', 'last_login_at', 'status'];
-
-    public function user ()
+    /**
+     * Prepare a date for array / JSON serialization.
+     *
+     * @return string
+     */
+    protected function serializeDate (\DateTimeInterface $date)
     {
-        return $this->belongsTo (User::class);
+        return $date->format ('Y-m-d H:i:s');
     }
 }

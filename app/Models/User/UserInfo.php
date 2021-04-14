@@ -14,6 +14,7 @@
 namespace App\Models\User;
 
 
+use App\Traits\DateTimeFormat;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -22,5 +23,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class UserInfo extends Model
 {
+    use DateTimeFormat;
     protected $fillable = ['user_id', 'real_name', 'gender', 'telephone', 'address'];
 }

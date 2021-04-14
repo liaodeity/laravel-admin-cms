@@ -10,19 +10,18 @@
 | Author: 廖春贵 < liaodeity@gmail.com >
 |-----------------------------------------------------------------------------------------------------------
 */
-
-namespace App\Models\User;
+namespace App\Traits;
 
 
 use App\Models\User;
-use App\Traits\DateTimeFormat;
-use Illuminate\Database\Eloquent\Model;
 
-class UserAdmin extends Model
+trait BelongsToUser
 {
-    use DateTimeFormat;
-    protected $fillable = ['user_id', 'login_count', 'last_login_at', 'status'];
-
+    /**.
+     *  add by gui
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return mixed
+     */
     public function user ()
     {
         return $this->belongsTo (User::class);

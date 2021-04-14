@@ -11,20 +11,22 @@
 |-----------------------------------------------------------------------------------------------------------
 */
 
-namespace App\Models\User;
+namespace App\Repositories;
 
 
-use App\Models\User;
-use App\Traits\DateTimeFormat;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Permission;
 
-class UserAdmin extends Model
+class PermissionRepository extends BaseRepository implements InterfaceRepository
 {
-    use DateTimeFormat;
-    protected $fillable = ['user_id', 'login_count', 'last_login_at', 'status'];
 
-    public function user ()
+    public function model ()
     {
-        return $this->belongsTo (User::class);
+        return Permission::class;
     }
+
+    public function allowDelete ($id)
+    {
+        return true;
+    }
+
 }

@@ -12,11 +12,12 @@
 */
 namespace App\Models;
 
+use App\Traits\DateTimeFormat;
 use Illuminate\Database\Eloquent\Model;
 
 class Attachment extends Model
 {
-
+    use DateTimeFormat;
     protected $fillable = ['company_id', 'user_id', 'name', 'path', 'file_md5', 'file_sha1', 'status', 'created_at', 'updated_at'];
 
     /**
