@@ -10,6 +10,7 @@
 | Author: 廖春贵 < liaodeity@gmail.com >
 |-----------------------------------------------------------------------------------------------------------
 */
+
 use Illuminate\Support\Carbon;
 
 
@@ -161,11 +162,25 @@ function check_admin_auth ($auth)
     if (!$auth) {
         return true;
     }
-    $auth = str_replace ('_', ' ', $auth);
+    $auth = str_replace (' ', '_', $auth);
     if ($auth) {
         $permission = \Spatie\Permission\Models\Permission::findOrCreate ($auth);
-        if(!$permission->menu_id){
-
+        if (!$permission->menu_id) {
+            $arr = explode ('_', $auth);
+            if (count ($arr) >= 2) {
+                $opt      = array_last ($arr);
+                $lang_key = 'auth.operate.' . $opt;
+                $title    = __ ($lang_key);
+                if ($title == $lang_key) {
+                    $title = $opt;
+                }
+                unset($arr[ count ($arr) - 1 ]);
+                $auth_name           = implode ('_', $arr);
+                $menuId              = \App\Models\Menu::where ('auth_name', $auth_name)->value ('id');
+                $permission->menu_id = (int)$menuId;
+                $permission->title   = $title;
+                $permission->save ();
+            }
         }
     }
 

@@ -45,7 +45,7 @@ class MainController extends Controller
         $shortcutList = Menu::where ('status', 1)->where ('is_shortcut', 1)->orderBy ('sort', 'ASC')->get ();
         foreach ($shortcutList as $key => $menu) {
             //屏蔽无权限菜单
-            if (!check_admin_auth ($menu['auth_name'])) {
+            if ($menu['auth_name'] && !check_admin_auth ($menu['auth_name'].'_index')) {
                 unset($shortcutList[ $key ]);
             }
         }
@@ -102,7 +102,7 @@ class MainController extends Controller
                 'href'  => 'admin/main/console'
             ],
             'logoInfo'  => [
-                'title' => get_config_value('site_short_title'),
+                'title' => get_config_value ('site_short_title'),
                 'image' => asset ('static/admin/images/logo.png'),
                 'href'  => ''
             ]
@@ -205,7 +205,7 @@ class MainController extends Controller
                         break;
                     }
                 }
-                if (check_admin_auth ($child['auth'])) {
+                if ($child['auth'] && check_admin_auth ($child['auth'] . '_index')) {
                     $check = true;
                 }
                 if (User::isSuperAdmin ()) {
