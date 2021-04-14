@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Config extends Model
 {
+    //1=字符串、2=数字、3=数组、4=键值对数组、5=JSON
     const STR_TYPE  = 1;
     const NUM_TYPE  = 2;
     const ARR_TYPE  = 3;
