@@ -101,11 +101,11 @@
         "name": "site_short_title",
         "title": "网站后台简称",
         "type": 1,
-        "content": "Laravel Admin CMS",
+        "content": "建百站CMS",
         "param_json": "",
         "description": "",
         "created_at": "2021-04-14 10:50:58",
-        "updated_at": "2021-04-14 10:57:32"
+        "updated_at": "2021-04-14 11:17:21"
     },
     {
         "id": 10,

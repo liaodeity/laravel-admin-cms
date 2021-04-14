@@ -21,7 +21,7 @@ class ConfigSeeder extends Seeder
         }
         $groupId = ConfigGroup::insertGroup ('base_info', '基本信息');
         Config::setConfig ($groupId, 'site_title', '网站标题', Config::STR_TYPE, '某某公司网站');
-        Config::setConfig ($groupId, 'site_short_title', '网站后台简称', Config::STR_TYPE, 'Laravel Admin CMS');
+        Config::setConfig ($groupId, 'site_short_title', '网站后台简称', Config::STR_TYPE, '建百站CMS');
         Config::setConfig ($groupId, 'company_name', '公司名称', Config::STR_TYPE, '中山市某某有限公司');
         Config::setConfig ($groupId, 'icp', '备案信息', Config::STR_TYPE, '');
         $groupId = ConfigGroup::insertGroup ('contact_info', '联系人信息');
