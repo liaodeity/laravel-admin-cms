@@ -15,6 +15,7 @@ class CreateConfigs extends Migration
     {
         Schema::create ('configs', function (Blueprint $table) {
             $table->id ();
+            $table->foreignId ('group_id')->constrained ('config_groups')->cascadeOnDelete ();
             $table->string ('name')->default ('')->comment ('配置名称')->index ()->unique ();
             $table->string ('title')->default ('')->comment ('配置标题');
             $table->tinyInteger ('type')->default (0)->comment ('类型');
