@@ -163,7 +163,10 @@ function check_admin_auth ($auth)
     }
     $auth = str_replace ('_', ' ', $auth);
     if ($auth) {
-        \Spatie\Permission\Models\Permission::findOrCreate ($auth);
+        $permission = \Spatie\Permission\Models\Permission::findOrCreate ($auth);
+        if(!$permission->menu_id){
+
+        }
     }
 
     $user    = \App\Models\User::find ($uid);

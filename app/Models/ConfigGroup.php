@@ -14,10 +14,12 @@
 namespace App\Models;
 
 
+use App\Traits\DateTimeFormat;
 use Illuminate\Database\Eloquent\Model;
 
 class ConfigGroup extends Model
 {
+    use DateTimeFormat;
     protected $fillable = ['name', 'title'];
 
     public static function insertGroup ($name, $title)

@@ -52,6 +52,7 @@ Route::middleware ('admin')->prefix ('admin')->group (function () {
     Route::resource ('user_member', \App\Http\Controllers\Admin\UserMemberController::class);
     Route::resource ('log', LogController::class);
 
+    Route::resource ('permission', \App\Http\Controllers\Admin\PermissionController::class);
     Route::any ('role/auth/list', [RoleController::class, 'listAuth']);
     Route::any ('role/auth/add', [RoleController::class, 'addAuth']);
     Route::any ('role/auth/{id}', [RoleController::class, 'auth']);

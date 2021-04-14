@@ -12,10 +12,12 @@
 */
 namespace App\Models;
 
+use App\Traits\DateTimeFormat;
 use Illuminate\Database\Eloquent\Model;
 
 class Log extends Model
 {
+    use DateTimeFormat;
     //1=登录、2=添加、3=查看、4=删除、5=修改、6=日志、7=异常、8=>待办日志
     const LOGIN_TYPE  = 1;
     const ADD_TYPE    = 2;

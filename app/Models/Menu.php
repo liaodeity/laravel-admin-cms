@@ -12,10 +12,12 @@
 */
 namespace App\Models;
 
+use App\Traits\DateTimeFormat;
 use Illuminate\Database\Eloquent\Model;
 
 class Menu extends Model
 {
+    use DateTimeFormat;
     protected $fillable = ['pid', 'type', 'title', 'auth_name', 'href', 'icon', 'target', 'is_shortcut', 'status', 'created_at', 'updated_at'];
 
     public function moduleItem ($ind = 'all', $html = false)
