@@ -102,8 +102,8 @@ class MainController extends Controller
                 'href'  => 'admin/main/console'
             ],
             'logoInfo'  => [
-                'title' => config ('system.subname'),
-                'image' => asset ('images/logo.png'),
+                'title' => get_config_value('site_short_title'),
+                'image' => asset ('static/admin/images/logo.png'),
                 'href'  => ''
             ]
         ];
