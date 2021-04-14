@@ -68,9 +68,9 @@ class DevBackUp extends Command
             $file = $table . '.json';
 
             $result = DB::table ($table)->get ();
-            if ($result->isEmpty ()) {
-                continue;
-            }
+            //if ($result->isEmpty ()) {
+            //    continue;
+            //}
             $content        = $result->toArray ();
             $data[ $table ] = Storage::disk ('base')->put ($dir . '/' . $file, json_encode ($content, JSON_UNESCAPED_UNICODE + JSON_PRETTY_PRINT));
         }
