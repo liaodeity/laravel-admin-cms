@@ -1,371 +1,164 @@
 [
     {
-        "id": 10,
-        "name": "role",
+        "id": 70,
+        "name": "config_index",
         "guard_name": "web",
-        "menu_id": 52,
+        "menu_id": 36,
         "title": "列表",
-        "created_at": "2021-03-10 15:46:47",
-        "updated_at": "2021-03-10 15:46:47"
+        "created_at": "2021-04-14 15:09:00",
+        "updated_at": "2021-04-14 15:09:00"
     },
     {
-        "id": 11,
-        "name": "role add auth",
-        "guard_name": "web",
-        "menu_id": 52,
-        "title": "添加权限",
-        "created_at": "2021-03-10 15:47:46",
-        "updated_at": "2021-03-10 15:47:46"
-    },
-    {
-        "id": 12,
-        "name": "role auth",
-        "guard_name": "web",
-        "menu_id": 52,
-        "title": "权限",
-        "created_at": "2021-03-10 15:47:59",
-        "updated_at": "2021-03-10 15:47:59"
-    },
-    {
-        "id": 13,
-        "name": "log",
+        "id": 71,
+        "name": "log_index",
         "guard_name": "web",
         "menu_id": 43,
         "title": "列表",
-        "created_at": "2021-03-10 16:21:49",
-        "updated_at": "2021-03-10 16:21:49"
+        "created_at": "2021-04-14 15:09:01",
+        "updated_at": "2021-04-14 15:09:01"
     },
     {
-        "id": 14,
-        "name": "survey",
+        "id": 72,
+        "name": "menu_index",
         "guard_name": "web",
-        "menu_id": 51,
+        "menu_id": 58,
         "title": "列表",
-        "created_at": "2021-03-12 08:51:57",
-        "updated_at": "2021-03-12 08:51:57"
+        "created_at": "2021-04-14 15:09:01",
+        "updated_at": "2021-04-14 15:09:01"
     },
     {
-        "id": 15,
-        "name": "config",
+        "id": 76,
+        "name": "permission_create",
         "guard_name": "web",
-        "menu_id": 36,
-        "title": "列表",
-        "created_at": "2021-03-12 08:52:32",
-        "updated_at": "2021-03-12 08:52:32"
+        "menu_id": 57,
+        "title": "创建",
+        "created_at": "2021-04-14 15:09:02",
+        "updated_at": "2021-04-14 15:09:02"
     },
     {
-        "id": 16,
-        "name": "config edit",
+        "id": 77,
+        "name": "permission_edit",
         "guard_name": "web",
-        "menu_id": 36,
+        "menu_id": 57,
         "title": "修改",
-        "created_at": "2021-03-12 08:53:00",
-        "updated_at": "2021-03-12 08:53:00"
+        "created_at": "2021-04-14 15:09:02",
+        "updated_at": "2021-04-14 15:09:02"
     },
     {
-        "id": 17,
-        "name": "user",
+        "id": 78,
+        "name": "permission_show",
         "guard_name": "web",
-        "menu_id": 42,
+        "menu_id": 57,
+        "title": "查看",
+        "created_at": "2021-04-14 15:09:02",
+        "updated_at": "2021-04-14 15:09:03"
+    },
+    {
+        "id": 79,
+        "name": "permission_index",
+        "guard_name": "web",
+        "menu_id": 57,
         "title": "列表",
-        "created_at": "2021-03-12 08:53:16",
-        "updated_at": "2021-03-12 08:53:16"
+        "created_at": "2021-04-14 15:10:33",
+        "updated_at": "2021-04-14 15:10:33"
     },
     {
-        "id": 18,
-        "name": "user create",
+        "id": 80,
+        "name": "user_member_index",
         "guard_name": "web",
-        "menu_id": 42,
-        "title": "添加",
-        "created_at": "2021-03-12 08:53:53",
-        "updated_at": "2021-03-12 08:53:53"
+        "menu_id": 60,
+        "title": "列表",
+        "created_at": "2021-04-14 15:12:52",
+        "updated_at": "2021-04-14 15:12:52"
     },
     {
-        "id": 19,
-        "name": "user edit",
+        "id": 81,
+        "name": "user_member_create",
         "guard_name": "web",
-        "menu_id": 42,
+        "menu_id": 60,
+        "title": "创建",
+        "created_at": "2021-04-14 15:12:52",
+        "updated_at": "2021-04-14 15:12:52"
+    },
+    {
+        "id": 82,
+        "name": "user_member_edit",
+        "guard_name": "web",
+        "menu_id": 60,
         "title": "修改",
-        "created_at": "2021-03-12 08:54:30",
-        "updated_at": "2021-03-12 08:54:30"
+        "created_at": "2021-04-14 15:12:52",
+        "updated_at": "2021-04-14 15:12:52"
     },
     {
-        "id": 20,
-        "name": "log show",
+        "id": 83,
+        "name": "user_member_show",
+        "guard_name": "web",
+        "menu_id": 60,
+        "title": "查看",
+        "created_at": "2021-04-14 15:12:52",
+        "updated_at": "2021-04-14 15:12:52"
+    },
+    {
+        "id": 84,
+        "name": "user_admin_index",
+        "guard_name": "web",
+        "menu_id": 59,
+        "title": "列表",
+        "created_at": "2021-04-14 15:12:54",
+        "updated_at": "2021-04-14 15:12:55"
+    },
+    {
+        "id": 85,
+        "name": "user_admin_create",
+        "guard_name": "web",
+        "menu_id": 59,
+        "title": "创建",
+        "created_at": "2021-04-14 15:12:55",
+        "updated_at": "2021-04-14 15:12:55"
+    },
+    {
+        "id": 86,
+        "name": "user_admin_edit",
+        "guard_name": "web",
+        "menu_id": 59,
+        "title": "修改",
+        "created_at": "2021-04-14 15:12:55",
+        "updated_at": "2021-04-14 15:12:55"
+    },
+    {
+        "id": 87,
+        "name": "log_show",
         "guard_name": "web",
         "menu_id": 43,
         "title": "查看",
-        "created_at": "2021-03-12 08:55:44",
-        "updated_at": "2021-03-12 08:55:44"
+        "created_at": "2021-04-14 15:12:57",
+        "updated_at": "2021-04-14 15:12:57"
     },
     {
-        "id": 21,
-        "name": "survey create",
+        "id": 88,
+        "name": "role_index",
         "guard_name": "web",
-        "menu_id": 51,
-        "title": "添加",
-        "created_at": "2021-03-12 08:57:23",
-        "updated_at": "2021-03-12 08:57:23"
-    },
-    {
-        "id": 22,
-        "name": "survey delete",
-        "guard_name": "web",
-        "menu_id": 51,
-        "title": "删除",
-        "created_at": "2021-03-12 08:57:41",
-        "updated_at": "2021-03-12 08:57:41"
-    },
-    {
-        "id": 23,
-        "name": "survey edit",
-        "guard_name": "web",
-        "menu_id": 51,
-        "title": "修改",
-        "created_at": "2021-03-12 08:58:04",
-        "updated_at": "2021-03-12 08:58:04"
-    },
-    {
-        "id": 24,
-        "name": "survey preview",
-        "guard_name": "web",
-        "menu_id": 51,
-        "title": "预览",
-        "created_at": "2021-03-12 08:58:19",
-        "updated_at": "2021-03-12 08:58:19"
-    },
-    {
-        "id": 25,
-        "name": "survey item",
-        "guard_name": "web",
-        "menu_id": 53,
+        "menu_id": 52,
         "title": "列表",
-        "created_at": "2021-03-12 09:01:35",
-        "updated_at": "2021-03-12 09:01:35"
+        "created_at": "2021-04-14 15:15:09",
+        "updated_at": "2021-04-14 15:15:09"
     },
     {
-        "id": 26,
-        "name": "survey item create",
-        "guard_name": "web",
-        "menu_id": 53,
-        "title": "添加",
-        "created_at": "2021-03-12 09:01:58",
-        "updated_at": "2021-03-12 09:01:58"
-    },
-    {
-        "id": 27,
-        "name": "survey item edit",
-        "guard_name": "web",
-        "menu_id": 53,
-        "title": "修改",
-        "created_at": "2021-03-12 09:02:08",
-        "updated_at": "2021-03-12 09:02:08"
-    },
-    {
-        "id": 28,
-        "name": "survey item delete",
-        "guard_name": "web",
-        "menu_id": 53,
-        "title": "删除",
-        "created_at": "2021-03-12 09:02:19",
-        "updated_at": "2021-03-12 09:02:19"
-    },
-    {
-        "id": 29,
-        "name": "task",
-        "guard_name": "web",
-        "menu_id": 49,
-        "title": "列表",
-        "created_at": "2021-03-12 09:02:40",
-        "updated_at": "2021-03-12 09:02:40"
-    },
-    {
-        "id": 30,
-        "name": "task create",
-        "guard_name": "web",
-        "menu_id": 49,
-        "title": "添加",
-        "created_at": "2021-03-12 09:03:02",
-        "updated_at": "2021-03-12 09:03:02"
-    },
-    {
-        "id": 31,
-        "name": "task edit",
-        "guard_name": "web",
-        "menu_id": 49,
-        "title": "修改",
-        "created_at": "2021-03-12 09:03:12",
-        "updated_at": "2021-03-12 09:03:12"
-    },
-    {
-        "id": 32,
-        "name": "task delete",
-        "guard_name": "web",
-        "menu_id": 49,
-        "title": "删除",
-        "created_at": "2021-03-12 09:03:23",
-        "updated_at": "2021-03-12 09:03:23"
-    },
-    {
-        "id": 33,
-        "name": "recall",
-        "guard_name": "web",
-        "menu_id": 50,
-        "title": "列表",
-        "created_at": "2021-03-12 09:08:55",
-        "updated_at": "2021-03-12 09:08:55"
-    },
-    {
-        "id": 34,
-        "name": "recall call",
-        "guard_name": "web",
-        "menu_id": 50,
-        "title": "回访",
-        "created_at": "2021-03-12 09:09:08",
-        "updated_at": "2021-03-12 09:09:08"
-    },
-    {
-        "id": 35,
-        "name": "task assign",
-        "guard_name": "web",
-        "menu_id": 49,
-        "title": "分配",
-        "created_at": "2021-03-12 10:07:00",
-        "updated_at": "2021-03-12 10:07:00"
-    },
-    {
-        "id": 36,
-        "name": "task import",
-        "guard_name": "web",
-        "menu_id": 49,
-        "title": "导入",
-        "created_at": "2021-03-12 10:08:37",
-        "updated_at": "2021-03-12 10:08:37"
-    },
-    {
-        "id": 37,
-        "name": "recall delete",
-        "guard_name": "web",
-        "menu_id": 50,
-        "title": "删除",
-        "created_at": "2021-03-12 17:36:10",
-        "updated_at": "2021-03-12 17:36:10"
-    },
-    {
-        "id": 38,
-        "name": "service record",
-        "guard_name": "web",
-        "menu_id": 56,
-        "title": "列表",
-        "created_at": "2021-03-16 14:32:14",
-        "updated_at": "2021-03-16 14:32:14"
-    },
-    {
-        "id": 39,
-        "name": "task call count",
-        "guard_name": "web",
-        "menu_id": 49,
-        "title": "回访统计",
-        "created_at": "2021-03-17 09:53:30",
-        "updated_at": "2021-03-17 09:53:30"
-    },
-    {
-        "id": 40,
-        "name": "task analysis",
-        "guard_name": "web",
-        "menu_id": 49,
-        "title": "分析",
-        "created_at": "2021-03-17 10:47:56",
-        "updated_at": "2021-03-17 10:47:56"
-    },
-    {
-        "id": 41,
-        "name": "task export",
-        "guard_name": "web",
-        "menu_id": 49,
-        "title": "导出",
-        "created_at": "2021-03-17 13:35:30",
-        "updated_at": "2021-03-17 13:35:30"
-    },
-    {
-        "id": 42,
-        "name": "permission",
+        "id": 89,
+        "name": "role_add_auth",
         "guard_name": "web",
         "menu_id": 0,
-        "title": "",
-        "created_at": "2021-03-19 11:02:22",
-        "updated_at": "2021-03-19 11:02:22"
+        "title": "auth",
+        "created_at": "2021-04-14 15:15:09",
+        "updated_at": "2021-04-14 15:15:09"
     },
     {
-        "id": 43,
-        "name": "menu",
+        "id": 90,
+        "name": "role_auth",
         "guard_name": "web",
-        "menu_id": 0,
-        "title": "",
-        "created_at": "2021-03-19 11:09:45",
-        "updated_at": "2021-03-19 11:09:45"
-    },
-    {
-        "id": 44,
-        "name": "console",
-        "guard_name": "web",
-        "menu_id": 0,
-        "title": "",
-        "created_at": "2021-03-19 11:11:30",
-        "updated_at": "2021-03-19 11:11:30"
-    },
-    {
-        "id": 47,
-        "name": "user admin",
-        "guard_name": "web",
-        "menu_id": 0,
-        "title": "",
-        "created_at": "2021-03-23 10:47:11",
-        "updated_at": "2021-03-23 10:47:11"
-    },
-    {
-        "id": 48,
-        "name": "user admin create",
-        "guard_name": "web",
-        "menu_id": 0,
-        "title": "",
-        "created_at": "2021-03-23 10:47:11",
-        "updated_at": "2021-03-23 10:47:11"
-    },
-    {
-        "id": 49,
-        "name": "user admin edit",
-        "guard_name": "web",
-        "menu_id": 0,
-        "title": "",
-        "created_at": "2021-03-23 10:47:11",
-        "updated_at": "2021-03-23 10:47:11"
-    },
-    {
-        "id": 50,
-        "name": "user member",
-        "guard_name": "web",
-        "menu_id": 0,
-        "title": "",
-        "created_at": "2021-03-31 12:00:55",
-        "updated_at": "2021-03-31 12:00:55"
-    },
-    {
-        "id": 51,
-        "name": "user member create",
-        "guard_name": "web",
-        "menu_id": 0,
-        "title": "",
-        "created_at": "2021-03-31 12:01:15",
-        "updated_at": "2021-03-31 12:01:15"
-    },
-    {
-        "id": 52,
-        "name": "user member edit",
-        "guard_name": "web",
-        "menu_id": 0,
-        "title": "",
-        "created_at": "2021-03-31 12:01:15",
-        "updated_at": "2021-03-31 12:01:15"
+        "menu_id": 52,
+        "title": "auth",
+        "created_at": "2021-04-14 15:15:09",
+        "updated_at": "2021-04-14 15:15:09"
     }
 ]

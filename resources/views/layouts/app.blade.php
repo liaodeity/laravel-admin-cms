@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>{{config('system.sys_name')}}</title>
+    <title>{{get_config_value ('site_title')}}</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta http-equiv="Access-Control-Allow-Origin" content="*">

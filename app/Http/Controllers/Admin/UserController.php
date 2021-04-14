@@ -45,7 +45,7 @@ class UserController extends Controller
      */
     public function index (Request $request)
     {
-        if (!check_admin_auth ($this->module_name)) {
+        if (!check_admin_auth ($this->module_name.'_'.__FUNCTION__)) {
             return auth_error_return ();
         }
         if (request ()->ajax ()) {

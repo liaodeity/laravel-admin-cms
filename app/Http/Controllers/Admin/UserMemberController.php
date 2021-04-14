@@ -10,6 +10,7 @@
 | Author: 廖春贵 < liaodeity@gmail.com >
 |-----------------------------------------------------------------------------------------------------------
 */
+
 namespace App\Http\Controllers\Admin;
 
 use App\Exceptions\BusinessException;
@@ -47,7 +48,7 @@ class UserMemberController extends Controller
      */
     public function index (Request $request)
     {
-        if (!check_admin_auth ($this->module_name)) {
+        if (!check_admin_auth ($this->module_name . '_' . __FUNCTION__)) {
             return auth_error_return ();
         }
         if (request ()->ajax ()) {
@@ -189,7 +190,7 @@ class UserMemberController extends Controller
         if (!check_admin_auth ($this->module_name . '_edit')) {
             return auth_error_return ();
         }
-        $user    = $userMember->user;
+        $user = $userMember->user;
 
         return view ('admin.' . $this->module_name . '.show', compact ('user'));
     }

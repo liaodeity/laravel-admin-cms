@@ -212,7 +212,7 @@
         "pid": 42,
         "type": 1,
         "cate_module": "",
-        "auth_name": "user admin",
+        "auth_name": "user_admin",
         "title": "管理员账号",
         "href": "admin\/user_admin",
         "icon": "",
