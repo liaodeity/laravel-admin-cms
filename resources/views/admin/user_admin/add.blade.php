@@ -43,14 +43,13 @@
 
 @section('footer')
     <script>
-        layui.use(['form', 'layedit', 'laydate', 'layarea', 'table', 'tableSelect'], function () {
+        layui.use([ 'form', 'layedit', 'laydate', 'layarea', 'table', 'tableSelect'], function () {
             var form = layui.form
                 , layer = layui.layer
                 , layedit = layui.layedit
                 , laydate = layui.laydate,
                 layarea = layui.layarea;
             table = layui.layarea;
-
             //日期
             laydate.render({
                 elem: '#date',
@@ -80,7 +79,7 @@
                     return response;
                 }, function (error) {
                     // 对响应错误做点什么
-                    layer.msg(error.response.data.message ?? AJAX_ERROR_TIP, {
+                    layer.msg(error.response.data.message, {
                         icon: 2,
                         time: FAIL_TIME,
                         shade: 0.3
