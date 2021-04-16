@@ -338,7 +338,7 @@ class MainController extends Controller
                     break;
                 case JoinUs::class:
                     $url   = '/admin/join_us?id=' . $id;
-                    $title = '申请加入颐老记录';
+                    $title = '申请加入记录';
                     break;
             }
             $name                    = User::showName ($item->user_id);

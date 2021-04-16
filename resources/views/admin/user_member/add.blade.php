@@ -72,7 +72,7 @@
                     return response;
                 }, function (error) {
                     // 对响应错误做点什么
-                    layer.msg(error.response.data.message ?? AJAX_ERROR_TIP, {
+                    layer.msg(error.response.data.message, {
                         icon: 2,
                         time: FAIL_TIME,
                         shade: 0.3
