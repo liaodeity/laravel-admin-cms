@@ -10,11 +10,13 @@
 | Author: 廖春贵 < liaodeity@gmail.com >
 |-----------------------------------------------------------------------------------------------------------
 */
+
 namespace App\Http\Controllers\Admin;
 
 use App\Exceptions\BusinessException;
 use App\Http\Controllers\Controller;
 use App\Models\Config;
+use App\Models\ConfigGroup;
 use App\Models\Log;
 use App\Repositories\ConfigRepository;
 use App\Validators\ConfigValidator;
@@ -86,8 +88,9 @@ class ConfigController extends Controller
     public function edit (Config $config)
     {
         if (!check_admin_auth ($this->module_name)) {
-            return auth_error_return();
+            return auth_error_return ();
         }
+
         return view ('admin.' . $this->module_name . '.add', compact ('config'));
     }
 
@@ -100,8 +103,8 @@ class ConfigController extends Controller
      */
     public function update (Request $request, Config $config)
     {
-        if (!check_admin_auth ($this->module_name.' edit')) {
-            return auth_error_return();
+        if (!check_admin_auth ($this->module_name . ' edit')) {
+            return auth_error_return ();
         }
         $input = $request->input ('Config');
         $input = $this->formatRequestInput (__FUNCTION__, $input);
@@ -110,6 +113,7 @@ class ConfigController extends Controller
             $ret = $this->repository->update ($input, $config->id);
             if ($ret) {
                 Log::createLog (Log::EDIT_TYPE, '修改配置信息记录', $config->toArray (), $ret->id, Config::class);
+
                 return ajax_success_result ('修改成功');
             } else {
                 return ajax_success_result ('修改失败');
@@ -118,17 +122,6 @@ class ConfigController extends Controller
         } catch (BusinessException $e) {
             return ajax_error_result ($e->getMessage ());
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Models\Config $config
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy (Config $config)
-    {
-        //
     }
 
     private function formatRequestInput (string $__FUNCTION__, $input)
@@ -143,8 +136,22 @@ class ConfigController extends Controller
         return $input;
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param \App\Models\Config $config
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy (Config $config)
+    {
+        //
+    }
+
     public function setting ()
     {
-        return view('admin.config.setting ');
+        $groupId = ConfigGroup::where ('name', 'base_info')->value ('id');
+        $configs = Config::where ('group_id', $groupId)->get ();
+
+        return view ('admin.config.setting', compact ('configs'));
     }
 }

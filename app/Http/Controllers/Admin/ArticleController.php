@@ -12,6 +12,7 @@
 */
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\SexEnum;
 use App\Exceptions\BusinessException;
 use App\Http\Controllers\Controller;
 use App\Libs\QueryWhere;
@@ -34,6 +35,7 @@ class ArticleController extends Controller
 
     public function __construct (ArticleRepository $repository)
     {
+        SexEnum::attrs ();
         View::share ('MODULE_NAME', $this->module_name);//模块名称
         $this->repository = $repository;
     }

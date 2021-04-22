@@ -19,12 +19,13 @@ use Illuminate\Database\Eloquent\Model;
 class Config extends Model
 {
     use DateTimeFormat;
-    //1=字符串、2=数字、3=数组、4=键值对数组、5=JSON
+    //1=字符串、2=数字、3=数组、4=键值对数组、5=JSON、6=文本框
     const STR_TYPE  = 1;
     const NUM_TYPE  = 2;
     const ARR_TYPE  = 3;
     const ITEM_TYPE = 4;
     const JSON_TYPE = 5;
+    const TEXT_TYPE = 6;
     protected $fillable = ['name', 'title', 'group_id', 'type', 'content', 'param_json', 'description'];
 
     public static function getValue ($name, $default = null)
@@ -79,5 +80,29 @@ class Config extends Model
         ]);
 
         return $config;
+    }
+
+    public function getParamItem (Config $config)
+    {
+        $json = $config->param_json ?? '';
+        switch ($config->type) {
+            case self::ARR_TYPE;
+                if ($json) {
+                    return json_decode ($json);
+                } else {
+                    return [];
+                }
+                break;
+            case self::ITEM_TYPE:
+                if ($json) {
+                    return json_decode ($json);
+                } else {
+                    return [];
+                }
+                break;
+            default:
+                return $json;
+                break;
+        }
     }
 }
