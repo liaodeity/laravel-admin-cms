@@ -56,7 +56,7 @@ class PermissionController extends Controller
             $M = $this->repository->makeModel ()->select ('permissions.*');
             QueryWhere::eq ($M, 'permissions.status');
             QueryWhere::like ($M, 'permissions.name');
-            QueryWhere::like ($M, 'Permission_infos.real_name');
+            QueryWhere::like ($M, 'permissions.title');
             QueryWhere::orderBy ($M);
 
             $M     = $M->paginate ($limit);
@@ -86,16 +86,24 @@ class PermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create ()
+    public function create (Request $request)
     {
+        //if (!check_admin_auth ($this->module_name . '_create')) {
+        //    return auth_error_return ();
+        //}
+        //$permission = new Permission;
+        //$_method    = 'POST';
+        //$roleAll    = Role::all ();
+        //
+        //return view ('admin.' . $this->module_name . '.add', compact ('Permission', '_method', 'roleAll'));
         if (!check_admin_auth ($this->module_name . '_create')) {
             return auth_error_return ();
         }
-        $permission = new Permission;
-        $_method    = 'POST';
-        $roleAll    = Role::all ();
+        $_method = 'POST';
+        $menus   = Menu::where ('auth_name', '<>', '')->orderBy ('sort', 'asc')->get ();
+        $auth    = new Permission();
 
-        return view ('admin.' . $this->module_name . '.add', compact ('Permission', '_method', 'roleAll'));
+        return view ('admin.' . $this->module_name . '.add', compact ('auth', 'menus', '_method'));
     }
 
     /**
@@ -107,52 +115,32 @@ class PermissionController extends Controller
     public function store (Request $request)
     {
         $request->validate ([
-            'Permission.name'     => 'required',
-            'Permission.password' => 'required',
-            'Permission.status'   => 'required'
+            'Permission.title' => 'required',
+            'Permission.name'  => 'required',
         ], [], [
-            'Permission.name'     => '登录账号',
-            'Permission.password' => '登录密码',
-            'Permission.status'   => '状态'
+            'Permission.title' => '权限名称',
+            'Permission.name'  => '权限标识',
         ]);
 
         if (!check_admin_auth ($this->module_name . '_create')) {
             return auth_error_return ();
         }
-
-
         $input = $request->input ('Permission');
-        $input = $this->formatRequestInput (__FUNCTION__, $input);
         try {
-            DB::beginTransaction ();
-            if (!Permission::isSuperAdmin ()) {
-                throw new BusinessException('非超级管理员，无法操作');
-            }
-            $input['password'] = Hash::make ($input['password']);
-            $permission        = $this->repository->create ($input);
+            $name       = trim ($input['name']);
+            $name       = strtolower ($name);
+            $name       = str_replace (' ', '_', $name);
+            $permission = Permission::where ('name', $name)->first ();
             if ($permission) {
-                $this->repository->saveInfo ($permission, $request);
-                $this->repository->saveAdmin ($permission, $request);
-                $roleAll = Role::all ();
-                $roles   = $request->role ?? [];
-                foreach ($roleAll as $role) {
-                    if (in_array ($role->name, $roles)) {
-                        if (!$permission->hasRole ($role->name)) {
-                            $permission->assignRole ($role->name);
-                        }
-                    } else {
-                        $permission->removeRole ($role->name);
-                    }
-                }
+                return ajax_error_result ('权限标识[' . $name . ']已经存在，无需重复添加');
+            }
+            $permission = Permission::create (['guard_name' => 'web', 'name' => $name, 'title' => $input['title'], 'menu_id' => (int)$input['menu_id']]);
 
-                Log::createLog (Log::ADD_TYPE, '添加用户账号', '', $permission->id, Permission::class);
-                DB::commit ();
-
+            if ($permission) {
                 return ajax_success_result ('添加成功');
             } else {
-                return ajax_success_result ('添加失败');
+                return ajax_error_result ('添加失败');
             }
-
         } catch (BusinessException $e) {
             return ajax_error_result ($e->getMessage ());
         }
@@ -192,10 +180,9 @@ class PermissionController extends Controller
         if (!check_admin_auth ($this->module_name . ' edit')) {
             return auth_error_return ();
         }
-        $_method    = 'PUT';
-        $roleAll    = Role::all ();
-        $permission = $permission->Permission;
-        $menus      = Menu::orderBy ('sort', 'asc')->get ();
+        $_method = 'PUT';
+        $roleAll = Role::all ();
+        $menus   = Menu::orderBy ('sort', 'asc')->get ();
 
         return view ('admin.' . $this->module_name . '.add', compact ('menus', 'permission', '_method', 'roleAll'));
     }
@@ -210,57 +197,32 @@ class PermissionController extends Controller
     public function update (Request $request, Permission $permission)
     {
         $request->validate ([
-            'Permission.name'   => 'required',
-            'Permission.status' => 'required'
+            'Permission.title' => 'required',
+            'Permission.name'  => 'required',
         ], [], [
-            'Permission.name'     => '登录账号',
-            'Permission.password' => '登录密码',
-            'Permission.status'   => '状态'
+            'Permission.title' => '权限名称',
+            'Permission.name'  => '权限标识',
         ]);
-        if (!check_admin_auth ($this->module_name . ' edit')) {
+
+        if (!check_admin_auth ($this->module_name . '_create')) {
             return auth_error_return ();
         }
         $input = $request->input ('Permission');
-        $input = $this->formatRequestInput (__FUNCTION__, $input);
         try {
-            DB::beginTransaction ();
-            $permission = $permission->Permission;
-            $isSuper    = $permission->hasRole ('super');
-            if ($isSuper && $permission->id != get_login_Permission_id ()) {
-                throw new BusinessException('无法修改超级管理员信息，需管理员自行修改');
+            $name       = trim ($input['name']);
+            $name       = strtolower ($name);
+            $name       = str_replace (' ', '_', $name);
+            $check = Permission::where ('name', $name)->where ('id', '<>', $permission->id)->first ();
+            if ($check) {
+                return ajax_error_result ('权限标识[' . $name . ']已经存在，无需重复添加');
             }
-
-            if (array_get ($input, 'password')) {
-                $input['password'] = Hash::make ($input['password']);
-            } else {
-                unset($input['password']);
-            }
-            $permission = $this->repository->update ($input, $permission->id);
+            $permission->fill(['guard_name' => 'web', 'name' => $name, 'title' => $input['title'], 'menu_id' => (int)$input['menu_id']]);
+            $permission->save();
             if ($permission) {
-                $this->repository->saveInfo ($permission, $request);
-                $this->repository->saveAdmin ($permission, $request);
-                $roleAll = Role::all ();
-                $roles   = $request->role ?? [];
-                foreach ($roleAll as $role) {
-                    if (in_array ($role->name, $roles)) {
-                        if (!$permission->hasRole ($role->name)) {
-                            $permission->assignRole ($role->name);
-                        }
-                    } else {
-                        $permission->removeRole ($role->name);
-                    }
-                }
-                Log::createLog (Log::EDIT_TYPE, '修改用户账号', $permission->toArray (), $permission->id, Permission::class);
-                if (array_get ($input, 'password')) {
-                    Log::createLog (Log::EDIT_TYPE, '重置用户[' . $permission->name . ']账号密码', '', $permission->id, Permission::class);
-                }
-                DB::commit ();
-
                 return ajax_success_result ('更新成功');
             } else {
-                return ajax_success_result ('更新失败');
+                return ajax_error_result ('更新失败');
             }
-
         } catch (BusinessException $e) {
             return ajax_error_result ($e->getMessage ());
         }

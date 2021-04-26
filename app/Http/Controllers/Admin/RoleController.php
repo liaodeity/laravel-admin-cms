@@ -26,7 +26,7 @@ use App\Validators\RoleValidator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+use App\Models\Role;
 
 class RoleController extends Controller
 {
@@ -309,36 +309,7 @@ class RoleController extends Controller
 
     public function addAuth (Request $request)
     {
-        if (!check_admin_auth ('role add auth')) {
-            return auth_error_return();
-        }
-        if ($request->wantsJson ()) {
-            $input = $request->input ('Auth');
-            try {
-                app ()->make (PermissionValidator::class)->with ($input)->passes (PermissionValidator::RULE_CREATE);
-                $name       = trim ($input['name']);
-                $name       = strtolower ($name);
-                $permission = Permission::where ('name', $name)->first ();
-                if ($permission) {
-                    return ajax_error_result ('权限标识[' . $name . ']已经存在，无需重复添加');
-                }
-                $permission = Permission::create (['guard_name' => 'web', 'name' => $name, 'title' => $input['title'], 'menu_id' => (int)$input['menu_id']]);
 
-                if ($permission) {
-                    return ajax_success_result ('添加成功');
-                } else {
-                    return ajax_error_result ('添加失败');
-                }
-            } catch (BusinessException $e) {
-                return ajax_error_result ($e->getMessage ());
-            }
-        } else {
-            $_method = 'POST';
-            $menus   = Menu::where ('auth_name', '<>','')->orderBy ('sort', 'asc')->get ();
-            $auth    = new Permission();
-
-            return view ('admin.' . $this->module_name . '.add_auth', compact ('auth', 'menus', '_method'));
-        }
 
     }
 }

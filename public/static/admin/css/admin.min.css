@@ -78,3 +78,7 @@ a, .btn-link {
 .layui-input-block{
     margin-left: 150px;
 }
+
+.layui-layer-iframe{
+    overflow-y: inherit !important;
+}

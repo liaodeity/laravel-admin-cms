@@ -13,26 +13,15 @@
                     <form class="layui-form layui-form-pane" lay-filter="data-search-filter" action="">
                         <div class="layui-form-item">
                             <div class="layui-inline">
-                                <label class="layui-form-label">用户名</label>
+                                <label class="layui-form-label">权限名称</label>
                                 <div class="layui-input-inline">
                                     <input type="text" name="name" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-inline">
-                                <label class="layui-form-label">真实姓名</label>
+                                <label class="layui-form-label">中文名称</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="real_name" autocomplete="off" class="layui-input">
-                                </div>
-                            </div>
-                            <div class="layui-inline">
-                                <label class="layui-form-label">状态</label>
-                                <div class="layui-input-inline">
-                                    <select name="status">
-                                        <option value="">请选择</option>
-                                        @foreach(\App\Libs\Parameter::userStatusItem () as $ind => $item)
-                                            <option value="{{$ind}}">{{$item}}</option>
-                                        @endforeach
-                                    </select>
+                                    <input type="text" name="title" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-inline">
@@ -57,9 +46,6 @@
                 @if( check_admin_auth ($MODULE_NAME.'_edit'))
                 <a class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
                 @endif
-                @if( check_admin_auth ($MODULE_NAME.'_show'))
-                <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="view">查看</a>
-                @endif
             </script>
         </div>
     </div>
@@ -77,14 +63,14 @@
                 elem: '#currentTableId',
                 url: '/admin/' + MODULE_NAME,
                 toolbar: '#toolbarFilter',
-                defaultToolbar: ['filter', ],
+                defaultToolbar: ['filter',],
                 cols: [[
-                    {field: 'menu_title', title: '所属菜单',hide:false,sort:true},
-                    {field: 'name', title: '权限名称',sort:true},
-                    {field: 'title', title: '中文名称',hide:false,sort:true},
-                    {field: 'guard_name', title: '标识名称',sort:true},
-                    {field: 'created_at', title: '注册时间',width:180, hide: false,sort:true},
-                    {field: 'updated_at', title: '更新时间',width:180,hide:false,sort:true},
+                    {field: 'menu_title', title: '所属菜单', hide: false, sort: true},
+                    {field: 'name', title: '权限名称', sort: true},
+                    {field: 'title', title: '中文名称', hide: false, sort: true},
+                    {field: 'guard_name', title: '标识名称', sort: true},
+                    {field: 'created_at', title: '创建时间', width: 180, hide: false, sort: true},
+                    {field: 'updated_at', title: '更新时间', width: 180, hide: false, sort: true},
                     {title: '操作', width: 220, templet: '#currentTableBar', fixed: "right", align: "center"}
                 ]],
                 limits: [10, 15, 20, 25, 50, 100],
@@ -203,12 +189,11 @@
 
             //监听排序事件
             table.on('sort(currentTableFilter)', function (obj) { //注：sort 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
-                // console.log(obj.field); //当前排序的字段名
-                // console.log(obj.type); //当前排序类型：desc（降序）、asc（升序）、null（空对象，默认排序）
-                // console.log(this); //当前排序的 th 对象
-
-                //尽管我们的 table 自带排序功能，但并没有请求服务端。
-                //有些时候，你可能需要根据当前排序的字段，重新向服务端发送请求，从而实现服务端排序，如：
+                switch (obj.field) {
+                    case 'menu_title':
+                        obj.field = 'menu_id'
+                        break;
+                }
                 table.reload('currentTableId', {
                     initSort: obj //记录初始排序，如果不设的话，将无法标记表头的排序状态。
                     , where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）

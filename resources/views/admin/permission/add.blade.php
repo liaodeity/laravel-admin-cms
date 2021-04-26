@@ -1,4 +1,4 @@
-@extends('layouts.app')
+    @extends('layouts.app')
 @section('style')
 
 @endsection
@@ -9,18 +9,25 @@
             <form class="layui-form" action="" lay-filter="example" onsubmit="return false;">
                 {{ method_field($_method ?? '') }}
                 {{csrf_field ()}}
-                <input type="hidden" name="id" value="{{$permission->member->id ?? ''}}">
+                <input type="hidden" name="id" value="{{$permission->id ?? ''}}">
+                <input type="hidden" name="Permission[user_id]" value="{{get_login_user_id ()}}">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">权限名称 <span class="color-red">*</span></label>
+                    <div class="layui-input-block ">
+                        <input type="text" class="layui-input " name="Permission[title]" maxlength="50" autocomplete="off" value="{{$permission->title ?? ''}}" >
+                    </div>
+                </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">所属菜单 <span class="color-red"></span></label>
                     <div class="layui-input-block ">
-                        <select id="survey_id" name="Auth[menu_id]" lay-filter="survey_id" class=" width-120">
+                        <select id="survey_id" name="Permission[menu_id]" lay-filter="survey_id" class=" width-120">
                             <option value=""></option>
                             @foreach($menus as $ind => $item)
                                 @if($item->pid == 0)
                                     <optgroup label="{{$item->title}}">
                                         @foreach($menus as $val)
                                             @if($val->pid == $item->id)
-                                                <option data-name="{{$val->auth_name ?? ''}}" value="{{$val->id}}" @if(isset($auth->menu_id) && $auth->menu_id == $val->id) selected @endif>{{$val->title}}</option>
+                                                <option data-name="{{$val->auth_name ?? ''}}" value="{{$val->id}}" @if(isset($permission->menu_id) && $permission->menu_id == $val->id) selected @endif>{{$val->title}}</option>
                                             @endif
                                         @endforeach
                                     </optgroup>
@@ -30,17 +37,13 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">权限名称 <span class="color-red">*</span></label>
-                    <div class="layui-input-inline ">
-                        <input type="text" class="layui-input " disabled name="Permission[name]" maxlength="50" value="{{$permission->name ?? ''}}" >
+                    <label class="layui-form-label">权限标识 <span class="color-red">*</span></label>
+                    <div class="layui-input-block ">
+                        <input id="name" type="text" class="layui-input " name="Permission[name]" maxlength="100" autocomplete="off" value="{{$permission->name ?? ''}}" >
+                        <div class="layui-form-mid layui-word-aux ">（自动会转换成小写，请使用[英文或下划线]标识，常规如“user|user_show|user_create|user_edit|user_delete|user_import|user_export”）</div>
                     </div>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">中文名称 <span class="color-red">*</span></label>
-                    <div class="layui-input-inline ">
-                        <input type="text" class="layui-input " name="Permission[title]" maxlength="50" value="{{$permission->title ?? ''}}" >
-                    </div>
-                </div>
+
                 <div class="layui-form-item margin-bottom-submit">
                     <div class="layui-input-block">
                         <button class="layui-btn" lay-submit="" lay-filter="create">立即提交</button>
@@ -63,11 +66,11 @@
 
             //日期
             laydate.render({
-                elem: '#date',
+                elem: '#task_date',
                 trigger: 'click',
-                range: true
+                type: 'date',
+                range: '至'
             });
-
             //监听提交
             form.on('submit(create)', function (data) {
                 if ($("input[name='_method']").val() === 'PUT') {
@@ -76,85 +79,45 @@
                 } else {
                     _url = '/admin/' + MODULE_NAME;
                 }
-                // 添加请求拦截器
-                axios.interceptors.request.use(function (config) {
-                    // 在发送请求之前做些什么
-                    return config;
-                }, function (error) {
-                    // 对请求错误做些什么
-                    return Promise.reject(error);
-                });
-
-                axios.interceptors.response.use(function (response) {
-                    // 对响应数据做点什么
-                    return response;
-                }, function (error) {
-                    // 对响应错误做点什么
-                    layer.msg(error.response.data.message, {
-                        icon: 2,
-                        time: FAIL_TIME,
-                        shade: 0.3
-                    });
-                    return Promise.reject(error);
-                });
-                // console.log($(data.form).serializeArray());
-                axios.post(_url, $(data.form).serialize()).then((response) => {
-                    var data = response.data;
-                    if (data.code === 0) {
-                        layer.msg(data.message, {icon: 6, time: SUCCESS_TIME, shade: 0.2});
-                        setTimeout(function () {
-                            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-                            parent.$('button[lay-filter="data-search-btn"]').click();//刷新列表
-                            parent.layer.close(index); //再执行关闭
-
-                        }, SUCCESS_TIME)
-                    } else {
-                        layer.msg(data.message, {
+                $.ajax({
+                    type: 'POST',
+                    url: _url,
+                    data: data.field,
+                    dataType: 'json',
+                    beforeSend: function () {
+                        $("#button[lay-filter='create']").removeClass('disabled').prop('disabled', false);
+                        loading = layer.load(2)
+                    },
+                    complete: function () {
+                        $("#button[lay-filter='create']").removeClass('disabled').prop('disabled', false);
+                        layer.close(loading)
+                    },
+                    error: function () {
+                        layer.msg(AJAX_ERROR_TIP, {
                             icon: 2,
                             time: FAIL_TIME,
                             shade: 0.3
                         });
+                    },
+                    success: function (data) {
+                        if (data.code === 0) {
+                            layer.msg(data.message, {icon: 6, time: SUCCESS_TIME, shade: 0.2});
+                            setTimeout(function () {
+                                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                                parent.$('button[lay-filter="data-search-btn"]').click();//刷新列表
+                                parent.layer.close(index); //再执行关闭
+
+                            }, SUCCESS_TIME)
+                        } else {
+                            layer.msg(data.message, {
+                                icon: 2,
+                                time: FAIL_TIME,
+                                shade: 0.3
+                            });
+                        }
+
                     }
-                });
-                // $.ajax({
-                //     type: 'POST',
-                //     url: _url,
-                //     data: data.field,
-                //     dataType: 'json',
-                //     beforeSend: function () {
-                //         $("#button[lay-filter='create']").removeClass('disabled').prop('disabled', false);
-                //         loading = layer.load(2)
-                //     },
-                //     complete: function () {
-                //         $("#button[lay-filter='create']").removeClass('disabled').prop('disabled', false);
-                //         layer.close(loading)
-                //     },
-                //     error: function () {
-                //         layer.msg(AJAX_ERROR_TIP, {
-                //             icon: 2,
-                //             time: FAIL_TIME,
-                //             shade: 0.3
-                //         });
-                //     },
-                //     success: function (data) {
-                //         if (data.code === 0) {
-                //             layer.msg(data.message, {icon: 6, time: SUCCESS_TIME, shade: 0.2});
-                //             setTimeout(function () {
-                //                 var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-                //                 parent.$('button[lay-filter="data-search-btn"]').click();//刷新列表
-                //                 parent.layer.close(index); //再执行关闭
-                //
-                //             }, SUCCESS_TIME)
-                //         } else {
-                //             layer.msg(data.message, {
-                //                 icon: 2,
-                //                 time: FAIL_TIME,
-                //                 shade: 0.3
-                //             });
-                //         }
-                //
-                //     }
-                // })
+                })
 
                 return false;
             });
@@ -170,6 +133,10 @@
                 });
 
                 return false;
+            });
+            form.on('select(survey_id)', function(data){
+                var m = $(data.elem).find('option:selected').data('name');
+                $("#name").val(m);
             });
 
             //开始使用
