@@ -23,15 +23,15 @@ abstract class BaseEnum
 
     public static function toName ($value)
     {
-        $values = self::values ();
+        $values = static::values ();
 
         return isset($values[ $value ]) ? $values[ $value ] : null;
     }
 
     public static function values ()
     {
-        if (empty(self::$VALUES)) {
-            $attrs = self::attrs ();
+        if (empty(static::$VALUES)) {
+            $attrs = static::attrs ();
 
             $values = array_values ($attrs);
             $data   = [];
@@ -42,23 +42,23 @@ abstract class BaseEnum
             return $data;
 
         } else {
-            return self::$VALUES;
+            return static::$VALUES;
         }
     }
 
     public static function attrs ()
     {
-        return self::$ATTRS;
+        return static::$ATTRS;
     }
 
     public static function toLabel ($value)
     {
-        return isset(self::$ATTRS[ $value ]) ? self::$ATTRS[ $value ] : null;
+        return isset(static::$ATTRS[ $value ]) ? static::$ATTRS[ $value ] : null;
     }
 
     public static function exists ($value)
     {
-        foreach (self::values () as $item) {
+        foreach (static::values () as $item) {
             if ($value === $item) {
                 return true;
                 break;
@@ -71,7 +71,7 @@ abstract class BaseEnum
     public static function getKV ()
     {
         $data = [];
-        foreach (self::attrs () as $key => $value) {
+        foreach (static::attrs () as $key => $value) {
             $data[] = [
                 'key'   => $key,
                 'value' => $value,

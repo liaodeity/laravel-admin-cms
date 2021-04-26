@@ -549,7 +549,7 @@ function ajax_error_result ($msg, $result = [])
 {
 
     $result['code'] = -1;
-    $result['msg']  = $msg;
+    $result['message']  = $msg;
 
     return response ()->json ($result);
 }
@@ -564,7 +564,7 @@ function ajax_error_result ($msg, $result = [])
 function ajax_success_result ($msg, $result = [])
 {
     $result['code'] = 0;
-    $result['msg']  = $msg;
+    $result['message']  = $msg;
 
     return response ()->json ($result);
 }

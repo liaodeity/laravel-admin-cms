@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.app')
 
 @section('style')
 
@@ -6,7 +6,6 @@
 
 @section('content')
     <div class="layui-fluid">
-        <x-menu-breadcrumb-path :menuId="$menuActiveId" path="{{__('message.buttons.show')}}"/>
         <div class=" bg-white  system-gui-show">
             <div class="layui-row">
                 <div class="layui-tab layui-tab-brief">
@@ -17,7 +16,7 @@
                         <div class="layui-tab-item layui-show">
                             <table class="layui-table table-show">
                                 <colgroup>
-                                    <col width="12%">
+                                    <col width="15%">
                                     <col width="">
                                     <col>
                                 </colgroup>
@@ -35,12 +34,8 @@
                                     <td>{{$menu->auth_name ?? ''}}</td>
                                 </tr>
                                 <tr>
-                                    <th>所属模块</th>
-                                    <td>{{$menu->moduleItem($menu->module ?? '')}}</td>
-                                </tr>
-                                <tr>
                                     <th>类型</th>
-                                    <td>{{$menu->typeItem($menu->type ?? '')}}</td>
+                                    <td>{{\App\Enums\MenuType::toLabel ($menu->type ?? '')}}</td>
                                 </tr>
                                 <tr>
                                     <th>排序</th>
@@ -48,7 +43,7 @@
                                 </tr>
                                 <tr>
                                     <th>路由地址</th>
-                                    <td>{{$menu->route_url ?? ''}}</td>
+                                    <td>{{$menu->href ?? ''}}</td>
                                 </tr>
                                 <tr>
                                     <th>菜单名称</th>
@@ -59,8 +54,12 @@
                                     <td>{{$menu->icon ?? ''}}</td>
                                 </tr>
                                 <tr>
+                                    <th>快捷方式</th>
+                                    <td>{{\App\Enums\SwitchYesEnum::toLabel ($menu->is_shortcut ?? '')}}</td>
+                                </tr>
+                                <tr>
                                     <th>状态</th>
-                                    <td>{{$menu->statusItem($menu->status ?? '')}}</td>
+                                    <td>{{\App\Enums\MenuStatus::toLabel ($menu->status ?? '')}}</td>
                                 </tr>
                                 <tr>
                                     <th>创建时间</th>

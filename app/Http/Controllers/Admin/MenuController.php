@@ -10,10 +10,12 @@
 | Author: 廖春贵 < liaodeity@gmail.com >
 |-----------------------------------------------------------------------------------------------------------
 */
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Libs\QueryWhere;
+use App\Models\Log;
 use App\Models\Menu;
 use App\Models\MenuRead;
 use App\Repositories\MenuRepository;
@@ -42,7 +44,7 @@ class MenuController extends Controller
      */
     public function index (Request $request)
     {
-        if (!check_admin_auth ($this->module_name.'_'.__FUNCTION__)) {
+        if (!check_admin_auth ($this->module_name . '_' . __FUNCTION__)) {
             return auth_error_return ();
         }
         if (request ()->ajax ()) {
@@ -57,7 +59,8 @@ class MenuController extends Controller
                     //进行了搜索，不进行上下级显示
                     $list[ $key ]['pid'] = 0;
                 }
-                $list[ $key ]['_edit_url'] = url ('admin/menu/' . $item->id . '/edit');
+                $list[ $key ]['_view_auth'] = true;
+                $list[ $key ]['_edit_url']  = url ('admin/menu/' . $item->id . '/edit');
             }
             $result = [
                 'code'  => 0,
@@ -106,15 +109,8 @@ class MenuController extends Controller
         if (!check_admin_auth ($this->module_name . ' show')) {
             return auth_error_return ();
         }
-        $content = json_decode ($menu->content, true);
-        if ($content) {
-            $menu->content = json_encode ($content, JSON_UNESCAPED_UNICODE + JSON_PRETTY_PRINT);
-        } else {
-            $content = [];
-        }
-        $backup_content = $content['content'] ?? '';
 
-        return view ('admin.' . $this->module_name . '.show', compact ('menu', 'content', 'backup_content'));
+        return view ('admin.' . $this->module_name . '.show', compact ('menu'));
     }
 
     /**
@@ -125,7 +121,12 @@ class MenuController extends Controller
      */
     public function edit (Menu $menu)
     {
-        //
+        if (!check_admin_auth ($this->module_name . '_' . __FUNCTION__)) {
+            return auth_error_return ();
+        }
+        $_method = 'PUT';
+
+        return view ('admin.' . $this->module_name . '.create_or_edit', compact ('menu', '_method'));
     }
 
     /**
@@ -137,7 +138,36 @@ class MenuController extends Controller
      */
     public function update (Request $request, Menu $menu)
     {
-        //
+        $request->validate ([
+            'Menu.title'  => 'required',
+            'Menu.status' => 'required',
+        ], [], [
+            'Menu.title'  => '菜单名称',
+            'Menu.status' => '状态',
+        ]);
+        if (!check_admin_auth ($this->module_name . ' edit')) {
+            return auth_error_return ();
+        }
+        $input = $request->input ('Menu');
+        $input = $this->formatRequestInput (__FUNCTION__, $input);
+        try {
+            $menu = $this->repository->update ($input, $menu->id);
+            if ($menu) {
+                Log::createLog (Log::EDIT_TYPE, '修改菜单', $menu->toArray (), $menu->id, Menu::class);
+
+                return ajax_success_result ('更新成功');
+            } else {
+                return ajax_success_result ('更新失败');
+            }
+
+        } catch (BusinessException $e) {
+            return ajax_error_result ($e->getMessage ());
+        }
+    }
+
+    private function formatRequestInput (string $__FUNCTION__, $input)
+    {
+        return $input;
     }
 
     /**
@@ -158,14 +188,14 @@ class MenuController extends Controller
      */
     public function read (Menu $menu)
     {
-        $user_id  = get_menuin_user_id ();
+        $menu_id  = get_menuin_user_id ();
         $insArr   = [
             'menu_id' => $menu->id,
-            'user_id' => $user_id,
+            'user_id' => $menu_id,
             'is_read' => 1,
             'read_at' => now (),
         ];
-        $menuRead = MenuRead::where ('menu_id', $menu->id)->where ('user_id', $user_id)->first ();
+        $menuRead = MenuRead::where ('menu_id', $menu->id)->where ('user_id', $menu_id)->first ();
         if (isset($menuRead->id)) {
             return ajax_success_result ('已读成功');
         }

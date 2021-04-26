@@ -107,11 +107,11 @@
         </div>
     </script>
     <script type="text/html" id="operateTableBar">
-        @{{# if (d._show_url) { }}
-        <a class="layui-btn layui-btn-xs data-count-show" href="@{{d._show_url}}" lay-event="show">{{__('message.buttons.show')}}</a>
+        @{{# if (d._view_auth) { }}
+        <a class="layui-btn layui-btn-xs data-count-show" lay-event="view">{{__('message.buttons.show')}}</a>
         @{{# } }}
         @{{# if (d._edit_url) { }}
-        <a class="layui-btn layui-btn-xs data-count-edit" href="@{{d._edit_url}}" lay-event="edit">{{__('message.buttons.edit')}}</a>
+        <a class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">{{__('message.buttons.edit')}}</a>
         @{{# } }}
         @{{# if (d._delete_url) { }}
         <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">{{__('message.buttons.delete')}}</a>
@@ -194,7 +194,28 @@
                 if (layEvent === 'del') {
                     layer.msg ('删除' + data.id);
                 } else if (layEvent === 'edit') {
-                    systemGui.getHrefContentOpen(SYSTEM_GUI.ROUTE_PREFIX+ '/'+ data.id + '/edit');
+                    var index = layer.open({
+                        title: '',
+                        type: 2,
+                        shade: 0.2,
+                        maxmin: false,
+                        shadeClose: false,
+                        area: ['60%', '65%'],
+                        content: '/admin/' + MODULE_NAME + '/' + data.id + '/edit',
+                    });
+                    return false;
+                } else if (layEvent === 'view') {
+
+                    var index = layer.open({
+                        title: '',
+                        type: 2,
+                        shade: 0.2,
+                        maxmin: false,
+                        shadeClose: false,
+                        area: ['60%', '65%'],
+                        content: '/admin/' + MODULE_NAME + '/' + data.id,
+                    });
+                    return false;
                 }
             });
         });

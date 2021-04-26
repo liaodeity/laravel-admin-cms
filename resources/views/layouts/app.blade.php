@@ -41,6 +41,7 @@
 </head>
 <body class="@yield('body_class')">
 @yield('content')
+<script src="{{asset ('static/admin/js/lang.js?v='.get_version ())}}" charset="utf-8"></script>
 <script src="{{asset ('static/layuimini/lib/jquery-3.4.1/jquery-3.4.1.min.js')}}" charset="utf-8"></script>
 <script src="{{asset ('static/layuimini/lib/layui-v2.5.5/layui.js?v=1.0.4')}}" charset="utf-8"></script>
 <script src="{{asset ('static/layuimini/js/lay-config.js?v=1.0.4')}}" charset="utf-8"></script>
