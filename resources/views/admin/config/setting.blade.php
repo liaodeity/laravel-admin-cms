@@ -159,7 +159,7 @@
                 $(this).parent('.wx_list').remove()
             })
             //监听提交
-            form.on('submit(create)', function (data) {
+            form.on('submit(setting)', function (data) {
                 // layer.alert(JSON.stringify(data.field), {
                 //     title: '最终的提交信息'
                 // })
@@ -167,7 +167,7 @@
                 // console.log(data);
                 $.ajax({
                     type: 'POST',
-                    url: '/admin/' + MODULE_NAME + '/' + data.field.id,
+                    url: '/admin/' + MODULE_NAME + '/setting',
                     data: data.field,
                     dataType: 'json',
                     beforeSend: function () {

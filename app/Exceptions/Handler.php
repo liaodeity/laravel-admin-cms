@@ -43,7 +43,10 @@ class Handler extends ExceptionHandler
     public function render ($request, Throwable $e){
         if ( $e instanceof  ValidationException){
             $msg = Arr::first (Arr::collapse ($e->errors ()));
-            return response (['message'=>$msg],422);
+            return ajax_error_result ($msg);
+        }elseif($e instanceof BusinessException){
+            $msg = $e->getMessage ();
+            return ajax_error_result ($msg);
         }
         return parent::render ($request, $e);
     }

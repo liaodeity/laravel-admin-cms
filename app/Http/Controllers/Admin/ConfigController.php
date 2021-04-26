@@ -21,6 +21,7 @@ use App\Models\Log;
 use App\Repositories\ConfigRepository;
 use App\Validators\ConfigValidator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 
 class ConfigController extends Controller
@@ -147,11 +148,26 @@ class ConfigController extends Controller
         //
     }
 
-    public function setting ()
+    public function setting (Request $request)
     {
-        $groupId = ConfigGroup::where ('name', 'base_info')->value ('id');
-        $configs = Config::where ('group_id', $groupId)->get ();
+        if ($request->isMethod ('post')) {
+            $input = $request->input ('Config');
+            if(!$input){
+                throw new BusinessException('没有配置参数');
+            }
+            DB::beginTransaction ();
+            foreach ($input as $id => $content){
+                $this->repository->saveContent (Config::find($id), $content);
+            }
+            DB::commit ();
 
-        return view ('admin.config.setting', compact ('configs'));
+            return ajax_success_result ('保存成功');
+        } else {
+            $groupId = ConfigGroup::where ('name', 'base_info')->value ('id');
+            $configs = Config::where ('group_id', $groupId)->get ();
+
+            return view ('admin.config.setting', compact ('configs'));
+        }
+
     }
 }

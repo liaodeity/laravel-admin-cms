@@ -28,4 +28,17 @@ class ConfigRepository extends BaseRepository implements InterfaceRepository
     {
         return true;
     }
+
+    /**
+     * 保存配置内容 add by gui
+     * @param Config $config
+     * @param        $content
+     * @return bool
+     */
+    public function saveContent (Config $config, $content)
+    {
+        $config->content = $content;
+
+        return $config->save ();
+    }
 }
