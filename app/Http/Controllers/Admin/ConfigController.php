@@ -150,6 +150,9 @@ class ConfigController extends Controller
 
     public function setting (Request $request)
     {
+        if (!check_admin_auth ($this->module_name . '_setting')) {
+            return auth_error_return ();
+        }
         if ($request->isMethod ('post')) {
             $input = $request->input ('Config');
             if(!$input){
