@@ -83,7 +83,7 @@
                 axios.post(_url, $(data.form).serialize()).then((response) => {
                     var data = response.data;
                     if (data.code === 0) {
-                        layer.msg(data.msg, {icon: 6, time: SUCCESS_TIME, shade: 0.2});
+                        layer.msg(data.message, {icon: 6, time: SUCCESS_TIME, shade: 0.2});
                         setTimeout(function () {
                             var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
                             parent.$('button[lay-filter="data-search-btn"]').click();//刷新列表
@@ -91,7 +91,7 @@
 
                         }, SUCCESS_TIME)
                     } else {
-                        layer.msg(data.msg, {
+                        layer.msg(data.message, {
                             icon: 2,
                             time: FAIL_TIME,
                             shade: 0.3
@@ -120,7 +120,7 @@
                 //     },
                 //     success: function (data) {
                 //         if (data.code === 0) {
-                //             layer.msg(data.msg, {icon: 6, time: SUCCESS_TIME, shade: 0.2});
+                //             layer.msg(data.message, {icon: 6, time: SUCCESS_TIME, shade: 0.2});
                 //             setTimeout(function () {
                 //                 var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
                 //                 parent.$('button[lay-filter="data-search-btn"]').click();//刷新列表
@@ -128,7 +128,7 @@
                 //
                 //             }, SUCCESS_TIME)
                 //         } else {
-                //             layer.msg(data.msg, {
+                //             layer.msg(data.message, {
                 //                 icon: 2,
                 //                 time: FAIL_TIME,
                 //                 shade: 0.3

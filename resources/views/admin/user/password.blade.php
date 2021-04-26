@@ -87,11 +87,11 @@
                     },
                     success: function (data) {
                         if (data.code === 0) {
-                            layer.alert(data.msg, {icon: 6, shade: 0.2},function () {
+                            layer.alert(data.message, {icon: 6, shade: 0.2},function () {
                                 top.location.href = '{{url('admin/main/logout')}}';
                             });
                         } else {
-                            layer.msg(data.msg, {
+                            layer.msg(data.message, {
                                 icon: 2,
                                 time: FAIL_TIME,
                                 shade: 0.3

@@ -255,12 +255,12 @@
                     },
                     success: function (data) {
                         if (data.code === 0) {
-                            layer.msg(data.msg, {icon: 6, time: SUCCESS_TIME, shade: 0.2});
+                            layer.msg(data.message, {icon: 6, time: SUCCESS_TIME, shade: 0.2});
                             setTimeout(function () {
                                 window.location = '{{route ('admin')}}';
                             }, SUCCESS_TIME);
                         } else {
-                            top.layer.msg(data.msg, {
+                            top.layer.msg(data.message, {
                                 icon: 2,
                                 time: FAIL_TIME,
                                 shade: 0.3
