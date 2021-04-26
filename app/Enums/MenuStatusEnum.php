@@ -14,7 +14,7 @@
 namespace App\Enums;
 
 
-class MenuStatus extends BaseEnum
+class MenuStatusEnum extends BaseEnum
 {
     const SHOW = 1;//显示
     const HIDE = 0;//隐藏

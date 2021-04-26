@@ -36,7 +36,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">类型 <span class="color-red"></span></label>
                         <div class="layui-input-block">
-                            @foreach(\App\Enums\MenuType::attrs () as $ind=>$val)
+                            @foreach(\App\Enums\MenuTypeEnum::attrs () as $ind=>$val)
                                 <input type="radio" name="Menu[type]" value="{{$ind}}" title="{{$val}}"
                                        @if(isset($menu->type) && $menu->type==$ind ) checked @endif >
                             @endforeach
@@ -94,7 +94,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">状态 <span class="color-red"></span></label>
                         <div class="layui-input-block">
-                            @foreach(\App\Enums\MenuStatus::attrs () as $ind=>$val)
+                            @foreach(\App\Enums\MenuStatusEnum::attrs () as $ind=>$val)
                                 <input type="radio" name="Menu[status]" value="{{$ind}}" title="{{$val}}"
                                        @if(isset($menu->status) && $menu->status==$ind ) checked @endif >
                             @endforeach

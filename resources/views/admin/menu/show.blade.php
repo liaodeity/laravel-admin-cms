@@ -35,7 +35,7 @@
                                 </tr>
                                 <tr>
                                     <th>类型</th>
-                                    <td>{{\App\Enums\MenuType::toLabel ($menu->type ?? '')}}</td>
+                                    <td>{{\App\Enums\MenuTypeEnum::toLabel ($menu->type ?? '')}}</td>
                                 </tr>
                                 <tr>
                                     <th>排序</th>
@@ -59,7 +59,7 @@
                                 </tr>
                                 <tr>
                                     <th>状态</th>
-                                    <td>{{\App\Enums\MenuStatus::toLabel ($menu->status ?? '')}}</td>
+                                    <td>{{\App\Enums\MenuStatusEnum::toLabel ($menu->status ?? '')}}</td>
                                 </tr>
                                 <tr>
                                     <th>创建时间</th>

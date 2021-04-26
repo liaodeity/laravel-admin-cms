@@ -14,7 +14,7 @@
 namespace App\Enums;
 
 
-class MenuType extends BaseEnum
+class MenuTypeEnum extends BaseEnum
 {
     const MENU = 1;//菜单
     const BTN  = 2;//按钮
