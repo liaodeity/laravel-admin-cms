@@ -25,7 +25,7 @@ class CreateLogsTable extends Migration
         });
         Schema::create ('log_reads', function (Blueprint $table) {
             $table->id ();
-            $table->unsignedBigInteger('system_log_id');
+            $table->foreignId('log_id')->constrained ()->cascadeOnDelete ();
             $table->unsignedBigInteger('user_id')->nullable ()->comment ('记录人');
             $table->tinyInteger ('is_read')->default (0)->comment ('是否已读[1=是,0=否]');
             $table->timestamp ('read_at')->nullable ()->comment ('已读时间');
