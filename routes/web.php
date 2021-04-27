@@ -43,7 +43,8 @@ Route::middleware ('admin')->prefix ('admin')->group (function () {
     Route::post ('/upload', [UploadController::class, 'image'])->name ('upload.image');
     Route::post ('/upload_excel', [UploadController::class, 'excel'])->name ('upload.excel');
 
-    Route::any ('config/setting', [ConfigController::class, 'setting']);
+    Route::get ('config_base_info', [\App\Http\Controllers\Admin\ConfigBaseInfoController::class, 'index']);
+    Route::post ('config_base_info', [\App\Http\Controllers\Admin\ConfigBaseInfoController::class, 'update']);
     Route::resource ('config', ConfigController::class);
     Route::any ('/user/setting', [UserController::class, 'setting']);
     Route::any ('/user/password', [UserController::class, 'password']);

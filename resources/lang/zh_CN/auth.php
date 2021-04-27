@@ -25,5 +25,7 @@ return [
         'export'  => '导出',
         'preview' => '预览',
         'count'   => '统计',
+        'setting' => '设置',
+        'save'    => '保存'
     ]
 ];
