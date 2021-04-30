@@ -32,17 +32,15 @@
             <script type="text/html" id="toolbarFilter">
                 <div class="layui-btn-container">
                     @if( check_admin_auth ($MODULE_NAME.' add auth'))
-                    <button class="layui-btn layui-btn-sm data-add-btn" lay-event="add"> 添加权限</button>
+                    <button class="layui-btn layui-btn-sm data-add-btn" lay-event="add"> 添加</button>
                     @endif
-                        @if( check_admin_auth ($MODULE_NAME.' auth'))
-                    <button class="layui-btn layui-btn-sm data-add-btn" lay-event="list"> 查看权限</button>
-                            @endif
                 </div>
             </script>
             <script type="text/html" id="currentTableBar">
                 @if(check_admin_auth ('role auth'))
                 @{{# if(d.name != 'super'){ }}
                 <a class="layui-btn layui-btn-xs data-count-auth" lay-event="auth">权限</a>
+                <a class="layui-btn layui-btn-xs data-count-auth" lay-event="edit">修改</a>
                 @{{# }  }}
                 @endif
             </script>
@@ -123,18 +121,7 @@
                             maxmin: false,
                             shadeClose: false,
                             area: ['60%', '65%'],
-                            content: '/admin/' + MODULE_NAME + '/auth/add',
-                        });
-                        break;
-                    case 'list':
-                        var index = layer.open({
-                            title: '',
-                            type: 2,
-                            shade: 0.2,
-                            maxmin: false,
-                            shadeClose: false,
-                            area: ['60%', '65%'],
-                            content: '/admin/' + MODULE_NAME + '/auth/list',
+                            content: '/admin/' + MODULE_NAME + '/create',
                         });
                         break;
                     case 'batch-delete':
@@ -221,7 +208,7 @@
                         content: '/admin/' + MODULE_NAME + '/auth/' + data.id,
                     });
                     return false;
-                } else if (obj.event === 'add') {
+                } else if (obj.event === 'edit') {
                     var index = layer.open({
                         title: '',
                         type: 2,
@@ -229,7 +216,7 @@
                         maxmin: false,
                         shadeClose: false,
                         area: ['60%', '65%'],
-                        content: '/admin/' + MODULE_NAME + '/create?pid=' + data.id,
+                        content: '/admin/' + MODULE_NAME + '/' + data.id + '/edit',
                     });
                 } else if (obj.event === 'view') {
 

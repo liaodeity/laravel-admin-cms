@@ -10,9 +10,11 @@
 | Author: 廖春贵 < liaodeity@gmail.com >
 |-----------------------------------------------------------------------------------------------------------
 */
+
 namespace App\Repositories;
 
 
+use App\Exceptions\BusinessException;
 use App\Models\Permission;
 use App\Models\Role;
 
@@ -23,6 +25,7 @@ class RoleRepository extends BaseRepository implements InterfaceRepository
     {
         return Role::class;
     }
+
     public function allowDelete ($id)
     {
         return true;
@@ -36,7 +39,7 @@ class RoleRepository extends BaseRepository implements InterfaceRepository
         }
         $_child = [];
         foreach ($child as $val) {
-            $check = $role->hasPermissionTo ($val->name);
+            $check    = $role->hasPermissionTo ($val->name);
             $_child[] = [
                 'id'      => $val->id,
                 'name'    => $val->name,
@@ -47,5 +50,41 @@ class RoleRepository extends BaseRepository implements InterfaceRepository
         $auth['child'] = $_child;
 
         return $auth;
+    }
+
+    /**
+     *  add by gui
+     * @param      $input
+     * @param null $roleId
+     * @return Role|\Illuminate\Database\Eloquent\Model|\Spatie\Permission\Contracts\Role|\Spatie\Permission\Models\Role
+     * @throws BusinessException
+     */
+    public function saveRole ($input, $roleId = null)
+    {
+        $name = $input['name'] ?? '';
+        if ($roleId) {
+            //修改
+            $role = Role::findById ($roleId);
+            $role->fill ([
+                'name'  => $name,
+                'title' => $input['title'] ?? ''
+            ]);
+            $role->save ();
+        } else {
+            //创建
+            $role = Role::where('name', $name)->first();
+            if ($role) {
+                throw new BusinessException('角色英文标识已经存在');
+            }
+            $role = Role::create ([
+                'name'  => $name,
+                'title' => $input['title'] ?? ''
+            ]);
+        }
+        if (!$role) {
+            throw new BusinessException('保存角色失败');
+        }
+
+        return $role;
     }
 }

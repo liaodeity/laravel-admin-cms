@@ -3,30 +3,5 @@
         "role_id": 4,
         "model_type": "App\\Models\\User",
         "model_id": 1
-    },
-    {
-        "role_id": 5,
-        "model_type": "App\\Models\\User",
-        "model_id": 5
-    },
-    {
-        "role_id": 6,
-        "model_type": "App\\Models\\User",
-        "model_id": 5
-    },
-    {
-        "role_id": 5,
-        "model_type": "App\\Models\\User",
-        "model_id": 6
-    },
-    {
-        "role_id": 5,
-        "model_type": "App\\Models\\User",
-        "model_id": 7
-    },
-    {
-        "role_id": 6,
-        "model_type": "App\\Models\\User",
-        "model_id": 8
     }
 ]

@@ -6,21 +6,5 @@
         "guard_name": "web",
         "created_at": "2021-03-08 10:58:36",
         "updated_at": "2021-03-08 10:58:36"
-    },
-    {
-        "id": 5,
-        "name": "operator",
-        "title": "话务员角色",
-        "guard_name": "web",
-        "created_at": "2021-03-10 13:42:01",
-        "updated_at": "2021-03-10 13:42:01"
-    },
-    {
-        "id": 6,
-        "name": "supervisor",
-        "title": "主管角色",
-        "guard_name": "web",
-        "created_at": "2021-03-10 13:42:13",
-        "updated_at": "2021-03-10 13:42:13"
     }
 ]

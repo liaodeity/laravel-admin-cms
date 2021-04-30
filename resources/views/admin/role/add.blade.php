@@ -9,47 +9,18 @@
             <form class="layui-form" action="" lay-filter="example" onsubmit="return false;">
                 {{ method_field($_method ?? '') }}
                 {{csrf_field ()}}
-                <input type="hidden" name="id" value="{{$task->id ?? ''}}">
-                <input type="hidden" name="Task[user_id]" value="{{get_login_user_id ()}}">
+                <input type="hidden" name="id" value="{{$role->id ?? ''}}">
                 <div class="layui-form-item">
-                    <label class="layui-form-label">任务名称 <span class="color-red">*</span></label>
+                    <label class="layui-form-label">角色名称 <span class="color-red">*</span></label>
                     <div class="layui-input-block ">
-                        <input type="text" class="layui-input " name="Task[title]" maxlength="50" autocomplete="off" value="{{$task->title ?? ''}}" >
+                        <input type="text" class="layui-input " name="Role[title]" maxlength="50" autocomplete="off" value="{{$role->title ?? ''}}" >
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">任务时间 <span class="color-red">*</span></label>
+                    <label class="layui-form-label">角色英文标识 <span class="color-red">*</span></label>
                     <div class="layui-input-block ">
-                        <input type="text" name="Task[task_date]" id="task_date" readonly placeholder="选择日期范围" autocomplete="off" value="{{$task->task_date ?? ''}}" class="layui-input">
+                        <input type="text" class="layui-input " name="Role[name]" maxlength="50" autocomplete="off" value="{{$role->name ?? ''}}" >
                     </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">任务调查表 <span class="color-red"></span></label>
-                    <div class="layui-input-block ">
-                        <select name="Task[survey_id]" lay-filter="survey_id" class=" width-120">
-                            <option value=""></option>
-                            @foreach($surveyList as $ind => $item)
-                                <option value="{{$item->id}}" @if(isset($task->survey_id) && $task->survey_id == $item->id) selected @endif>{{$item->name}}({{$item->start_date}}至{{$item->end_date}})</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">备注说明 <span class="color-red"></span></label>
-                    <div class="layui-input-block ">
-                        <textarea type="text" class="layui-textarea " maxlength="1000" name="Task[remark]" >{{$task->remark ?? ''}}</textarea>
-                    </div>
-                </div>
-
-                <div class="layui-form-item">
-                    <label class="layui-form-label">状态<span class="color-red">*</span></label>
-                    <div class="layui-input-block">
-                        @foreach($task->statusItem() as $ind => $item)
-                            <input type="radio" name="Task[status]" value="{{$ind}}" @if(isset($task->status) && $task->status == $ind) checked
-                                   @endif title="{{$item}}">
-                        @endforeach
-                    </div>
-                    <div class="layui-form-mid layui-word-aux "></div>
                 </div>
                 <div class="layui-form-item margin-bottom-submit">
                     <div class="layui-input-block">

@@ -91,11 +91,10 @@ class RoleController extends Controller
      */
     public function create ()
     {
-        //$role       = $this->repository->makeModel ();
-        //$_method    = 'POST';
-        //$surveyList = Survey::where ('status', 1)->get ();
-        //
-        //return view ('admin.' . $this->module_name . '.add', compact ('role', '_method', 'surveyList'));
+        $role       = $this->repository->makeModel ();
+        $_method    = 'POST';
+
+        return view ('admin.' . $this->module_name . '.add', compact ('role', '_method'));
     }
 
     /**
@@ -106,35 +105,36 @@ class RoleController extends Controller
      */
     public function store (Request $request)
     {
-        //$input = $request->input ('Role');
-        //$input = $this->formatRequestInput (__FUNCTION__, $input);
-        //try {
-        //    $this->repository->makeValidator ()->with ($input)->passes (RoleValidator::RULE_UPDATE);
-        //    $input['user_id'] = get_login_user_id ();
-        //    $ret              = $this->repository->create ($input);
-        //    if ($ret) {
-        //        Log::createLog (Log::ADD_TYPE, '添加角色权限记录', '', $ret->id, Role::class);
-        //
-        //        return ajax_success_result ('创建成功');
-        //    } else {
-        //        return ajax_error_result ('创建失败');
-        //    }
-        //
-        //} catch (BusinessException $e) {
-        //    return ajax_error_result ($e->getMessage ());
-        //}
+        $request->validate ([
+            'Role.title' => 'required',
+            'Role.name'  => 'required',
+        ], [], [
+            'Role.title' => '角色名称',
+            'Role.name'  => '角色英文标识',
+        ]);
+
+        if (!check_admin_auth ($this->module_name . '_create')) {
+            return auth_error_return ();
+        }
+        $input = $request->input ('Role');
+        $input = $this->formatRequestInput (__FUNCTION__, $input);
+        try {
+            $ret              = $this->repository->saveRole ($input);
+            if ($ret) {
+                Log::createLog (Log::ADD_TYPE, '添加角色权限记录', '', $ret->id, Role::class);
+
+                return ajax_success_result ('创建成功');
+            } else {
+                return ajax_error_result ('创建失败');
+            }
+
+        } catch (BusinessException $e) {
+            return ajax_error_result ($e->getMessage ());
+        }
     }
 
     private function formatRequestInput (string $__FUNCTION__, $input)
     {
-        if (isset($input['role_date'])) {
-            $roleDate            = explode ('至', $input['role_date']);
-            $startDate           = isset($roleDate[0]) ? trim ($roleDate[0]) : null;
-            $endDate             = isset($roleDate[1]) ? trim ($roleDate[1]) : null;
-            $input['start_date'] = $startDate;
-            $input['end_date']   = $endDate;
-        }
-
         return $input;
     }
 
@@ -157,13 +157,9 @@ class RoleController extends Controller
      */
     public function edit (Role $role)
     {
-        //$_method = 'PUT';
-        //if (isset($role->start_date) && isset($role->end_date)) {
-        //    $role->role_date = $role->start_date . ' 至 ' . $role->end_date;
-        //}
-        //$surveyList = Survey::where ('status', 1)->get ();
-        //
-        //return view ('admin.' . $this->module_name . '.add', compact ('role', '_method', 'surveyList'));
+        $_method = 'PUT';
+
+        return view ('admin.' . $this->module_name . '.add', compact ('role', '_method'));
     }
 
     /**
@@ -175,23 +171,32 @@ class RoleController extends Controller
      */
     public function update (Request $request, Role $role)
     {
-        //$input = $request->input ('Role');
-        //$input = $this->formatRequestInput (__FUNCTION__, $input);
-        //try {
-        //    $this->repository->makeValidator ()->with ($input)->passes (RoleValidator::RULE_UPDATE);
-        //    $input['user_id'] = get_login_user_id ();
-        //    $ret              = $this->repository->update ($input, $role->id);
-        //    if ($ret) {
-        //        Log::createLog (Log::EDIT_TYPE, '修改角色权限记录', '', $ret->id, Role::class);
-        //
-        //        return ajax_success_result ('修改成功');
-        //    } else {
-        //        return ajax_success_result ('修改失败');
-        //    }
-        //
-        //} catch (BusinessException $e) {
-        //    return ajax_error_result ($e->getMessage ());
-        //}
+        $request->validate ([
+            'Role.title' => 'required',
+            'Role.name'  => 'required',
+        ], [], [
+            'Role.title' => '角色名称',
+            'Role.name'  => '角色英文标识',
+        ]);
+
+        if (!check_admin_auth ($this->module_name . '_create')) {
+            return auth_error_return ();
+        }
+        $input = $request->input ('Role');
+        $input = $this->formatRequestInput (__FUNCTION__, $input);
+        try {
+            $ret              = $this->repository->saveRole ($input, $role->id);
+            if ($ret) {
+                Log::createLog (Log::ADD_TYPE, '修改角色权限记录', '', $ret->id, Role::class);
+
+                return ajax_success_result ('修改成功');
+            } else {
+                return ajax_error_result ('修改失败');
+            }
+
+        } catch (BusinessException $e) {
+            return ajax_error_result ($e->getMessage ());
+        }
     }
 
     /**
@@ -201,115 +206,6 @@ class RoleController extends Controller
      */
     public function destroy ($id, Request $request)
     {
-        //$ids = $request->input ('ids', []);
-        //if (empty($ids)) {
-        //    $ids[] = $id;
-        //}
-        //$ids   = (array)$ids;
-        //$M     = $this->repository->makeModel ();
-        //$lists = $M->whereIn ('id', $ids)->get ();
-        //$num   = 0;
-        //foreach ($lists as $item) {
-        //    try {
-        //        $this->repository->checkAuth ($item);
-        //    } catch (BusinessException $e) {
-        //        return ajax_error_result ($e->getMessage ());
-        //    }
-        //    $check = $this->repository->allowDelete ($item->id);
-        //    if ($check) {
-        //        Log::createLog (Log::DELETE_TYPE, '删除角色权限记录', $item, $item->id, Role::class);
-        //        $ret = $this->repository->delete ($item->id);
-        //        if ($ret) {
-        //            $num++;
-        //        }
-        //    }
-        //}
-        //
-        //return ajax_success_result ('成功删除' . $num . '条记录');
-    }
-
-    public function listAuth ()
-    {
-        if (!check_admin_auth ('role auth')) {
-            return auth_error_return();
-        }
-        $_method = 'PUT';
-        $menus   = Menu::where ('auth_name', '<>','')->orderBy ('sort', 'asc')->get ();
-        $auths   = [];
-        $role = new Role();
-        foreach ($menus as $menu) {
-            $auth = $this->repository->getPermission ($menu->id, $role);
-            if (!$auth) {
-                continue;
-            }
-            $auth['menu_name'] = $menu->title;
-            $auths[]           = $auth;
-        }
-        $other = $this->repository->getPermission (0, $role);
-        if ($other) {
-            $other['menu_name'] = '其他';
-            $auths[]            = $other;
-        }
-
-        return view ('admin.' . $this->module_name . '.index_auth', compact ('role', 'auths', 'menus', '_method'));
-    }
-    public function auth ($id, Request $request)
-    {
-        if (!check_admin_auth ('role auth')) {
-            return auth_error_return();
-        }
-        $role = Role::findById ($id);
-        if ($request->wantsJson ()) {
-            $input = $request->input ('auth', []);
-            try {
-                $input = (array)$input;
-                if (!empty($input)) {
-                    foreach ($input as $val) {
-                        $val   = trim ($val);
-                        $check = $role->hasPermissionTo ($val);
-                        if (!$check) {
-                            $role->givePermissionTo ($val);
-                        }
-                    }
-                }
-
-                $alls = $role->getAllPermissions ();
-                foreach ($alls as $item) {
-                    if (!in_array ($item->name, $input)) {
-                        $role->revokePermissionTo ($item->name);
-                    }
-                }
-
-                return ajax_success_result ('调整权限成功');
-
-            } catch (BusinessException $e) {
-                return ajax_error_result ($e->getMessage ());
-            }
-        } else {
-            $_method = 'PUT';
-            $menus   = Menu::where ('auth_name', '<>','')->orderBy ('sort', 'asc')->get ();
-            $auths   = [];
-            foreach ($menus as $menu) {
-                $auth = $this->repository->getPermission ($menu->id, $role);
-                if (!$auth) {
-                    continue;
-                }
-                $auth['menu_name'] = $menu->title;
-                $auths[]           = $auth;
-            }
-            $other = $this->repository->getPermission (0, $role);
-            if ($other) {
-                $other['menu_name'] = '其他';
-                $auths[]            = $other;
-            }
-
-            return view ('admin.' . $this->module_name . '.role_auth', compact ('role', 'auths', 'menus', '_method'));
-        }
-    }
-
-    public function addAuth (Request $request)
-    {
-
 
     }
 }
