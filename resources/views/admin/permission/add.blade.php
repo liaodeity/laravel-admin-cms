@@ -1,4 +1,4 @@
-    @extends('layouts.app')
+@extends('layouts.app')
 @section('style')
 
 @endsection
@@ -14,7 +14,8 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">权限名称 <span class="color-red">*</span></label>
                     <div class="layui-input-block ">
-                        <input type="text" class="layui-input " name="Permission[title]" maxlength="50" autocomplete="off" value="{{$permission->title ?? ''}}" >
+                        <input type="text" class="layui-input " name="Permission[title]" maxlength="50" autocomplete="off"
+                               value="{{$permission->title ?? ''}}">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -23,14 +24,30 @@
                         <select id="survey_id" name="Permission[menu_id]" lay-filter="survey_id" class=" width-120">
                             <option value=""></option>
                             @foreach($menus as $ind => $item)
-                                @if($item->pid == 0)
+                                @if(isset($item->_child))
                                     <optgroup label="{{$item->title}}">
-                                        @foreach($menus as $val)
-                                            @if($val->pid == $item->id)
-                                                <option data-name="{{$val->auth_name ?? ''}}" value="{{$val->id}}" @if(isset($permission->menu_id) && $permission->menu_id == $val->id) selected @endif>{{$val->title}}</option>
-                                            @endif
-                                        @endforeach
+                                    @foreach($item->_child as $child)
+                                        @if(!isset($child->_child))
+                                                <option data-name="{{$child->auth_name ?? ''}}" value="{{$child->id}}"
+                                                        @if(isset($permission->menu_id) && $permission->menu_id == $child->id) selected @endif>{{$child->title}}</option>
+                                        @endif
+                                    @endforeach
                                     </optgroup>
+
+                                    @foreach($item->_child as $child)
+                                        @if(isset($child->_child))
+                                            <optgroup label="{{$item->title}}>{{$child->title}}">
+                                                @foreach($child->_child as $child2)
+                                                    @if(isset($child2->_child))
+
+                                                    @else
+                                                        <option data-name="{{$child2->auth_name ?? ''}}" value="{{$child2->id}}"
+                                                                @if(isset($permission->menu_id) && $permission->menu_id == $child2->id) selected @endif>{{$child2->title}}</option>
+                                                    @endif
+                                                @endforeach
+                                            </optgroup>
+                                        @endif
+                                    @endforeach
                                 @endif
                             @endforeach
                         </select>
@@ -39,8 +56,11 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">权限标识 <span class="color-red">*</span></label>
                     <div class="layui-input-block ">
-                        <input id="name" type="text" class="layui-input " name="Permission[name]" maxlength="100" autocomplete="off" value="{{$permission->name ?? ''}}" >
-                        <div class="layui-form-mid layui-word-aux ">（自动会转换成小写，请使用[英文或下划线]标识，常规如“user|user_show|user_create|user_edit|user_delete|user_import|user_export”）</div>
+                        <input id="name" type="text" class="layui-input " name="Permission[name]" maxlength="100" autocomplete="off"
+                               value="{{$permission->name ?? ''}}">
+                        <div class="layui-form-mid layui-word-aux ">
+                            （自动会转换成小写，请使用[英文或下划线]标识，常规如“user|user_show|user_create|user_edit|user_delete|user_import|user_export”）
+                        </div>
                     </div>
                 </div>
 
@@ -134,7 +154,7 @@
 
                 return false;
             });
-            form.on('select(survey_id)', function(data){
+            form.on('select(survey_id)', function (data) {
                 var m = $(data.elem).find('option:selected').data('name');
                 $("#name").val(m);
             });

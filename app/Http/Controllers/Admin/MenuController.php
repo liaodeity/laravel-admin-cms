@@ -13,6 +13,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\MenuStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Libs\QueryWhere;
 use App\Models\Log;
@@ -50,7 +51,11 @@ class MenuController extends Controller
         if (request ()->ajax ()) {
             QueryWhere::setRequest ($request->all ());
             $M = $this->repository->makeModel ()->select ('menus.*');
+            QueryWhere::like ($M, 'menu_name');
+            QueryWhere::like ($M, 'auth_name');
             QueryWhere::eq ($M, 'status');
+            QueryWhere::eq ($M, 'type');
+            QueryWhere::like ($M, 'href');
             QueryWhere::like ($M, 'title');
             QueryWhere::orderBy ($M, 'menus.sort', 'ASC');
             $list = $M->get ();
@@ -59,6 +64,7 @@ class MenuController extends Controller
                     //进行了搜索，不进行上下级显示
                     $list[ $key ]['pid'] = 0;
                 }
+                $list[$key]['status'] = MenuStatusEnum::toLabel ($item->status);
                 $list[ $key ]['_view_auth'] = true;
                 $list[ $key ]['_edit_url']  = url ('admin/menu/' . $item->id . '/edit');
             }

@@ -155,6 +155,7 @@ layui.define(['layer', 'table'], function (exports) {
         },
         // 检查参数
         checkParam: function (param) {
+            console.log(param);
             if (!param.treeSpid && param.treeSpid != 0) {
                 layer.msg('参数treeSpid不能为空', {icon: 5});
                 return false;

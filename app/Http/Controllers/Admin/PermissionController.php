@@ -88,19 +88,13 @@ class PermissionController extends Controller
      */
     public function create (Request $request)
     {
-        //if (!check_admin_auth ($this->module_name . '_create')) {
-        //    return auth_error_return ();
-        //}
-        //$permission = new Permission;
-        //$_method    = 'POST';
-        //$roleAll    = Role::all ();
-        //
-        //return view ('admin.' . $this->module_name . '.add', compact ('Permission', '_method', 'roleAll'));
         if (!check_admin_auth ($this->module_name . '_create')) {
             return auth_error_return ();
         }
         $_method = 'POST';
-        $menus   = Menu::where ('auth_name', '<>', '')->orderBy ('sort', 'asc')->get ();
+        $menus   = Menu::where('status',1)->orderBy ('sort', 'asc')->get ();
+        $menus = $menus->toArray();
+        $menus = list_to_tree ($menus);
         $auth    = new Permission();
 
         return view ('admin.' . $this->module_name . '.add', compact ('auth', 'menus', '_method'));
@@ -182,7 +176,9 @@ class PermissionController extends Controller
         }
         $_method = 'PUT';
         $roleAll = Role::all ();
-        $menus   = Menu::orderBy ('sort', 'asc')->get ();
+        $menus   = Menu::where('status',1)->orderBy ('sort', 'asc')->get ();
+        $menus = $menus->toArray();
+        $menus = list_to_tree ($menus);
 
         return view ('admin.' . $this->module_name . '.add', compact ('menus', 'permission', '_method', 'roleAll'));
     }

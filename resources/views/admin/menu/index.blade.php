@@ -4,79 +4,59 @@
 @endsection
 
 @section('content')
-    <div class="main-inner layui-fluid">
-        <div class="main-layout main-order">
+    <div class="layuimini-container">
+        <div class="layuimini-main">
             <fieldset class="layui-elem-field">
                 <legend>{{__('message.lists.search_info')}}</legend>
                 <div style="margin: 10px 10px 10px 10px">
-                    <form class="layui-form layui-form-pane" action="">
+                    <form class="layui-form layui-form-pane" lay-filter="data-search-filter" action="">
                         <div class="layui-form-item">
                             <div class="layui-inline">
-                                <label class="layui-form-label">编号</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" name="menus[id]" autocomplete="off" class="layui-input">
-                                </div>
-                            </div><div class="layui-inline">
-                                <label class="layui-form-label">父ID</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" name="menus[pid]" autocomplete="off" class="layui-input">
-                                </div>
-                            </div><div class="layui-inline">
                                 <label class="layui-form-label">菜单标识名称</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="menus[menu_name]" autocomplete="off" class="layui-input">
+                                    <input type="text" name="menu_name" autocomplete="off" class="layui-input">
                                 </div>
-                            </div><div class="layui-inline">
+                            </div>
+                            <div class="layui-inline">
                                 <label class="layui-form-label">权限名称</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="menus[auth_name]" autocomplete="off" class="layui-input">
+                                    <input type="text" name="auth_name" autocomplete="off" class="layui-input">
                                 </div>
-                            </div><div class="layui-inline">
-                        <label class="layui-form-label">所属模块</label>
-                        <div class="layui-input-inline">
-                            <select name="menus[module]" lay-filter="module">
-                                <option value=""></option>
-                                @foreach($menu->moduleItem() as $ind=>$val)
-                                <option value="{{$ind}}">{{$val}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div><div class="layui-inline">
-                        <label class="layui-form-label">类型</label>
-                        <div class="layui-input-inline">
-                            <select name="menus[type]" lay-filter="type">
-                                <option value=""></option>
-                                @foreach($menu->typeItem() as $ind=>$val)
-                                <option value="{{$ind}}">{{$val}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div><div class="layui-inline">
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">类型</label>
+                                <div class="layui-input-inline">
+                                    <select name="type" lay-filter="type">
+                                        <option value=""></option>
+                                        @foreach(\App\Enums\MenuTypeEnum::attrs () as $ind=>$val)
+                                            <option value="{{$ind}}">{{$val}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-inline">
                                 <label class="layui-form-label">路由地址</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="menus[route_url]" autocomplete="off" class="layui-input">
+                                    <input type="text" name="href" autocomplete="off" class="layui-input">
                                 </div>
-                            </div><div class="layui-inline">
+                            </div>
+                            <div class="layui-inline">
                                 <label class="layui-form-label">菜单名称</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="menus[title]" autocomplete="off" class="layui-input">
+                                    <input type="text" name="title" autocomplete="off" class="layui-input">
                                 </div>
-                            </div><div class="layui-inline">
-                                <label class="layui-form-label">图标</label>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">状态</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="menus[icon]" autocomplete="off" class="layui-input">
+                                    <select name="status" lay-filter="status">
+                                        <option value=""></option>
+                                        @foreach(\App\Enums\MenuStatusEnum::attrs () as $ind=>$val)
+                                            <option value="{{$ind}}">{{$val}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                            </div><div class="layui-inline">
-                        <label class="layui-form-label">状态</label>
-                        <div class="layui-input-inline">
-                            <select name="menus[status]" lay-filter="status">
-                                <option value=""></option>
-                                @foreach($menu->statusItem() as $ind=>$val)
-                                <option value="{{$ind}}">{{$val}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
+                            </div>
                             <div class="layui-inline">
                                 <button type="submit" class="layui-btn layui-btn-primary" lay-submit
                                         lay-filter="data-search-btn"><i
@@ -122,23 +102,23 @@
 @section('footer')
 
     <script>
-        layui.use ([ 'table', 'treetable','miniAdmin' ], function () {
+        layui.use(['table','form', 'treetable', 'miniAdmin'], function () {
             var $ = layui.jquery;
             var table = layui.table;
+            var form = layui.form;
             var treetable = layui.treetable;
             var miniAdmin = layui.miniAdmin;
 
             // 渲染表格
-            layer.load (2);
-
-            treetable.render ({
+            layer.load(2);
+           var treeConfig = {
                 treeColIndex: 1,
                 treeSpid: 0,
                 treeIdName: 'id',
                 treePidName: 'pid',
                 elem: '#currentTableId',
                 toolbar: '#toolbarFilter',
-                parseData: function(res){
+                parseData: function (res) {
                     return {
                         "code": res.code,
                         "msg": res.message,
@@ -146,16 +126,16 @@
                         "data": res.result.data
                     };
                 },
-                defaultToolbar: ['filter', ],
+                defaultToolbar: ['filter',],
                 url: '{{url('admin/menu')}}',
                 page: false,
                 where: {
                     title: '{{request ()->input ('title')}}',
                     status: '{{request ()->input ('status')}}'
                 },
-                cols: [ [
+                cols: [[
                     {type: 'numbers'},
-                    {field: 'title', minWidth: 200, title: '权限名称'},
+                    {field: 'title', minWidth: 200, title: '菜单名称'},
                     {field: 'auth_name', title: '权限标识'},
                     {field: 'route_url', title: '菜单url'},
                     {field: 'sort', width: 80, align: 'center', title: '排序号'},
@@ -171,28 +151,44 @@
                             }
                         }, title: '类型'
                     },
+                    {field: 'status', width: 80, align: 'center', title: '状态'},
                     {templet: '#operateTableBar', width: 120, align: 'center', title: '操作'}
-                ] ],
+                ]],
                 done: function () {
-                    layer.closeAll ('loading');
+                    layer.closeAll('loading');
                 }
+            };
+            treetable.render(treeConfig);
+            // 监听搜索操作
+            form.on('submit(data-search-btn)', function (data) {
+                var result = JSON.stringify(data.field);
+                // layer.alert(result, {
+                //     title: '最终的搜索信息'
+                // });
+                console.log(result);
+                //执行搜索重载
+                treeConfig.where = data.field;
+                treeConfig.data = null;
+                console.log(treeConfig);
+                treetable.render(treeConfig)
+
+                return false;
+            });
+            $('#btn-expand').click(function () {
+                treetable.expandAll('#currentTableFilter');
             });
 
-            $ ('#btn-expand').click (function () {
-                treetable.expandAll ('#currentTableFilter');
-            });
-
-            $ ('#btn-fold').click (function () {
-                treetable.foldAll ('#currentTableFilter');
+            $('#btn-fold').click(function () {
+                treetable.foldAll('#currentTableFilter');
             });
 
             //监听工具条
-            table.on ('tool(currentTableFilter)', function (obj) {
+            table.on('tool(currentTableFilter)', function (obj) {
                 var data = obj.data;
                 var layEvent = obj.event;
                 console.log(layEvent);
                 if (layEvent === 'del') {
-                    layer.msg ('删除' + data.id);
+                    layer.msg('删除' + data.id);
                 } else if (layEvent === 'edit') {
                     var index = layer.open({
                         title: '',
