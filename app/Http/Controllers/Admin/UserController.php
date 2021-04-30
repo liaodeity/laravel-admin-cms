@@ -21,6 +21,7 @@ use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Validators\UserValidator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\View;
 use Spatie\Permission\Models\Role;
@@ -280,11 +281,33 @@ class UserController extends Controller
 
             return view ('admin.' . $this->module_name . '.password', compact ('user'));
         }
-
     }
 
-    public function setting ()
+    /**
+     * 个人资料设置 add by gui
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\JsonResponse
+     */
+    public function setting (Request $request)
     {
+        if ($request->ajax ()) {
+            $input = $request->input ('User');
+            DB::beginTransaction ();
+            $user = $this->repository->update ($input, get_login_user_id ());
+            if ($user) {
+                $this->repository->saveInfo ($user, $request);
+                $this->repository->saveMember ($user, $request);
+                Log::createLog (Log::EDIT_TYPE, '修改基本资料', $user->toArray (), $user->id, User::class);
+                DB::commit ();
 
+                return ajax_success_result ('更新成功');
+            } else {
+                return ajax_success_result ('更新失败');
+            }
+        } else {
+            $user = User::find (get_login_user_id ());
+
+            return view ('admin.' . $this->module_name . '.setting', compact ('user'));
+        }
     }
 }
