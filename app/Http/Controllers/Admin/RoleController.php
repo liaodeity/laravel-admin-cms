@@ -10,6 +10,7 @@
 | Author: 廖春贵 < liaodeity@gmail.com >
 |-----------------------------------------------------------------------------------------------------------
 */
+
 namespace App\Http\Controllers\Admin;
 
 
@@ -18,15 +19,13 @@ use App\Http\Controllers\Controller;
 use App\Libs\QueryWhere;
 use App\Models\Log;
 use App\Models\Menu;
+use App\Models\Role;
 use App\Models\Survey;
-use App\Models\User;
 use App\Repositories\RoleRepository;
 use App\Validators\PermissionValidator;
 use App\Validators\RoleValidator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
-use Spatie\Permission\Models\Permission;
-use App\Models\Role;
 
 class RoleController extends Controller
 {
@@ -50,8 +49,8 @@ class RoleController extends Controller
      */
     public function index (Request $request)
     {
-        if (!check_admin_auth ($this->module_name.'_'.__FUNCTION__)) {
-            return auth_error_return();
+        if (!check_admin_auth ($this->module_name . '_' . __FUNCTION__)) {
+            return auth_error_return ();
         }
         if (request ()->ajax ()) {
             $limit = $request->input ('limit', 15);
@@ -67,8 +66,8 @@ class RoleController extends Controller
             $count = $M->total ();
             $data  = $M->items ();
             foreach ($data as $key => $item) {
-                $role = Role::findById ($item['id']);
-                $data[$key]['auth_count'] = $item['name'] == 'super' ? '-' : $role->permissions ()->count ();
+                $role                       = Role::findById ($item['id']);
+                $data[ $key ]['auth_count'] = $item['name'] == 'super' ? '-' : $role->permissions ()->count ();
             }
             $result = [
                 'count' => $count,
@@ -91,8 +90,8 @@ class RoleController extends Controller
      */
     public function create ()
     {
-        $role       = $this->repository->makeModel ();
-        $_method    = 'POST';
+        $role    = $this->repository->makeModel ();
+        $_method = 'POST';
 
         return view ('admin.' . $this->module_name . '.add', compact ('role', '_method'));
     }
@@ -119,7 +118,7 @@ class RoleController extends Controller
         $input = $request->input ('Role');
         $input = $this->formatRequestInput (__FUNCTION__, $input);
         try {
-            $ret              = $this->repository->saveRole ($input);
+            $ret = $this->repository->saveRole ($input);
             if ($ret) {
                 Log::createLog (Log::ADD_TYPE, '添加角色权限记录', '', $ret->id, Role::class);
 
@@ -185,7 +184,7 @@ class RoleController extends Controller
         $input = $request->input ('Role');
         $input = $this->formatRequestInput (__FUNCTION__, $input);
         try {
-            $ret              = $this->repository->saveRole ($input, $role->id);
+            $ret = $this->repository->saveRole ($input, $role->id);
             if ($ret) {
                 Log::createLog (Log::ADD_TYPE, '修改角色权限记录', '', $ret->id, Role::class);
 
@@ -207,5 +206,59 @@ class RoleController extends Controller
     public function destroy ($id, Request $request)
     {
 
+    }
+
+    public function auth ($id, Request $request)
+    {
+        if (!check_admin_auth ($this->module_name . '_auth')) {
+            return auth_error_return ();
+        }
+        $role = Role::findById ($id);
+        if ($request->wantsJson ()) {
+            $input = $request->input ('auth', []);
+            try {
+                $input = (array)$input;
+                if (!empty($input)) {
+                    foreach ($input as $val) {
+                        $val   = trim ($val);
+                        $check = $role->hasPermissionTo ($val);
+                        if (!$check) {
+                            $role->givePermissionTo ($val);
+                        }
+                    }
+                }
+
+                $alls = $role->getAllPermissions ();
+                foreach ($alls as $item) {
+                    if (!in_array ($item->name, $input)) {
+                        $role->revokePermissionTo ($item->name);
+                    }
+                }
+
+                return ajax_success_result ('调整权限成功');
+
+            } catch (BusinessException $e) {
+                return ajax_error_result ($e->getMessage ());
+            }
+        } else {
+            $_method = 'PUT';
+            $menus   = Menu::where ('auth_name', '<>', '')->orderBy ('sort', 'asc')->get ();
+            $auths   = [];
+            foreach ($menus as $menu) {
+                $auth = $this->repository->getPermission ($menu->id, $role);
+                if (!$auth) {
+                    continue;
+                }
+                $auth['menu_name'] = $menu->title;
+                $auths[]           = $auth;
+            }
+            $other = $this->repository->getPermission (0, $role);
+            if ($other) {
+                $other['menu_name'] = '其他';
+                $auths[]            = $other;
+            }
+
+            return view ('admin.' . $this->module_name . '.role_auth', compact ('role', 'auths', 'menus', '_method'));
+        }
     }
 }
