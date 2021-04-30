@@ -12,15 +12,22 @@
                     <form class="layui-form layui-form-pane" lay-filter="data-search-filter" action="">
                         <div class="layui-form-item">
                             <div class="layui-inline">
-                                <label class="layui-form-label">菜单标识名称</label>
+                                <label class="layui-form-label">菜单名称</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="menu_name" autocomplete="off" class="layui-input">
+                                    <input type="text" name="title" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-inline">
                                 <label class="layui-form-label">权限名称</label>
                                 <div class="layui-input-inline">
                                     <input type="text" name="auth_name" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+
+                            <div class="layui-inline">
+                                <label class="layui-form-label">路由地址</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="href" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-inline">
@@ -32,18 +39,6 @@
                                             <option value="{{$ind}}">{{$val}}</option>
                                         @endforeach
                                     </select>
-                                </div>
-                            </div>
-                            <div class="layui-inline">
-                                <label class="layui-form-label">路由地址</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" name="href" autocomplete="off" class="layui-input">
-                                </div>
-                            </div>
-                            <div class="layui-inline">
-                                <label class="layui-form-label">菜单名称</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" name="title" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-inline">
