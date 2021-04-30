@@ -10,6 +10,7 @@
 | Author: 廖春贵 < liaodeity@gmail.com >
 |-----------------------------------------------------------------------------------------------------------
 */
+
 namespace App\Http\Controllers\Admin;
 
 use App\Exceptions\BusinessException;
@@ -45,7 +46,7 @@ class UserController extends Controller
      */
     public function index (Request $request)
     {
-        if (!check_admin_auth ($this->module_name.'_'.__FUNCTION__)) {
+        if (!check_admin_auth ($this->module_name . '_' . __FUNCTION__)) {
             return auth_error_return ();
         }
         if (request ()->ajax ()) {
@@ -58,9 +59,9 @@ class UserController extends Controller
             QueryWhere::orderBy ($M);
 
             $roleId = QueryWhere::input ('role_id');
-            if($roleId){
-                $role = Role::find($roleId);
-                $usersid = $role->users()->pluck('model_id');
+            if ($roleId) {
+                $role    = Role::find ($roleId);
+                $usersid = $role->users ()->pluck ('model_id');
                 QueryWhere::in ($M, 'id', $usersid);
             }
 
@@ -277,7 +278,7 @@ class UserController extends Controller
         } else {
             $user = User::find (get_login_user_id ());
 
-            return view ('admin.user.password', compact ('user'));
+            return view ('admin.' . $this->module_name . '.password', compact ('user'));
         }
 
     }

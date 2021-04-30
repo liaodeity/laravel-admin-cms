@@ -12,7 +12,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">用户名 <span class="color-red">*</span></label>
                     <div class="layui-input-inline ">
-                        <input type="text" class="layui-input layui-disabled" name="User[username]" disabled="disabled" value="{{$user->username ?? ''}}" >
+                        <input type="text" class="layui-input layui-disabled" name="User[name]" disabled="disabled" value="{{$user->name ?? ''}}" >
                     </div>
                 </div>
                 <div class="layui-form-item">
