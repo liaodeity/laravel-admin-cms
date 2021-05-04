@@ -2,6 +2,7 @@
     {
         "id": 3,
         "pid": 0,
+        "uuid": "19ed3fc5-f41d-4a3f-b7df-85e76d9e1071",
         "type": 1,
         "cate_module": "",
         "auth_name": "system",
@@ -18,6 +19,7 @@
     {
         "id": 4,
         "pid": 0,
+        "uuid": "d99a3dbe-c801-44b4-8d23-76efad13e0a6",
         "type": 1,
         "cate_module": "",
         "auth_name": "",
@@ -34,6 +36,7 @@
     {
         "id": 5,
         "pid": 3,
+        "uuid": "02150d61-0c66-4f9d-b730-e4f1d827eed1",
         "type": 1,
         "cate_module": "",
         "auth_name": "",
@@ -50,6 +53,7 @@
     {
         "id": 36,
         "pid": 3,
+        "uuid": "c046ff7f-f61b-4b45-90f6-15eb56f03492",
         "type": 1,
         "cate_module": "config",
         "auth_name": "config_base_info",
@@ -66,6 +70,7 @@
     {
         "id": 37,
         "pid": 3,
+        "uuid": "06ea0b41-c4b0-45ad-bb82-ed3340c63979",
         "type": 1,
         "cate_module": "",
         "auth_name": "",
@@ -82,6 +87,7 @@
     {
         "id": 42,
         "pid": 3,
+        "uuid": "16983b2d-0bd5-4749-933b-11cb787b5089",
         "type": 1,
         "cate_module": "",
         "auth_name": "",
@@ -98,6 +104,7 @@
     {
         "id": 43,
         "pid": 3,
+        "uuid": "44f4493a-aca9-4d60-9ae4-7bf777a44be3",
         "type": 1,
         "cate_module": "log",
         "auth_name": "log",
@@ -114,6 +121,7 @@
     {
         "id": 44,
         "pid": 4,
+        "uuid": "9573f4ce-4e84-4c35-9c92-17922423fd60",
         "type": 1,
         "cate_module": "",
         "auth_name": "",
@@ -130,6 +138,7 @@
     {
         "id": 45,
         "pid": 3,
+        "uuid": "55f62557-e03c-4ace-b873-1083ce445b8e",
         "type": 1,
         "cate_module": "",
         "auth_name": "",
@@ -146,6 +155,7 @@
     {
         "id": 52,
         "pid": 5,
+        "uuid": "b9d358d3-700f-4bdc-b18d-53ec385811a7",
         "type": 1,
         "cate_module": "role",
         "auth_name": "role",
@@ -162,6 +172,7 @@
     {
         "id": 54,
         "pid": 0,
+        "uuid": "eb36f2aa-e285-4bb8-94fa-955b812b182a",
         "type": 1,
         "cate_module": "",
         "auth_name": "console",
@@ -178,6 +189,7 @@
     {
         "id": 57,
         "pid": 5,
+        "uuid": "fdcbc9b7-d7f3-45f4-9d0f-9068a7cfc385",
         "type": 1,
         "cate_module": "",
         "auth_name": "permission",
@@ -194,6 +206,7 @@
     {
         "id": 58,
         "pid": 3,
+        "uuid": "6c0ccbfb-04c9-4a74-b7f8-6b4995dd4089",
         "type": 1,
         "cate_module": "",
         "auth_name": "menu",
@@ -210,6 +223,7 @@
     {
         "id": 59,
         "pid": 42,
+        "uuid": "6291e996-46f5-43e9-8319-b8553f05c70f",
         "type": 1,
         "cate_module": "",
         "auth_name": "user_admin",
@@ -226,6 +240,7 @@
     {
         "id": 60,
         "pid": 42,
+        "uuid": "91e6ec5a-b7f8-4fa7-bc40-074b58574ac4",
         "type": 1,
         "cate_module": "",
         "auth_name": "user_member",

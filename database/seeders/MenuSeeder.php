@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use App\Models\Menu;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class MenuSeeder extends Seeder
 {
@@ -15,12 +17,21 @@ class MenuSeeder extends Seeder
      */
     public function run ()
     {
-        $json    = file_get_contents (storage_path ('app/dev-backup/20210319144612/menus.json'));
-        $pidMenu = json_decode ($json, true);
-        Artisan::call ('dev:backup');
-        Menu::where ('id', '<>', '')->delete ();
-        foreach ($pidMenu as $key => $menu) {
-            Menu::create ($menu);
+        $table = 'menus';
+        $file  = 'database/dev-backup/' . $table . '.json';
+        if (!Storage::disk ('base')->exists ($file)) {
+            return;
+        }
+        //Artisan::call ('dev:backup');
+        $json = Storage::disk ('base')->get ($file);
+        $data = json_decode ($json, true);
+        foreach ($data as $item) {
+            if (isset($item['uuid'])) {
+                DB::table ($table)->where('uuid', $item['uuid'])->update ($item);
+            } else {
+                $item['uuid'] = get_uuid ();
+                DB::table ($table)->updateOrInsert ($item);
+            }
         }
     }
 }
