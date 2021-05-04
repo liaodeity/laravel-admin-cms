@@ -1,0 +1,13 @@
+[
+    {
+        "id": 1,
+        "name": "admin",
+        "email": null,
+        "account": null,
+        "email_verified_at": null,
+        "password": "$2y$10$IUW7lCfdlIv3k8EMPVR2zeX4DsDAxOmDSSrQ60L6m44P8glqwWXTW",
+        "remember_token": null,
+        "created_at": "2021-03-19 15:40:47",
+        "updated_at": null
+    }
+]

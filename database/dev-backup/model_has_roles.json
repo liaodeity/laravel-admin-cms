@@ -1,0 +1,7 @@
+[
+    {
+        "role_id": 4,
+        "model_type": "App\\Models\\User",
+        "model_id": 1
+    }
+]

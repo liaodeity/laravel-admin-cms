@@ -1,198 +1,228 @@
-@extends('common.page_layouts')
-@section('body_class','layout-top-nav ')
-@section('style')
-{{--    <style type="text/css">--}}
-{{--        .sidebar-menu {--}}
-{{--            overflow: auto !important;--}}
-{{--            max-height: calc(100vh - 50px);--}}
-{{--        }--}}
-{{--    </style>--}}
-@endsection
-
+@extends('layouts.app')
+@section('body_class','layui-layout-body layuimini-all')
 @section('content')
-    <div class="wrapper">
-        <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand-md border-bottom-0 navbar-dark navbar-primary">
-            <div class="container-fluid">
-                <a href="../../index3.html" class="navbar-brand">
-                    <img src="{{asset('admin-ui/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-                    <span class="brand-text font-weight-light">AdminLTE 3</span>
+    <div class="layui-layout layui-layout-admin">
+
+        <div class="layui-header header">
+            <div class="layui-logo layuimini-logo"></div>
+
+            <div class="layuimini-header-content">
+                <a>
+                    <div class="layuimini-tool"><i title="展开" class="fa fa-outdent" data-side-fold="1"></i></div>
                 </a>
 
-                <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                <!--电脑端头部菜单-->
+                <ul class="layui-nav layui-layout-left layuimini-header-menu layuimini-menu-header-pc layuimini-pc-show">
+                </ul>
 
-                <div class="collapse navbar-collapse order-3" id="navbarCollapse">
-                    <!-- Left navbar links -->
-                    <ul class="navbar-nav">
-                        @inject("menuRepositoryEloquent", "App\Repositories\MenuRepositoryEloquent")
-                        @foreach ($menuRepositoryEloquent->getMenuList () as $menu)
-                            @if(isset($menu->child) && count($menu->child))
-                                <li class="nav-item dropdown">
-                                    <a id="dropdownSubMenu{{$menu->id}}" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">{{$menu->title}}</a>
-                                    <ul aria-labelledby="dropdownSubMenu{{$menu->id}}" class="dropdown-menu border-0 shadow">
-                                        @foreach ($menu->child as $child2)
-                                            @if(isset($child2->child) && count($child2->child) > 0)
-                                                <li class="dropdown-submenu dropdown-hover">
-                                                    <a id="dropdownSubMenu{{$child2->id}}" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle disabled">{{$child2->title}}</a>
-                                                    <ul aria-labelledby="dropdownSubMenu{{$child2->id}}" class="dropdown-menu border-0 shadow">
-                                                        @foreach ($child2->child as $child3)
-                                                            <li><a class="dropdown-item" href="{{url($child3->route_url)}}">{{$child3->title}}</a></li>
-                                                        @endforeach
-                                                    </ul>
-                                                </li>
-                                            @else
-                                                <li class="nav-item"><a class="dropdown-item" href="{{url($child2->route_url)}}">{{$child2->title}}</a></li>
-                                            @endif
-                                        @endforeach
-                                        <!-- End Level two -->
-                                    </ul>
-                                </li>
-                            @else
-                                <li class="nav-item"><a class="nav-link" href="{{url($menu->route_url)}}">{{$menu->title}}</a></li>
-                            @endif
-                        @endforeach
-                    </ul>
-
-                    <!-- SEARCH FORM -->
-                    <form class="form-inline ml-0 ml-md-3">
-                        <div class="input-group input-group-sm">
-                            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                            <div class="input-group-append">
-                                <button class="btn btn-navbar" type="submit">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Right navbar links -->
-                <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                    <!-- Messages Dropdown Menu -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" data-toggle="dropdown" href="#">
-                            <i class="fas fa-comments"></i>
-                            <span class="badge badge-danger navbar-badge">3</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                            <a href="#" class="dropdown-item">
-                                <!-- Message Start -->
-                                <div class="media">
-                                    <img src="" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-                                    <div class="media-body">
-                                        <h3 class="dropdown-item-title">
-                                            Brad Diesel
-                                            <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                                        </h3>
-                                        <p class="text-sm">Call me whenever you can...</p>
-                                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                    </div>
-                                </div>
-                                <!-- Message End -->
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <!-- Message Start -->
-                                <div class="media">
-                                    <img src="" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                                    <div class="media-body">
-                                        <h3 class="dropdown-item-title">
-                                            John Pierce
-                                            <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                                        </h3>
-                                        <p class="text-sm">I got your message bro</p>
-                                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                    </div>
-                                </div>
-                                <!-- Message End -->
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <!-- Message Start -->
-                                <div class="media">
-                                    <img src="" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                                    <div class="media-body">
-                                        <h3 class="dropdown-item-title">
-                                            Nora Silvester
-                                            <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                                        </h3>
-                                        <p class="text-sm">The subject goes here</p>
-                                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                    </div>
-                                </div>
-                                <!-- Message End -->
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-                        </div>
+                <!--手机端头部菜单-->
+                <ul class="layui-nav layui-layout-left layuimini-header-menu layuimini-mobile-show">
+                    <li class="layui-nav-item">
+                        <a href="javascript:;"><i class="fa fa-list-ul"></i> 选择模块</a>
+                        <dl class="layui-nav-child layuimini-menu-header-mobile">
+                        </dl>
                     </li>
-                    <!-- Notifications Dropdown Menu -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" data-toggle="dropdown" href="#">
-                            <i class="far fa-bell"></i>
-                            <span class="badge badge-warning navbar-badge">15</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                            <span class="dropdown-header">15 Notifications</span>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="fas fa-envelope mr-2"></i> 4 new messages
-                                <span class="float-right text-muted text-sm">3 mins</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="fas fa-users mr-2"></i> 8 friend requests
-                                <span class="float-right text-muted text-sm">12 hours</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="fas fa-file mr-2"></i> 3 new reports
-                                <span class="float-right text-muted text-sm">2 days</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-                        </div>
+                </ul>
+
+                <ul class="layui-nav layui-layout-right">
+
+                    <li class="layui-nav-item" lay-unselect>
+                        <a href="javascript:;" data-refresh="刷新"><i class="fa fa-refresh"></i></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-                            <i class="fas fa-th-large"></i>
-                        </a>
+                    <li class="layui-nav-item" lay-unselect>
+                        <a href="javascript:;" data-clear="清理" class="layuimini-clear"><i class="fa fa-trash-o"></i></a>
+                    </li>
+                    <li class="layui-nav-item mobile layui-hide-xs" lay-unselect>
+                        <a href="javascript:;" data-check-screen="full"><i class="fa fa-arrows-alt"></i></a>
+                    </li>
+                    <li class="layui-nav-item layuimini-setting">
+                        <a href="javascript:;">admin</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="javascript:;" layuimini-content-href="admin/user/setting" data-title="基本资料" data-icon="fa fa-gears">基本资料<span class="layui-badge-dot"></span></a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:;" layuimini-content-href="admin/user/password" data-title="修改密码" data-icon="fa fa-gears">修改密码</a>
+                            </dd>
+                            <dd>
+                                <hr>
+                            </dd>
+                            <dd>
+                                <a href="javascript:;" class="login-out">退出登录</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item layuimini-select-bgcolor" lay-unselect>
+                        <a href="javascript:;" data-bgcolor="配色方案"><i class="fa fa-ellipsis-v"></i></a>
                     </li>
                 </ul>
             </div>
-        </nav>
-        <!-- /.navbar -->
-        <!-- Content Wrapper. Contains page content -->
-        <div id="pjax-container" class="content-wrapper">
+        </div>
+
+        <!--无限极左侧菜单-->
+        <div class="layui-side layui-bg-black layuimini-menu-left">
+        </div>
+
+        <!--初始化加载层-->
+        <div class="layuimini-loader">
+            <div class="layuimini-loader-inner"></div>
+        </div>
+
+        <!--手机端遮罩层-->
+        <div class="layuimini-make"></div>
+
+        <!-- 移动导航 -->
+        <div class="layuimini-site-mobile"><i class="layui-icon"></i></div>
+
+        <div class="layui-body">
+
+            <div class="layuimini-tab layui-tab-rollTool layui-tab" lay-filter="layuiminiTab" lay-allowclose="true">
+                <ul class="layui-tab-title">
+                    <li class="layui-this" id="layuiminiHomeTabId" lay-id=""></li>
+                </ul>
+                <div class="layui-tab-control">
+                    <li class="layuimini-tab-roll-left layui-icon layui-icon-left"></li>
+                    <li class="layuimini-tab-roll-right layui-icon layui-icon-right"></li>
+                    <li class="layui-tab-tool layui-icon layui-icon-down">
+                        <ul class="layui-nav close-box">
+                            <li class="layui-nav-item">
+                                <a href="javascript:;"><span class="layui-nav-more"></span></a>
+                                <dl class="layui-nav-child">
+                                    <dd><a href="javascript:;" layuimini-tab-close="current">关 闭 当 前</a></dd>
+                                    <dd><a href="javascript:;" layuimini-tab-close="other">关 闭 其 他</a></dd>
+                                    <dd><a href="javascript:;" layuimini-tab-close="all">关 闭 全 部</a></dd>
+                                </dl>
+                            </li>
+                        </ul>
+                    </li>
+                </div>
+                <div class="layui-tab-content">
+                    <div id="layuiminiHomeTabIframe" class="layui-tab-item layui-show"></div>
+                </div>
+            </div>
 
         </div>
-        <!-- /.content-wrapper -->
+{{--    <div class="layui-layout layui-layout-admin">--}}
+{{--        <div class="layui-header header">--}}
+{{--            <div class="layui-logo">--}}
+{{--            </div>--}}
+{{--            <a>--}}
+{{--                <div class="layuimini-tool"><i title="展开" class="fa fa-outdent" data-side-fold="1"></i></div>--}}
+{{--            </a>--}}
 
-        <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
-            <div class="p-3">
-                <h5>Title</h5>
-                <p>Sidebar content</p>
-            </div>
-        </aside>
-        <!-- /.control-sidebar -->
+{{--            <ul class="layui-nav layui-layout-left layui-header-menu layui-header-pc-menu mobile layui-hide-xs">--}}
+{{--            </ul>--}}
+{{--            <ul class="layui-nav layui-layout-left layui-header-menu mobile layui-hide-sm">--}}
+{{--                <li class="layui-nav-item">--}}
+{{--                    <a href="javascript:;"><i class="fa fa-list-ul"></i> 选择模块</a>--}}
+{{--                    <dl class="layui-nav-child layui-header-mini-menu">--}}
+{{--                    </dl>--}}
+{{--                </li>--}}
+{{--            </ul>--}}
 
-        <!-- Main Footer -->
-        <footer class="main-footer text-sm">
-            <!-- To the right -->
-            <div class="float-right d-none d-sm-inline">
-                Anything you want
-            </div>
-            <!-- Default to the left -->
-            <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
-        </footer>
-    </div>
-    <!-- ./wrapper -->
+{{--            <ul class="layui-nav layui-layout-right">--}}
+{{--                <li class="layui-nav-item" lay-unselect>--}}
+{{--                    <a href="{{url ('/')}}" target="_blank" title="浏览官网首页"><i class="iconfont  iconliulan"></i></a>--}}
+{{--                </li>--}}
+{{--                <li class="layui-nav-item" lay-unselect>--}}
+{{--                    <a href="javascript:;" data-refresh="刷新"><i class="fa fa-refresh"></i></a>--}}
+{{--                </li>--}}
+{{--                <li class="layui-nav-item" lay-unselect>--}}
+{{--                    <a href="javascript:;" data-clear="清理" class="layuimini-clear"><i class="fa fa-trash-o"></i></a>--}}
+{{--                </li>--}}
+{{--                <li class="layui-nav-item mobile layui-hide-xs" lay-unselect>--}}
+{{--                    <a href="javascript:;" data-check-screen="full"><i class="fa fa-arrows-alt"></i></a>--}}
+{{--                </li>--}}
+{{--                <li class="layui-nav-item layuimini-setting">--}}
+{{--                    <a href="javascript:;">{{\App\Models\User::showName ($user->id)}}</a>--}}
+{{--                    <dl class="layui-nav-child">--}}
+{{--                        <dd>--}}
+{{--                            <a href="javascript:;" data-iframe-tab="/admin/user/password" data-title="修改密码"--}}
+{{--                               data-icon="fa fa-gears">修改密码</a>--}}
+{{--                        </dd>--}}
+{{--                        <dd>--}}
+{{--                            <a href="javascript:;" class="login-out">退出登录</a>--}}
+{{--                        </dd>--}}
+{{--                    </dl>--}}
+{{--                </li>--}}
+{{--                <li class="layui-nav-item layuimini-select-bgcolor mobile layui-hide-xs" lay-unselect>--}}
+{{--                    <a href="javascript:;" data-bgcolor="配色方案"><i class="fa fa-ellipsis-v"></i></a>--}}
+{{--                </li>--}}
+{{--            </ul>--}}
+{{--        </div>--}}
+
+{{--        <div class="layui-side layui-bg-black">--}}
+{{--            <div class="layui-side-scroll layui-left-menu">--}}
+{{--            </div>--}}
+{{--        </div>--}}
+
+{{--        <div class="layui-body">--}}
+{{--            <div class="layui-tab" lay-filter="layuiminiTab" id="top_tabs_box">--}}
+{{--                <ul class="layui-tab-title" id="top_tabs">--}}
+{{--                    <li class="layui-this" id="layuiminiHomeTabId" lay-id=""></li>--}}
+{{--                </ul>--}}
+{{--                <ul class="layui-nav closeBox">--}}
+{{--                    <li class="layui-nav-item">--}}
+{{--                        <a href="javascript:;"> <i class="fa fa-dot-circle-o"></i> 页面操作</a>--}}
+{{--                        <dl class="layui-nav-child">--}}
+{{--                            <dd><a href="javascript:;" data-page-close="other"><i class="fa fa-window-close"></i> 关闭其他</a></dd>--}}
+{{--                            <dd><a href="javascript:;" data-page-close="all"><i class="fa fa-window-close-o"></i> 关闭全部</a></dd>--}}
+{{--                        </dl>--}}
+{{--                    </li>--}}
+{{--                </ul>--}}
+{{--                <div class="layui-tab-content clildFrame">--}}
+{{--                    <div id="layuiminiHomeTabIframe" class="layui-tab-item layui-show">--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+
+{{--    </div>--}}
 @endsection
 
 @section('footer')
+    <script>
+        console.log(new Date())
+        function layer_module_tips(module) {
+            var index = layer.open({
+                title: '',
+                type: 2,
+                shade: 0.2,
+                maxmin: false,
+                shadeClose: false,
+                area: ['920px', '670px'],
+                content: '/admin/manuals?module=' + module,
+            });
+        }
 
+        layui.use(['element', 'layer', 'miniAdmin'], function () {
+            var $ = layui.jquery,
+                element = layui.element,
+                miniAdmin = layui.miniAdmin,
+                layer = layui.layer;
+            var options = {
+                iniUrl: '{{route ('admin.main.init')}}',    // 初始化接口
+                clearUrl: "{{route ('admin.main.clear')}}", // 缓存清理接口
+                urlHashLocation: true,      // 是否打开hash定位
+                bgColorDefault: 7,      // 主题默认配置
+                multiModule: true,          // 是否开启多模块
+                menuChildOpen: false,       // 是否默认展开菜单
+                loadingTime: 0,             // 初始化加载时间
+                pageAnim: true,             // iframe窗口动画
+                maxTabNum: 20,              // 最大的tab打开数量
+            };
+            console.log(new Date())
+            miniAdmin.render(options);
+            //
+            $('.login-out').on("click", function () {
+                layer.msg('退出登录成功', {
+                    icon: 1,
+                    time: SUCCESS_TIME
+                    , shade: 0.2
+                }, function () {
+                    window.location = '{{route ('admin.main.logout')}}';
+                });
+            });
+        });
+    </script>
 @endsection

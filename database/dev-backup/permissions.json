@@ -1,0 +1,164 @@
+[
+    {
+        "id": 70,
+        "name": "config_index",
+        "guard_name": "web",
+        "menu_id": 36,
+        "title": "列表",
+        "created_at": "2021-04-14 15:09:00",
+        "updated_at": "2021-04-14 15:09:00"
+    },
+    {
+        "id": 71,
+        "name": "log_index",
+        "guard_name": "web",
+        "menu_id": 43,
+        "title": "列表",
+        "created_at": "2021-04-14 15:09:01",
+        "updated_at": "2021-04-14 15:09:01"
+    },
+    {
+        "id": 72,
+        "name": "menu_index",
+        "guard_name": "web",
+        "menu_id": 58,
+        "title": "列表",
+        "created_at": "2021-04-14 15:09:01",
+        "updated_at": "2021-04-14 15:09:01"
+    },
+    {
+        "id": 76,
+        "name": "permission_create",
+        "guard_name": "web",
+        "menu_id": 57,
+        "title": "创建",
+        "created_at": "2021-04-14 15:09:02",
+        "updated_at": "2021-04-14 15:09:02"
+    },
+    {
+        "id": 77,
+        "name": "permission_edit",
+        "guard_name": "web",
+        "menu_id": 57,
+        "title": "修改",
+        "created_at": "2021-04-14 15:09:02",
+        "updated_at": "2021-04-14 15:09:02"
+    },
+    {
+        "id": 78,
+        "name": "permission_show",
+        "guard_name": "web",
+        "menu_id": 57,
+        "title": "查看",
+        "created_at": "2021-04-14 15:09:02",
+        "updated_at": "2021-04-14 15:09:03"
+    },
+    {
+        "id": 79,
+        "name": "permission_index",
+        "guard_name": "web",
+        "menu_id": 57,
+        "title": "列表",
+        "created_at": "2021-04-14 15:10:33",
+        "updated_at": "2021-04-14 15:10:33"
+    },
+    {
+        "id": 80,
+        "name": "user_member_index",
+        "guard_name": "web",
+        "menu_id": 60,
+        "title": "列表",
+        "created_at": "2021-04-14 15:12:52",
+        "updated_at": "2021-04-14 15:12:52"
+    },
+    {
+        "id": 81,
+        "name": "user_member_create",
+        "guard_name": "web",
+        "menu_id": 60,
+        "title": "创建",
+        "created_at": "2021-04-14 15:12:52",
+        "updated_at": "2021-04-14 15:12:52"
+    },
+    {
+        "id": 82,
+        "name": "user_member_edit",
+        "guard_name": "web",
+        "menu_id": 60,
+        "title": "修改",
+        "created_at": "2021-04-14 15:12:52",
+        "updated_at": "2021-04-14 15:12:52"
+    },
+    {
+        "id": 83,
+        "name": "user_member_show",
+        "guard_name": "web",
+        "menu_id": 60,
+        "title": "查看",
+        "created_at": "2021-04-14 15:12:52",
+        "updated_at": "2021-04-14 15:12:52"
+    },
+    {
+        "id": 84,
+        "name": "user_admin_index",
+        "guard_name": "web",
+        "menu_id": 59,
+        "title": "列表",
+        "created_at": "2021-04-14 15:12:54",
+        "updated_at": "2021-04-14 15:12:55"
+    },
+    {
+        "id": 85,
+        "name": "user_admin_create",
+        "guard_name": "web",
+        "menu_id": 59,
+        "title": "创建",
+        "created_at": "2021-04-14 15:12:55",
+        "updated_at": "2021-04-14 15:12:55"
+    },
+    {
+        "id": 86,
+        "name": "user_admin_edit",
+        "guard_name": "web",
+        "menu_id": 59,
+        "title": "修改",
+        "created_at": "2021-04-14 15:12:55",
+        "updated_at": "2021-04-14 15:12:55"
+    },
+    {
+        "id": 87,
+        "name": "log_show",
+        "guard_name": "web",
+        "menu_id": 43,
+        "title": "查看",
+        "created_at": "2021-04-14 15:12:57",
+        "updated_at": "2021-04-14 15:12:57"
+    },
+    {
+        "id": 88,
+        "name": "role_index",
+        "guard_name": "web",
+        "menu_id": 52,
+        "title": "列表",
+        "created_at": "2021-04-14 15:15:09",
+        "updated_at": "2021-04-14 15:15:09"
+    },
+    {
+        "id": 89,
+        "name": "role_add_auth",
+        "guard_name": "web",
+        "menu_id": 0,
+        "title": "auth",
+        "created_at": "2021-04-14 15:15:09",
+        "updated_at": "2021-04-14 15:15:09"
+    },
+    {
+        "id": 90,
+        "name": "role_auth",
+        "guard_name": "web",
+        "menu_id": 52,
+        "title": "auth",
+        "created_at": "2021-04-14 15:15:09",
+        "updated_at": "2021-04-14 15:15:09"
+    }
+]
