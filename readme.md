@@ -1,7 +1,7 @@
 
 ### Laravel Admin CMS
 
-**项目未开发完成，个别功能欠缺，仅供参考。**
+**项目正在完善中，可能会存在较大改动。**
 
 基于Laravel的后台内容管理开发系统，后台基于layui-mini前端主题。能够帮助你节约开发基础系统功能，及一些常规功能插件。是一个快速上手，项目基础开发，外包开发首选CMS。
 
@@ -67,6 +67,7 @@ php artisan serve
 ### 开发文档
 
 - [https://www.jianbaizhan.com/cmf/docs](https://www.jianbaizhan.com/cmf/docs)
+- [https://gitee.com/liaodeiy/laravel-admin-docs](https://gitee.com/liaodeiy/laravel-admin-docs)
 
 
 
