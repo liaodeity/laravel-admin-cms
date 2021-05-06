@@ -132,7 +132,7 @@
                     {type: 'numbers'},
                     {field: 'title', minWidth: 200, title: '菜单名称'},
                     {field: 'auth_name', title: '权限标识'},
-                    {field: 'route_url', title: '菜单url'},
+                    {field: 'href', title: '路由地址'},
                     {field: 'sort', width: 80, align: 'center', title: '排序号'},
                     {field: 'type', width: 80, align: 'center', title: '类型'},
                     {field: 'status', width: 80, align: 'center', title: '状态'},
