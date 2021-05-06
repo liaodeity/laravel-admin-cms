@@ -14,6 +14,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\MenuStatusEnum;
+use App\Enums\MenuTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Libs\QueryWhere;
 use App\Models\Log;
@@ -64,7 +65,8 @@ class MenuController extends Controller
                     //进行了搜索，不进行上下级显示
                     $list[ $key ]['pid'] = 0;
                 }
-                $list[$key]['status'] = MenuStatusEnum::toLabel ($item->status);
+                $list[$key]['status'] = MenuStatusEnum::toHtml ($item->status);
+                $list[$key]['type'] = MenuTypeEnum::toHtml ($item->type);
                 $list[ $key ]['_view_auth'] = true;
                 $list[ $key ]['_edit_url']  = url ('admin/menu/' . $item->id . '/edit');
             }

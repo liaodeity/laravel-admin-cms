@@ -20,6 +20,8 @@ abstract class BaseEnum
     protected static $ATTRS = [];
     /*名称*/
     protected static $VALUES = [];
+    /*颜色*/
+    protected static $COLORS = [];
 
     public static function toName ($value)
     {
@@ -51,11 +53,6 @@ abstract class BaseEnum
         return static::$ATTRS;
     }
 
-    public static function toLabel ($value)
-    {
-        return isset(static::$ATTRS[ $value ]) ? static::$ATTRS[ $value ] : null;
-    }
-
     public static function exists ($value)
     {
         foreach (static::values () as $item) {
@@ -79,5 +76,26 @@ abstract class BaseEnum
         }
 
         return $data;
+    }
+
+    /**
+     * 获取带颜色标签
+     * @param $value
+     * @return string
+     */
+    public static function toHtml ($value)
+    {
+        $defaultColor = ColorEnum::INFO;
+        $label = self::toLabel ($value);
+        $color = array_key_exists ($value, static::$COLORS) ? static::$COLORS[ $value ] : $defaultColor;
+        if(!$color)
+            $color = $defaultColor;
+
+        return '<span class="layui-badge" style="background-color: ' . $color . ' !important">' . $label . '</span>';
+    }
+
+    public static function toLabel ($value)
+    {
+        return isset(static::$ATTRS[ $value ]) ? static::$ATTRS[ $value ] : null;
     }
 }
