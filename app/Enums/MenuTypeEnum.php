@@ -22,4 +22,8 @@ class MenuTypeEnum extends BaseEnum
         self::MENU => '菜单',
         self::BTN  => '按钮'
     ];
+    protected static $COLORS = [
+        self::MENU => ColorEnum::PRIMARY,
+        self::BTN   => ColorEnum::SECONDARY
+    ];
 }

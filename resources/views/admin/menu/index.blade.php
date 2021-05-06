@@ -134,18 +134,7 @@
                     {field: 'auth_name', title: '权限标识'},
                     {field: 'route_url', title: '菜单url'},
                     {field: 'sort', width: 80, align: 'center', title: '排序号'},
-                    {
-                        field: 'isMenu', width: 80, align: 'center', templet: function (d) {
-                            if (d.type == 2) {
-                                return '<span class="layui-badge layui-btn-warm">按钮</span>';
-                            }
-                            if (d.pid == 0) {
-                                return '<span class="layui-badge layui-bg-blue">目录</span>';
-                            } else {
-                                return '<span class="layui-badge-rim">菜单</span>';
-                            }
-                        }, title: '类型'
-                    },
+                    {field: 'type', width: 80, align: 'center', title: '类型'},
                     {field: 'status', width: 80, align: 'center', title: '状态'},
                     {templet: '#operateTableBar', width: 120, align: 'center', title: '操作'}
                 ]],
