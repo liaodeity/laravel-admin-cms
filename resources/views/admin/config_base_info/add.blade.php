@@ -77,7 +77,7 @@
                         $("#logo_id").val(res.data.id)
                         $("#logo_src").attr('src', res.data.src).removeClass('layui-hide')
                     } else {
-                        top.layer.msg(res.msg, {
+                        top.layer.msg(res.message, {
                             icon: 2,
                             time: FAIL_TIME,
                             shade: 0.3
@@ -97,7 +97,7 @@
                         $("#mp_id").val(res.data.id)
                         $("#mp_src").attr('src', res.data.src).removeClass('layui-hide')
                     } else {
-                        top.layer.msg(res.msg, {
+                        top.layer.msg(res.message, {
                             icon: 2,
                             time: FAIL_TIME,
                             shade: 0.3
@@ -123,7 +123,7 @@
                             '                                            >\n' +
                             '                                        </div>');
                     } else {
-                        top.layer.msg(res.msg, {
+                        top.layer.msg(res.message, {
                             icon: 2,
                             time: FAIL_TIME,
                             shade: 0.3
