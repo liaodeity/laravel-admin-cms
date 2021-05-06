@@ -174,56 +174,11 @@
                                                     <div class="panel-body">
                                                         <div class="panel-title">
                                                             <span class="label pull-right layui-bg-blue">实时(<span class="real_second">10</span>s)</span>
-                                                            <h5>未完成回访数</h5>
+                                                            <h5>用户数</h5>
                                                         </div>
                                                         <div class="panel-content">
-                                                            <h1 id="sync_real_no_done" class="no-margins">-</h1>
-                                                            <small>截止今天还需回访的数量</small>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            @if(\App\Models\User::onlyOperatorAuth())
-                                                <div class="layui-col-xs6">
-                                                    <div class="panel layui-bg-number">
-                                                        <div class="panel-body">
-                                                            <div class="panel-title">
-                                                                <span class="label pull-right layui-bg-cyan">实时(<span class="real_second">10</span>s)</span>
-                                                                <h5>已回访未成功数</h5>
-                                                            </div>
-                                                            <div class="panel-content">
-                                                                <h1 id="sync_real_again_no_done" class="no-margins">-</h1>
-                                                                <small>截止今天还需再次回访的数量</small>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @else
-                                                <div class="layui-col-xs6">
-                                                    <div class="panel layui-bg-number">
-                                                        <div class="panel-body">
-                                                            <div class="panel-title">
-                                                                <span class="label pull-right layui-bg-cyan">实时(<span class="real_second">10</span>s)</span>
-                                                                <h5>未分配数</h5>
-                                                            </div>
-                                                            <div class="panel-content">
-                                                                <h1 id="sync_real_no_assigner" class="no-margins">-</h1>
-                                                                <small>截止今天还存在回访任务未分配的数量</small>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endif
-                                            <div class="layui-col-xs6">
-                                                <div class="panel layui-bg-number">
-                                                    <div class="panel-body">
-                                                        <div class="panel-title">
-                                                            <span class="label pull-right layui-bg-orange">实时(<span class="real_second">10</span>s)</span>
-                                                            <h5>本月已完成回访数</h5>
-                                                        </div>
-                                                        <div class="panel-content">
-                                                            <h1 id="sync_real_month_done" class="no-margins">-</h1>
-                                                            <small>截止今天本月已完成回访数量</small>
+                                                            <h1 id="sync_real_member" class="no-margins">-</h1>
+                                                            <small>截止今天用户的数量</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -233,15 +188,44 @@
                                                     <div class="panel-body">
                                                         <div class="panel-title">
                                                             <span class="label pull-right layui-bg-green">实时(<span class="real_second">10</span>s)</span>
-                                                            <h5>已完成回访数</h5>
+                                                            <h5>今日订单</h5>
                                                         </div>
                                                         <div class="panel-content">
-                                                            <h1 id="sync_real_all_done" class="no-margins">-</h1>
-                                                            <small>累计已经完成的回访数量</small>
+                                                            <h1 id="sync_real_today_order" class="no-margins">-</h1>
+                                                            <small>今天的订单数据</small>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="layui-col-xs6">
+                                                <div class="panel layui-bg-number">
+                                                    <div class="panel-body">
+                                                        <div class="panel-title">
+                                                            <span class="label pull-right layui-bg-cyan">实时(<span class="real_second">10</span>s)</span>
+                                                            <h5>本月订单</h5>
+                                                        </div>
+                                                        <div class="panel-content">
+                                                            <h1 id="sync_real_month_order" class="no-margins">-</h1>
+                                                            <small>截止今天本月订单数量</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="layui-col-xs6">
+                                                <div class="panel layui-bg-number">
+                                                    <div class="panel-body">
+                                                        <div class="panel-title">
+                                                            <span class="label pull-right layui-bg-orange">实时(<span class="real_second">10</span>s)</span>
+                                                            <h5>本月订单金额</h5>
+                                                        </div>
+                                                        <div class="panel-content">
+                                                            <h1 id="sync_real_month_order_money" class="no-margins">-</h1>
+                                                            <small>截止今天本月订单金额</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -321,11 +305,10 @@
                 },
                 success: function (data) {
                     if (data.code === 0) {
-                        $("#sync_real_no_done").text(data.no_done);
-                        $('#sync_real_again_no_done').text(data.again_no_done);
-                        $('#sync_real_month_done').text(data.month_done);
-                        $('#sync_real_all_done').text(data.all_done);
-                        $('#sync_real_no_assigner').text(data.no_assigner);
+                        $("#sync_real_member").text(data.member);
+                        $("#sync_real_today_order").text(data.today_order);
+                        $("#sync_real_month_order").text(data.month_order);
+                        $('#sync_real_month_order_money').text(data.month_order_money);
                     }
                 }
             })
@@ -343,7 +326,7 @@
                     trigger: 'axis'
                 },
                 legend: {
-                    data: ['已完成回访数']
+                    data: ['访问人数','浏览次数']
                 },
                 grid: {
                     left: '3%',
@@ -384,9 +367,14 @@
                         optionRecords.xAxis.data = data.x_data;
                         var series = [
                             {
-                                name: '已完成回访数',
+                                name: '访问人数',
                                 type: 'line',
-                                data: data.series.done
+                                data: data.series.users
+                            },
+                            {
+                                name: '浏览次数',
+                                type: 'line',
+                                data: data.series.views
                             }
                         ]
                         optionRecords.series = series;
@@ -408,19 +396,19 @@
                 echarts = layui.echarts;
             laydate = layui.laydate;
             miniTab.listen();
-            // get_sync_real_num();
-            // $(".real_second").text(SECOND);
-            // setInterval(function () {
-            //     var num = $(".real_second:first").text();
-            //     num--;
-            //     if(num > 0){
-            //         $(".real_second").text(num);
-            //     }else{
-            //         $(".real_second").text(SECOND);
-            //         get_sync_real_num()
-            //     }
-            // }, 1000);
-            // set_echart();
+            get_sync_real_num();
+            $(".real_second").text(SECOND);
+            setInterval(function () {
+                var num = $(".real_second:first").text();
+                num--;
+                if(num > 0){
+                    $(".real_second").text(num);
+                }else{
+                    $(".real_second").text(SECOND);
+                    get_sync_real_num()
+                }
+            }, 1000);
+            set_echart();
             //日期
             laydate.render({
                 elem: '#start_date',

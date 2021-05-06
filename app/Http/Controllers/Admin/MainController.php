@@ -23,6 +23,7 @@ use App\Models\Log;
 use App\Models\Menu;
 use App\Models\Recall;
 use App\Models\User;
+use App\Models\WebView;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Artisan;
@@ -45,7 +46,7 @@ class MainController extends Controller
         $shortcutList = Menu::where ('status', 1)->where ('is_shortcut', 1)->orderBy ('sort', 'ASC')->get ();
         foreach ($shortcutList as $key => $menu) {
             //屏蔽无权限菜单
-            if ($menu['auth_name'] && !check_admin_auth ($menu['auth_name'].'_index')) {
+            if ($menu['auth_name'] && !check_admin_auth ($menu['auth_name'] . '_index')) {
                 unset($shortcutList[ $key ]);
             }
         }
@@ -226,40 +227,25 @@ class MainController extends Controller
     /**
      * 获取实时统计数据 add by gui
      */
-    public function sync_real_num ()
+    public function syncRealNum ()
     {
         $monthDate   = date ('Y-m-01');
         $userId      = get_login_user_id ();
-        $noDone      = 0;
-        $againNoDone = 0;
-        $monthDone   = 0;
-        $allDone     = 0;
-        $noAssigner  = 0;
-        if (User::onlyOperatorAuth ()) {
-            //只有话务员权限的时候
-            $noDone      = Recall::where ('is_done', 0)->where ('recall_user_id', $userId)->count ('id');
-            $againNoDone = Recall::where ('is_done', 0)->where ('recallstatus', '>', 0)->where ('recall_user_id', $userId)->count ('id');
-            $monthDone   = Recall::where ('is_done', 1)->where ('recalldate', '>=', $monthDate)->where ('recall_user_id', $userId)->count ('id');
-            $allDone     = Recall::where ('is_done', 1)->where ('recall_user_id', $userId)->count ('id');
-        } else {
-            $noDone      = Recall::where ('is_done', 0)->count ('id');
-            $againNoDone = Recall::where ('is_done', 0)->where ('recallstatus', '>', 0)->count ('id');
-            $monthDone   = Recall::where ('is_done', 1)->where ('recalldate', '>=', $monthDate)->count ('id');
-            $allDone     = Recall::where ('is_done', 1)->count ('id');
-            $noAssigner  = Recall::where ('recall_user_id', 0)->count ('id');
-        }
+        $todayOrderCount = 0;
+        $monthOrderCount = 0;
+        $monthOrderMoney = '0.00';
+        $memberCount = User\UserMember::count ();
 
 
-        $result['no_done']       = $noDone;
-        $result['again_no_done'] = $againNoDone;
-        $result['month_done']    = $monthDone;
-        $result['all_done']      = $allDone;
-        $result['no_assigner']   = $noAssigner;
+        $result['member']            = $memberCount;
+        $result['today_order']       = $todayOrderCount;
+        $result['month_order']       = $monthOrderCount;
+        $result['month_order_money'] = $monthOrderMoney;
 
         return ajax_success_result ('', $result);
     }
 
-    public function get_echart ()
+    public function getEchart ()
     {
         $date_str   = request ()->input ('dates');
         $date       = array_get_date ($date_str);
@@ -273,29 +259,36 @@ class MainController extends Controller
         if (empty($end_date)) {
             $end_date = Carbon::now ()->toDateString ();
         }
-        //已完成回访数
-        $doneRecall = Recall::selectRaw ('COUNT(1) as count,DATE(recalldate) as date')
-            ->whereDate ('recalldate', '>=', $start_date)
-            ->whereDate ('recalldate', '<=', $end_date)
-            ->where ('is_done', '=', 1)
-            ->groupByRaw ('DATE(recalldate)')
-            ->orderBy ('date', 'ASC');
-        $doneDate   = [];
-        if (User::onlyOperatorAuth ()) {
-            //只有话务员权限的时候
-            $doneRecall = $doneRecall->where ('recall_user_id', get_login_user_id ());
+        //访问用户
+        $webUser  = WebView::selectRaw ('COUNT(DISTINCT web_user) as count,DATE(view_at) as date')
+            ->whereDate ('view_at', '>=', $start_date)
+            ->whereDate ('view_at', '<=', $end_date)
+            ->groupByRaw ('DATE(view_at)')
+            ->orderBy ('date', 'ASC')->get ();
+        $userData = [];
+
+        foreach ($webUser as $log) {
+            $userData[ $log->date ] = $log->count ?? 0;
         }
-        foreach ($doneRecall->get () as $log) {
-            $doneDate[ $log->date ] = $log->count ?? 0;
+        //访问次数
+        $webView  = WebView::selectRaw ('COUNT(web_user) as count,DATE(view_at) as date')
+            ->whereDate ('view_at', '>=', $start_date)
+            ->whereDate ('view_at', '<=', $end_date)
+            ->groupByRaw ('DATE(view_at)')
+            ->orderBy ('date', 'ASC')->get();
+        $viewData = [];
+        foreach ($webView as $log) {
+            $viewData[ $log->date ] = $log->count ?? 0;
         }
 
-        for ($i = 0; $i < 90; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             $_date = Carbon::parse ($start_date)->addDays ($i)->toDateString ();
             if ($_date > $end_date) {
                 break;
             }
             $x_data[]         = $_date;
-            $series['done'][] = isset($doneDate[ $_date ]) ? $doneDate[ $_date ] : 0;
+            $series['users'][] = isset($userData[ $_date ]) ? $userData[ $_date ] : 0;
+            $series['views'][] = isset($viewData[ $_date ]) ? $viewData[ $_date ] : 0;
         }
 
         return ajax_success_result ('', [
