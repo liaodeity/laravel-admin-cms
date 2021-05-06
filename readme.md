@@ -67,7 +67,6 @@ php artisan serve
 ### 开发文档
 
 - [https://www.jianbaizhan.com/cmf/docs](https://www.jianbaizhan.com/cmf/docs)
-- [https://gitee.com/liaodeiy/laravel-admin-docs](https://gitee.com/liaodeiy/laravel-admin-docs)
 
 
 
