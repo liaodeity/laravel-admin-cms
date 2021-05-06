@@ -24,10 +24,17 @@ Route::get ('/', function () {
     return view ('welcome');
 });
 
+/*前台*/
+Route::namespace ('Home')->middleware ('home')->group (function () {
+    //Route::get ('/', 'IndexController@index');
+    Route::post ('/view_browsing', [\App\Http\Controllers\Home\PublicController::class, 'webViewBrowsing']);
+});
+
+
+/*后台*/
 Route::get ('admin/login', [LoginController::class, 'index'])->name ('admin.login');
 Route::post ('admin/login/check', [LoginController::class, 'check'])->name ('admin.login.check');
 Route::get ('admin/login/captcha', [LoginController::class, 'captcha'])->name ('admin.login.captcha');
-
 
 Route::middleware ('admin')->prefix ('admin')->group (function () {
     Route::get ('/', [MainController::class, 'index'])->name ('admin');
@@ -36,8 +43,8 @@ Route::middleware ('admin')->prefix ('admin')->group (function () {
     Route::get ('main/logout', [MainController::class, 'logout'])->name ('admin.main.logout');
     Route::get ('main/clear', [MainController::class, 'clear'])->name ('admin.main.clear');
     Route::post ('main/logs', [MainController::class, 'logs'])->name ('admin.main.logs');
-    Route::post ('/main/sync_real_num', [MainController::class, 'sync_real_num']);
-    Route::post ('/main/get_echart', [MainController::class, 'get_echart']);
+    Route::post ('/main/sync_real_num', [MainController::class, 'syncRealNum']);
+    Route::post ('/main/get_echart', [MainController::class, 'getEchart']);
 
     //上传
     Route::post ('/upload', [UploadController::class, 'image'])->name ('upload.image');
