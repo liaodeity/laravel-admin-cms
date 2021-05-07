@@ -64,6 +64,8 @@ layui.use(['element', 'layer'], function () {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+    //记录浏览记录
+    $.post('{{url('view_browsing')}}');
 });
 </script>
 @yield('footer')

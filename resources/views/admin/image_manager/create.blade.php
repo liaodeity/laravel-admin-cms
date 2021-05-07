@@ -84,7 +84,7 @@
                     if (res.code === 0) {
                         location.reload();
                     } else {
-                        top.layer.msg(res.msg, {
+                        top.layer.msg(res.message, {
                             icon: 2,
                             time: FAIL_TIME,
                             shade: 0.3

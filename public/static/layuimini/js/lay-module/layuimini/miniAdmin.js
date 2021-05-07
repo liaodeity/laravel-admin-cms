@@ -262,9 +262,9 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
                     $.getJSON(clearUrl, function (data, status) {
                         layer.close(loading);
                         if (data.code !== 0) {
-                            return miniAdmin.error(data.msg);
+                            return miniAdmin.error(data.message);
                         } else {
-                            return miniAdmin.success(data.msg);
+                            return miniAdmin.success(data.message);
                         }
                     }).fail(function () {
                         layer.close(loading);
