@@ -19,7 +19,7 @@
                 @include('admin.user.base_show')
                 <tr>
                     <th>状态</th>
-                    <td>{{\App\Libs\Parameter::userStatusItem ($user->member->status ?? '') }}</td>
+                    <td>{{\App\Enums\UserStatusEnum::toLabel ($user->member->status ?? '')}}</td>
                 </tr>
                 <tr>
                     <th>登录次数</th>

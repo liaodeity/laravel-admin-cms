@@ -15,7 +15,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">状态<span class="color-red">*</span></label>
                     <div class="layui-input-block">
-                        @foreach(\App\Libs\Parameter::userStatusItem () as $ind => $item)
+                        @foreach(\App\Enums\UserStatusEnum::attrs () as $ind => $item)
                             <input type="radio" name="UserMember[status]" value="{{$ind}}"
                                    @if(isset($user->member->status) && $user->member->status == $ind) checked
                                    @endif title="{{$item}}">

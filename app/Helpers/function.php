@@ -11,10 +11,16 @@
 |-----------------------------------------------------------------------------------------------------------
 */
 
+require_once "my_function.php";
+
 use Illuminate\Support\Carbon;
 
+##########################################
+#系统助手函数库，自定义函数请my_function.php#
+#########################################
 
-function array_to_object($arr){
+function array_to_object ($arr)
+{
     $json = json_encode ($arr);
 
     return json_decode ($json);
@@ -27,35 +33,37 @@ function array_to_object($arr){
  * @param string $pid  parent标记字段
  * @param string $child
  * @param int    $root
- * @return array
+ * @return \Illuminate\Support\Collection
  */
-function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 0) {
+function list_to_tree ($list, $pk = 'id', $pid = 'pid', $child = '_child', $root = 0)
+{
     // 创建Tree
     $tree = array();
-    if(is_array($list)) {
+    if (is_array ($list)) {
         // 创建基于主键的数组引用
         $refer = array();
         foreach ($list as $key => $data) {
-            $refer[$data[$pk]] =& $list[$key];
+            $refer[ $data[ $pk ] ] =& $list[ $key ];
         }
         foreach ($list as $key => $data) {
             // 判断是否存在parent
-            $parentId =  $data[$pid];
+            $parentId = $data[ $pid ];
             if ($root == $parentId) {
-                $tree[] =& $list[$key];
-            }else{
-                if (isset($refer[$parentId])) {
-                    $parent =& $refer[$parentId];
-                    $parent[$child][] =& $list[$key];
+                $tree[] =& $list[ $key ];
+            } else {
+                if (isset($refer[ $parentId ])) {
+                    $parent             =& $refer[ $parentId ];
+                    $parent[ $child ][] =& $list[ $key ];
                 }
             }
         }
     }
-    $tree = array_to_object($tree);
+    $tree = array_to_object ($tree);
     $tree = collect ($tree);
 
     return $tree;
 }
+
 /**
  * 获取列标识
  * 目前最大支持702列
@@ -78,28 +86,20 @@ function get_key_num ()
 /**
  * 验证手机号是否正确
  */
-function isMobile ($mobile)
+function is_mobile ($mobile)
 {
     if (!is_numeric ($mobile)) {
         return false;
     }
 
-    //return preg_match( '#^[1-9][0-9]{10,13}$#', $mobile ) ? true : false;
-
     return preg_match ('#^([0])?([1])([0-9]{10,12})$#', $mobile) ? true : false;
-
-    //return preg_match( '#^[0-1][0-9]{10~14}$#', $mobile ) ? true : false ;
-
-    //
-    //return preg_match( '#^([0])?([1])(([3][0-9])|([4][5,6,7,9])|([5][0-3,5-9])|([6][6])|([7][0,1,3,5,6,7,8])|([8][0-9])|([9][8,9]))[0-9]{8}$#', $mobile );
-
 }
 
 
 /**
  * 验证固定电话是否正确
  */
-function isPhone ($Phone)
+function is_phone ($Phone)
 {
     if (!is_numeric ($Phone)) {
         return false;
@@ -118,7 +118,6 @@ function isPhone ($Phone)
             return preg_match ('#^[56]\d{5}$#', $Phone) ? true : false;
             break;
     }
-
 
     if (strpos ($Phone, '00853') === 0) {
         // 澳门电话
@@ -145,16 +144,8 @@ function isPhone ($Phone)
     #   00886 台湾
     # 2 区号，空，或者 0 开头 3 至 4 位长，如：
     #   空，
-    #   020,  广州
-    #   0750  江门
-    #   0760  中山
     # 3 实际号码，非 0 开头，7 至 8 位长，
     #   非空
-    #   3926596   江门主号
-    #   88888823  中山主号
-    #   83892922  广州主号
-
-    #
     #  ((0086)(0[1-9]\d{0,2})) - 处理以 0086 + 区号 的形式出现的 不能没有区号！
     #  (0[1-9]\d{0,2})?  以 0xx 0xxx 形式出现的区号，可以有或者没有
     #  [1-9]\d{6,7}      第一位不是 0 ，后 6 或者 7 位为数字 的电话号码。
@@ -164,9 +155,6 @@ function isPhone ($Phone)
     #
 
     return preg_match ('#^(((0086)(0[1-9]\d{0,2}))|(0[1-9]\d{0,2})?)[0-9]\d{6,8}$#', $Phone) ? true : false;
-
-    // 中国固话
-    //return preg_match( '#^(((0086)(0[1-9]\d{0,2}))|(0[1-9]\d{0,2})?)[1-9]\d{6,7}$#', $Phone ) ? true : false;
 }
 
 /**
@@ -174,17 +162,14 @@ function isPhone ($Phone)
  * @param $Phone
  * @return bool
  */
-function isPhoneOrMobile ($Phone)
+function is_phone_or_mobile ($Phone)
 {
     if (!is_numeric ($Phone)) {
-        //echo "FailMsg###联系电话 xx1 ( $Phone ) 不正确！";exit;
         return false;
     }
 
-    $ismobile = isMobile ($Phone);
-    $isphone  = isPhone ($Phone);
-
-    //echo "x话 xx1 ( $ismobile, $isphone ) 不正确！";
+    $ismobile = is_mobile ($Phone);
+    $isphone  = is_phone ($Phone);
 
     return $ismobile or $isphone;
 }
@@ -343,23 +328,6 @@ function get_range_display ($min, $max, $unit = '', $joiner = ' ~ ')
     return implode ($joiner, $arr);
 }
 
-/**
- * 获取微信端访问所属代理商ID add by gui
- * @return mixed
- */
-function get_member_share_agent_id ()
-{
-    return session ()->get ('MEMBER_SHARE_AGENT_ID', 0);
-}
-
-/**
- * 获取微信端访问所属分享人ID add by gui
- * @return mixed
- */
-function get_member_share_user_id ()
-{
-    return session ()->get ('MEMBER_SHARE_USER_ID', 0);
-}
 
 /**
  * 将文本换行\n进行替换成p标签显示，
@@ -492,18 +460,6 @@ function get_item_parameter ($key, $ind = 'all', $html = false)
 }
 
 /**
- * 生成跳转Tab链接
- * @param $title
- * @param $name
- * @param $url
- * @return string
- */
-function get_tab_link ($title, $name, $url)
-{
-    return '<a href="javascript:;" data-iframe-tab="' . $url . '" data-title="' . $title . '" data-icon="fa fa-list-alt">' . $name . '</a>';
-}
-
-/**
  * 获取版本号
  * @return string
  */
@@ -590,8 +546,8 @@ function get_login_user_id ()
 function ajax_error_result ($msg, $result = [])
 {
 
-    $result['code'] = -1;
-    $result['message']  = $msg;
+    $result['code']    = -1;
+    $result['message'] = $msg;
 
     return response ()->json ($result);
 }
@@ -605,8 +561,8 @@ function ajax_error_result ($msg, $result = [])
 
 function ajax_success_result ($msg, $result = [])
 {
-    $result['code'] = 0;
-    $result['message']  = $msg;
+    $result['code']    = 0;
+    $result['message'] = $msg;
 
     return response ()->json ($result);
 }

@@ -24,17 +24,7 @@
                                     <input type="text" name="real_name" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
-                            <div class="layui-inline">
-                                <label class="layui-form-label">状态</label>
-                                <div class="layui-input-inline">
-                                    <select name="status">
-                                        <option value="">请选择</option>
-                                        @foreach(\App\Libs\Parameter::userStatusItem () as $ind => $item)
-                                            <option value="{{$ind}}">{{$item}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
+                            <input type="hidden" id="status" name="status" value="">
                             <div class="layui-inline">
                                 <button type="submit" class="layui-btn layui-btn-primary" lay-submit lay-filter="data-search-btn"><i
                                         class="layui-icon"></i> 搜 索
@@ -44,7 +34,18 @@
                     </form>
                 </div>
             </fieldset>
-            <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+            <div class="layui-tab layui-tab-brief margin-top-15" lay-filter="tabList">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">全部会员</li>
+                    <li>使用中会员</li>
+                    <li>已禁用会员</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+                    </div>
+                </div>
+            </div>
 
             <script type="text/html" id="toolbarFilter">
                 <div class="layui-btn-container">
@@ -67,10 +68,11 @@
 
 @section('footer')
     <script>
-        layui.use(['form', 'table'], function () {
+        layui.use(['form', 'table','element'], function () {
             var $ = layui.jquery,
                 form = layui.form,
                 table = layui.table,
+                element = layui.element,
                 layuimini = layui.layuimini;
 
             table.render({
@@ -96,7 +98,19 @@
                 limit: 15,
                 page: true,
             });
-
+            element.on('tab(tabList)', function(data){
+                var status = '';
+                switch (data.index) {
+                    case 1:
+                        status = '{{\App\Enums\UserStatusEnum::ENABLE}}';
+                        break;
+                    case 2:
+                        status = '{{\App\Enums\UserStatusEnum::DISABLE}}';
+                        break;
+                }
+                $("#status").val(status);
+                $(".layui-form button[type='submit']").click();
+            });
             // 监听搜索操作
             form.on('submit(data-search-btn)', function (data) {
                 var result = JSON.stringify(data.field);
