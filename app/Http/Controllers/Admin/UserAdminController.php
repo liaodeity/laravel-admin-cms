@@ -51,7 +51,7 @@ class UserAdminController extends Controller
         if (!check_admin_auth ($this->module_name.'_'.__FUNCTION__)) {
             return auth_error_return ();
         }
-        if (request ()->ajax ()) {
+        if (request ()->wantsJson ()) {
             $limit = $request->input ('limit', 15);
             QueryWhere::defaultOrderBy ('users.id', 'DESC')->setRequest ($request->all ());
             $M = $this->repository->makeModel ()->select ('user_admins.*', 'users.name', 'user_infos.real_name', 'user_infos.gender', 'user_infos.telephone', 'user_infos.address');

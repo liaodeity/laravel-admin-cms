@@ -13,12 +13,13 @@
     <meta name="csrf-token" content="{{csrf_token()}}">
     <link rel="icon" href="/favicon.ico">
     <link href="{{asset ('static/umeditor/themes/default/css/umeditor.css')}}" type="text/css" rel="stylesheet">
-    <link rel="stylesheet" href="{{asset ('static/layuimini-onepage/lib/layui-v2.5.5/css/layui.css')}}" media="all">
-    <link rel="stylesheet" href="{{asset ('static/layuimini-onepage/css/layuimini.css')}}" media="all">
-    <link rel="stylesheet" href="{{asset ('static/layuimini-onepage/lib/font-awesome-4.7.0/css/font-awesome.min.css')}}" media="all">
-    <link rel="stylesheet" href="{{asset ('static/layuimini-onepage/css/public.css?v='.get_version ())}}" media="all">
+    <link rel="stylesheet" href="{{asset ('static/layuimini-'.get_admin_theme().'/lib/layui-v2.5.5/css/layui.css')}}" media="all">
+    <link rel="stylesheet" href="{{asset ('static/layuimini-'.get_admin_theme().'/css/layuimini.css')}}" media="all">
+    <link rel="stylesheet" href="{{asset ('static/layuimini-'.get_admin_theme().'/lib/font-awesome-4.7.0/css/font-awesome.min.css')}}" media="all">
+    <link rel="stylesheet" href="{{asset ('static/layuimini-'.get_admin_theme().'/css/public.css?v='.get_version ())}}" media="all">
     <link rel="stylesheet" href="{{asset ('static/admin/fonts/iconfont.css?v='.get_version ())}}">
     <link rel="stylesheet" href="{{asset ('static/admin/css/admin.min.css?v='.get_version ())}}" media="all">
+    <link rel="stylesheet" href="{{asset ('static/admin/css/admin-'.get_admin_theme().'.min.css?v='.get_version ())}}" media="all">
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -42,10 +43,10 @@
 <body class="@yield('body_class')">
 @yield('content')
 <script src="{{asset ('static/admin/js/lang.js?v='.get_version ())}}" charset="utf-8"></script>
-<script src="{{asset ('static/layuimini-onepage/lib/jquery-3.4.1/jquery-3.4.1.min.js')}}" charset="utf-8"></script>
-<script src="{{asset ('static/layuimini-onepage/lib/layui-v2.5.5/layui.js?v=1.0.4')}}" charset="utf-8"></script>
-<script src="{{asset ('static/layuimini-onepage/js/lay-config.js?v=1.0.4')}}" charset="utf-8"></script>
-<script src="{{asset ('static/layuimini-onepage/js/lay-module/echarts/echarts.js')}}"></script>
+<script src="{{asset ('static/layuimini-'.get_admin_theme().'/lib/jquery-3.4.1/jquery-3.4.1.min.js')}}" charset="utf-8"></script>
+<script src="{{asset ('static/layuimini-'.get_admin_theme().'/lib/layui-v2.5.5/layui.js?v=1.0.4')}}" charset="utf-8"></script>
+<script src="{{asset ('static/layuimini-'.get_admin_theme().'/js/lay-config.js?v=1.0.4')}}" charset="utf-8"></script>
+<script src="{{asset ('static/layuimini-'.get_admin_theme().'/js/lay-module/echarts/echarts.js')}}"></script>
 <script type="text/javascript" charset="utf-8" src="{{asset ('static/umeditor/umeditor.config.js')}}"></script>
 <script type="text/javascript" charset="utf-8" src="{{asset ('static/umeditor/umeditor.min.js')}}"></script>
 <script type="text/javascript" src="{{asset ('static/umeditor/lang/zh-cn/zh-cn.js')}}"></script>

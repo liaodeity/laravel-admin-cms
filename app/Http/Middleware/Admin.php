@@ -34,7 +34,7 @@ class Admin
         $LoginService = new LoginService();
         $check        = $LoginService->checkIsLogin ();
         if (empty($user_id) || empty($check)) {
-            if ($request->ajax ()) {
+            if ($request->wantsJson ()) {
                 return ajax_error_result ('登录已过期');
             } else {
                 return redirect (route ('admin.login'));

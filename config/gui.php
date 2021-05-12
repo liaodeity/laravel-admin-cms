@@ -11,38 +11,15 @@
 |-----------------------------------------------------------------------------------------------------------
 */
 
-namespace App\Repositories;
-
-
-use App\Models\Config;
-
-class ConfigRepository extends BaseRepository implements InterfaceRepository
-{
-
-    public function model ()
-    {
-        return Config::class;
-    }
-
-    public function allowDelete ($id)
-    {
-        return true;
-    }
-
-    /**
-     * 保存配置内容 add by gui
-     * @param Config $config
-     * @param        $content
-     * @return bool
-     */
-    public function saveContent (Config $config, $content)
-    {
-        $config->content = $content;
-        if ($config->name == 'admin_theme') {
-            //清除主题session
-            get_admin_theme (true);
-        }
-
-        return $config->save ();
-    }
-}
+//系统基础配置
+return [
+    /*
+      |--------------------------------------------------------------------------
+      | Admin Theme
+      |--------------------------------------------------------------------------
+      |
+      | 设置后台默认主题为"iframe"或"onepage".
+      | 获取当前主题"get_admin_theme()".
+      */
+    'admin_theme' => 'onepage',
+];

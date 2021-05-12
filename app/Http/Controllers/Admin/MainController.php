@@ -29,7 +29,7 @@ class MainController extends Controller
     public function index ()
     {
         $user = User::find (get_login_user_id ());
-        $view = 'onepage';
+        $view = get_admin_theme (true);
 
         return view ('admin.main.' . $view, compact ('user'));
     }

@@ -52,7 +52,7 @@ class RoleController extends Controller
         if (!check_admin_auth ($this->module_name . '_' . __FUNCTION__)) {
             return auth_error_return ();
         }
-        if (request ()->ajax ()) {
+        if (request ()->wantsJson ()) {
             $limit = $request->input ('limit', 15);
             QueryWhere::defaultOrderBy ('roles.id', 'DESC')->setRequest ($request->all ());
             $M = $this->repository->makeModel ()->select ('roles.*');

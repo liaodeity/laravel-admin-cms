@@ -9,7 +9,7 @@
             <div class="layui-form layuimini-form">
                 @foreach($configs as $config)
                     <div class="layui-form-item">
-                        <label class="layui-form-label required">{{$config->title}}</label>
+                        <label class="layui-form-label ">{{$config->title}}</label>
                         <div class="layui-input-block">
                             @switch($config->type)
                                 @case(\App\Models\Config::NUM_TYPE)
@@ -23,11 +23,18 @@
                                        class="layui-input">
                                 @break
                                 @case(\App\Models\Config::ARR_TYPE)
-                                @case(\App\Models\Config::ITEM_TYPE)
                                 <select name="Config[{{$config->id}}]">
                                     <option value=""></option>
                                     @foreach($config->getParamItem($config) as $item)
                                         <option value="{{$item->value}}" @if(isset($config->content) && $config->content == $item->value) selected @endif>{{$item->label ?? ''}}</option>
+                                    @endforeach
+                                </select>
+                                @break
+                                @case(\App\Models\Config::ITEM_TYPE)
+                                <select name="Config[{{$config->id}}]">
+                                    <option value=""></option>
+                                    @foreach($config->getParamItem($config) as $value => $label)
+                                        <option value="{{$value}}" @if(isset($config->content) && $config->content == $value) selected @endif>{{$label ?? ''}}</option>
                                     @endforeach
                                 </select>
                                 @break
@@ -36,7 +43,7 @@
                                           maxlength="65535">{{$config->content ?? ''}}</textarea>
                             @endswitch
                             @if($config->description)
-                                <tip>ddfs</tip>
+                                <tip>{{$config->description}}</tip>
                             @endif
                         </div>
                     </div>

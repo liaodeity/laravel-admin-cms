@@ -19,6 +19,25 @@ use Illuminate\Support\Carbon;
 #系统助手函数库，自定义函数请my_function.php#
 #########################################
 
+if (!function_exists ('get_admin_theme')) {
+    function get_admin_theme ($clear = false)
+    {
+        if ($clear) {
+            session ()->put ('admin_theme', null);
+        }
+        $adminTheme = session ('admin_theme');
+        if (!$adminTheme) {
+            $adminTheme = get_config_value ('admin_theme');
+            if (!$adminTheme) {
+                $adminTheme = config ('gui.admin_theme');
+            }
+            session ()->put ('admin_theme', $adminTheme);
+        }
+
+        return $adminTheme;
+    }
+}
+
 function array_to_object ($arr)
 {
     $json = json_encode ($arr);
