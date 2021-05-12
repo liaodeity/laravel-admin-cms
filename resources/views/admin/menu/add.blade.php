@@ -103,7 +103,7 @@
                 </div>
                 <div class="layui-form-item">
                     <div class="layui-input-block  padding-bottom-15">
-                        <button class="layui-btn" lay-submit="" lay-filter="form{{$_method}}">立即提交</button>
+                        <button class="layui-btn" lay-submit="" lay-filter="create">立即提交</button>
                     </div>
                 </div>
             </form>
@@ -112,7 +112,6 @@
 @endsection
 
 @section('footer')
-    {{--    @include('common/ueditor',['name'=>'content'])--}}
     <script type="text/javascript">
         layui.use(['element', 'form', 'jquery', 'layedit', 'laydate', 'systemGui'], function () {
             var form = layui.form
@@ -130,15 +129,32 @@
                 elem: '#release_at',
                 trigger: 'click'
             });
+            //监听提交
+            form.on('submit(create)', function (data) {
+                if ($("input[name='_method']").val() === 'PUT') {
+                    id = $("input[name='id']").val();
+                    _url = '/admin/' + MODULE_NAME + '/' + id;
+                } else {
+                    _url = '/admin/' + MODULE_NAME;
+                }
+                axios.post(_url, $(data.form).serialize()).then((response) => {
+                    var data = response.data;
+                    if (data.code === 0) {
+                        layer.msg(data.message, {icon: 6, time: SUCCESS_TIME, shade: 0.2});
+                        setTimeout(function () {
+                            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                            parent.$('button[lay-filter="data-search-btn"]').click();//刷新列表
+                            parent.layer.close(index); //再执行关闭
 
-            //新建
-            form.on('submit(formPOST)', function (data) {
-                systemGui.createOrUpdate(data.field, 'POST', '{{url('admin/menu')}}')
-                return false;
-            });
-            //更新
-            form.on('submit(formPUT)', function (data) {
-                systemGui.createOrUpdate(data.field, 'PUT', '{{url('admin/menu',$menu->id)}}')
+                        }, SUCCESS_TIME)
+                    } else {
+                        layer.msg(data.message, {
+                            icon: 2,
+                            time: FAIL_TIME,
+                            shade: 0.3
+                        });
+                    }
+                });
 
                 return false;
             });

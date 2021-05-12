@@ -38,6 +38,10 @@ class ConfigRepository extends BaseRepository implements InterfaceRepository
     public function saveContent (Config $config, $content)
     {
         $config->content = $content;
+        if ($config->name == 'admin_theme') {
+            //清除主题session
+            get_admin_theme (true);
+        }
 
         return $config->save ();
     }

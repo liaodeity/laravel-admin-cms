@@ -49,7 +49,7 @@ class MenuController extends Controller
         if (!check_admin_auth ($this->module_name . '_' . __FUNCTION__)) {
             return auth_error_return ();
         }
-        if (request ()->ajax ()) {
+        if (request ()->wantsJson ()) {
             QueryWhere::setRequest ($request->all ());
             $M = $this->repository->makeModel ()->select ('menus.*');
             QueryWhere::like ($M, 'menu_name');
@@ -134,7 +134,7 @@ class MenuController extends Controller
         }
         $_method = 'PUT';
 
-        return view ('admin.' . $this->module_name . '.create_or_edit', compact ('menu', '_method'));
+        return view ('admin.' . $this->module_name . '.add', compact ('menu', '_method'));
     }
 
     /**
@@ -187,31 +187,5 @@ class MenuController extends Controller
     public function destroy (Menu $menu)
     {
         //
-    }
-
-    /**
-     * 标记已读 add by gui
-     * @param Menu $menu
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function read (Menu $menu)
-    {
-        $menu_id  = get_menuin_user_id ();
-        $insArr   = [
-            'menu_id' => $menu->id,
-            'user_id' => $menu_id,
-            'is_read' => 1,
-            'read_at' => now (),
-        ];
-        $menuRead = MenuRead::where ('menu_id', $menu->id)->where ('user_id', $menu_id)->first ();
-        if (isset($menuRead->id)) {
-            return ajax_success_result ('已读成功');
-        }
-        $ret = MenuRead::create ($insArr);
-        if ($ret) {
-            return ajax_success_result ('已读成功');
-        } else {
-            return ajax_error_result ('已读失败');
-        }
     }
 }

@@ -46,7 +46,7 @@ class LogController extends Controller
         if (!check_admin_auth ($this->module_name . '_' . __FUNCTION__)) {
             return auth_error_return();
         }
-        if (request ()->ajax ()) {
+        if (request ()->wantsJson ()) {
             $limit       = $request->input ('limit', 15);
             $source_type = $request->input ('source_type');
             QueryWhere::defaultOrderBy ('logs.id', 'DESC')->setRequest ($request->all ());

@@ -28,7 +28,7 @@
         "group_id": 1,
         "name": "icp",
         "title": "备案信息",
-        "type": 6,
+        "type": 1,
         "content": "",
         "param_json": "",
         "description": "",
@@ -103,7 +103,7 @@
         "type": 1,
         "content": "建百站CMS",
         "param_json": "",
-        "description": "",
+        "description": "长度为7个字以内",
         "created_at": "2021-04-14 10:50:58",
         "updated_at": "2021-04-14 11:17:21"
     },
@@ -130,5 +130,17 @@
         "description": "",
         "created_at": "2021-04-14 10:50:58",
         "updated_at": "2021-04-14 10:50:58"
+    },
+    {
+        "id": 12,
+        "group_id": 1,
+        "name": "admin_theme",
+        "title": "后台主题",
+        "type": 4,
+        "content": "onepage",
+        "param_json": "{\"iframe\":\"多标签模式\",\"onepage\":\"单页面模式\"}",
+        "description": "",
+        "created_at": "2021-05-12 09:38:17",
+        "updated_at": "2021-05-12 10:02:56"
     }
 ]

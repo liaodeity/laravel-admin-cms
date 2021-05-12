@@ -49,7 +49,7 @@ class ArticleController extends Controller
     {
 
         $category_id = $request->input ('category_id', 0);
-        if (request ()->ajax ()) {
+        if (request ()->wantsJson ()) {
             $limit = $request->input ('limit', 15);
             QueryWhere::defaultOrderBy ('articles.id', 'DESC')->setRequest ($request->all ());
             $M = $this->repository->makeModel ()->select ('articles.*');

@@ -103,7 +103,7 @@
             var form = layui.form;
             var treetable = layui.treetable;
             var miniAdmin = layui.miniAdmin;
-
+            form.render();
             // 渲染表格
             layer.load(2);
            var treeConfig = {
@@ -149,11 +149,13 @@
                 // layer.alert(result, {
                 //     title: '最终的搜索信息'
                 // });
-                console.log(result);
+                // console.log(result);
                 //执行搜索重载
                 treeConfig.where = data.field;
                 treeConfig.data = null;
-                console.log(treeConfig);
+                treeConfig.url = '{{url('admin/menu')}}';
+                // console.log(treeConfig);
+                layer.load(2);
                 treetable.render(treeConfig)
 
                 return false;

@@ -467,7 +467,7 @@
                 url: url,
                 data: '',
                 beforeSend: function () {
-                    $("#to_do_log").html('<p style="text-align: center;"><img src="{{asset ('static/layuimini/lib/layui-v2.5.5/css/modules/layer/default/loading-2.gif')}}" alt=""></p>');
+                    $("#to_do_log").html('<p style="text-align: center;"><img src="{{asset ('static/admin/images/loading-2.gif')}}" alt=""></p>');
                     $("#log-page").html('')
                 },
                 success: function (json) {

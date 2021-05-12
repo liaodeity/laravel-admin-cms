@@ -32,21 +32,22 @@ class Config extends Model
     {
         $name   = strtolower (trim ($name));
         $config = Config::where ('name', $name)->first ();
-
         if (!$config) {
             return $default;
         }
-        $content = $config->contnet;
+        $content = $config->content;
         switch ($config->type) {
             case self::NUM_TYPE:
                 $content = (int)$content;
                 break;
             case self::ARR_TYPE:
-            case self::ITEM_TYPE:
                 $content = json_decode ($content, true);
                 if (!$content || !is_array ($content)) {
                     $content = [];
                 }
+                break;
+            case self::ITEM_TYPE:
+                //
                 break;
             case self::JSON_TYPE:
                 $json = json_decode ($content, true);

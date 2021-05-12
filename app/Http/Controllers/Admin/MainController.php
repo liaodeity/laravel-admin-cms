@@ -15,13 +15,8 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
-use App\Models\Feedback;
-use App\Models\JoinUs;
-use App\Models\Link;
 use App\Models\Log;
 use App\Models\Menu;
-use App\Models\Recall;
 use App\Models\User;
 use App\Models\WebView;
 use Illuminate\Http\Request;
@@ -34,8 +29,9 @@ class MainController extends Controller
     public function index ()
     {
         $user = User::find (get_login_user_id ());
+        $view = get_admin_theme (true);
 
-        return view ('admin.main.index', compact ('user'));
+        return view ('admin.main.' . $view, compact ('user'));
     }
 
     /**
@@ -229,12 +225,12 @@ class MainController extends Controller
      */
     public function syncRealNum ()
     {
-        $monthDate   = date ('Y-m-01');
-        $userId      = get_login_user_id ();
+        $monthDate       = date ('Y-m-01');
+        $userId          = get_login_user_id ();
         $todayOrderCount = 0;
         $monthOrderCount = 0;
         $monthOrderMoney = '0.00';
-        $memberCount = User\UserMember::count ();
+        $memberCount     = User\UserMember::count ();
 
 
         $result['member']            = $memberCount;
@@ -275,7 +271,7 @@ class MainController extends Controller
             ->whereDate ('view_at', '>=', $start_date)
             ->whereDate ('view_at', '<=', $end_date)
             ->groupByRaw ('DATE(view_at)')
-            ->orderBy ('date', 'ASC')->get();
+            ->orderBy ('date', 'ASC')->get ();
         $viewData = [];
         foreach ($webView as $log) {
             $viewData[ $log->date ] = $log->count ?? 0;
@@ -286,7 +282,7 @@ class MainController extends Controller
             if ($_date > $end_date) {
                 break;
             }
-            $x_data[]         = $_date;
+            $x_data[]          = $_date;
             $series['users'][] = isset($userData[ $_date ]) ? $userData[ $_date ] : 0;
             $series['views'][] = isset($viewData[ $_date ]) ? $viewData[ $_date ] : 0;
         }

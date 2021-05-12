@@ -50,7 +50,7 @@ class UserController extends Controller
         if (!check_admin_auth ($this->module_name . '_' . __FUNCTION__)) {
             return auth_error_return ();
         }
-        if (request ()->ajax ()) {
+        if (request ()->wantsJson ()) {
             $limit = $request->input ('limit', 15);
             QueryWhere::defaultOrderBy ('users.id', 'DESC')->setRequest ($request->all ());
             $M = $this->repository->makeModel ()->select ('users.*');
@@ -267,7 +267,7 @@ class UserController extends Controller
 
     public function password (Request $request)
     {
-        if ($request->ajax ()) {
+        if ($request->wantsJson ()) {
             $input = $request->input ('User');
             try {
                 $this->repository->changePassword (get_login_user_id (), $input);
@@ -290,7 +290,7 @@ class UserController extends Controller
      */
     public function setting (Request $request)
     {
-        if ($request->ajax ()) {
+        if ($request->wantsJson ()) {
             $input = $request->input ('User');
             DB::beginTransaction ();
             $user = $this->repository->update ($input, get_login_user_id ());
