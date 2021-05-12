@@ -71,6 +71,7 @@
                 , layedit = layui.layedit
                 , laydate = layui.laydate,
                 layarea = layui.layarea;
+            form.render();
 
             var upload = layui.upload;
 

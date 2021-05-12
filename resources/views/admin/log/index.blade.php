@@ -76,6 +76,8 @@
                 table = layui.table,
                 layuimini = layui.layuimini;
             laydate = layui.laydate;
+            form.render();
+
             table.render({
                 elem: '#currentTableId',
                 url: '/admin/' + MODULE_NAME,

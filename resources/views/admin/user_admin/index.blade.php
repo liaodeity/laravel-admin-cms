@@ -80,7 +80,7 @@
                 form = layui.form,
                 table = layui.table,
                 layuimini = layui.layuimini;
-
+            form.render();
             table.render({
                 elem: '#currentTableId',
                 url: '/admin/' + MODULE_NAME,

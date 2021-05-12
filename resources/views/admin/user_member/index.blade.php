@@ -74,7 +74,7 @@
                 table = layui.table,
                 element = layui.element,
                 layuimini = layui.layuimini;
-
+            form.render();
             table.render({
                 elem: '#currentTableId',
                 url: '/admin/' + MODULE_NAME,
