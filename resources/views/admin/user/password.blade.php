@@ -55,7 +55,7 @@
                 , laydate = layui.laydate,
                 layarea = layui.layarea;
             table = layui.layarea;
-
+            form.render();
             //日期
             laydate.render({
                 elem: '#date',
