@@ -37,7 +37,8 @@ layui.define(["jquery", "miniMenu", "element","miniPage", "miniTheme"], function
             options.bgColorDefault = options.bgColorDefault || 0;
             options.multiModule = options.multiModule || false;
             options.menuChildOpen = options.menuChildOpen || false;
-            options.loadingTime = options.loadingTime || 1;
+            options.loadingTime = options.loadingTime || 0;
+            options.loadingTime = options.loadingTime || 0;
             options.pageAnim = options.pageAnim || false;
             $.getJSON(options.iniUrl, function (data) {
                 if (data == null) {
@@ -239,10 +240,10 @@ layui.define(["jquery", "miniMenu", "element","miniPage", "miniTheme"], function
                 if (clearUrl != undefined && clearUrl != '' && clearUrl != null) {
                     $.getJSON(clearUrl, function (data, status) {
                         layer.close(loading);
-                        if (data.code != 1) {
-                            return miniAdmin.error(data.msg);
+                        if (data.code !== 0) {
+                            return miniAdmin.error(data.message);
                         } else {
-                            return miniAdmin.success(data.msg);
+                            return miniAdmin.success(data.message);
                         }
                     }).fail(function () {
                         layer.close(loading);
