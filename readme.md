@@ -1,6 +1,16 @@
 
 ### Laravel Admin CMS
 
+<p align="center">
+  <a href="https://github.com/laravel/framework">
+    <img src="https://img.shields.io/badge/laravel-8.40.0-brightgreen.svg" alt="laravel">
+  </a>
+  <a href="https://www.layui.com">
+    <img src="https://img.shields.io/badge/vue-2.5.5-brightgreen.svg" alt="layui">
+  </a>
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg">
+</p>
+
 **项目正在完善中，可能会存在较大改动。**
 
 基于Laravel的后台内容管理开发系统，后台基于layui-mini前端主题。能够帮助你节约开发基础系统功能，及一些常规功能插件。是一个快速上手，项目基础开发，外包开发首选CMS。
@@ -27,8 +37,15 @@
 
 - 演示说明：理性演示，误删除基础数据，可自行添加数据，自行删除（数据库会不定时重置抹除数据）
 
+### 项目仓库说明
+如果因网络原因无法下载，可通过`国内Gitee`版本下载，会定时同步到`Gitee`
+
+- GitHub：[https://github.com/liaodeity/laravel-admin-cms](https://github.com/liaodeity/laravel-admin-cms)
+
+- 国内Gitee：[https://gitee.com/liaodeiy/laravel-admin-cms](https://gitee.com/liaodeiy/laravel-admin-cms)
 
 ### 如何使用
+
 - 使用前学习
 
   需对`laravel`有基础了解，以及简单开发经验
