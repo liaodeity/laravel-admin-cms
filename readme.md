@@ -6,7 +6,7 @@
     <img src="https://img.shields.io/badge/laravel-8.40.0-brightgreen.svg" alt="laravel">
   </a>
   <a href="https://www.layui.com">
-    <img src="https://img.shields.io/badge/vue-2.5.5-brightgreen.svg" alt="layui">
+    <img src="https://img.shields.io/badge/layui-2.5.5-brightgreen.svg" alt="layui">
   </a>
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg">
 </p>
