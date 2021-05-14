@@ -52,7 +52,7 @@
 
 - 获取代码
 ```bash
-git clone https://gitee.com/liaodeiy/laravel-admin-cms.git
+git clone https://github.com/liaodeity/laravel-admin-cms.git
 cd laravel-admin-cms
 composer install
 ```
