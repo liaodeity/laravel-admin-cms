@@ -90,7 +90,7 @@
         .captcha-img {
             display: inline-block;
             vertical-align: top;
-            background: url("{{asset ('static/layuimini/lib/layui-v2.5.5/css/modules/layer/default/loading-2.gif')}}") no-repeat center;
+            background: url("{{asset ('static/admin/images/loading-2.gif')}}") no-repeat center;
             min-width: 32px;
         }
 
@@ -104,7 +104,7 @@
             text-align: center
         }
         .wx_scan .pic{
-            background: url("{{asset ('static/layuimini/lib/layui-v2.5.5/css/modules/layer/default/loading-2.gif')}}") no-repeat center;
+            background: url("{{asset ('static/admin/images/loading-2.gif')}}") no-repeat center;
             height: 164px;
         }
         .wx_scan .pic .suc{
@@ -196,7 +196,7 @@
     </div>
 @endsection
 @section('footer')
-    <script src="{{asset ('static/layuimini/lib/jq-module/jquery.particleground.min.js')}}" charset="utf-8"></script>
+    <script src="{{asset ('static/layuimini-'.get_admin_theme().'/lib/jq-module/jquery.particleground.min.js')}}" charset="utf-8"></script>
     <script>
         layui.use(['form'], function () {
             var form = layui.form,
