@@ -68,13 +68,13 @@ class DevBackUp extends Command
             $file = $table . '.json';
 
             $result = DB::table ($table)->get ();
-            //if ($result->isEmpty ()) {
-            //    continue;
-            //}
             $content        = $result->toArray ();
             $data[ $table ] = Storage::disk ('base')->put ($dir . '/' . $file, json_encode ($content, JSON_UNESCAPED_UNICODE + JSON_PRETTY_PRINT));
         }
         //打包一份备份
+        if(!Storage::exists ('dev-backup')){
+            Storage::makeDirectory ('dev-backup');
+        }
         $bak_zip = storage_path ('app/dev-backup/' . date ('YmdHis') . '.bak.zip');
         $bakZip  = Zip::create ($bak_zip);
         $bakZip->add (base_path ($dir));
