@@ -11,8 +11,6 @@
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg">
 </p>
 
-**项目正在完善中，可能会存在较大改动。**
-
 基于Laravel的后台内容管理开发系统，后台基于layui-mini前端主题。能够帮助你节约开发基础系统功能，及一些常规功能插件。是一个快速上手，项目基础开发，外包开发首选CMS。
 
 - 后台系统常用功能
@@ -107,9 +105,9 @@ php artisan serve
 
 ### 如何贡献
  
- - 发布[issue](https://gitee.com/liaodeiy/laravel-admin-cms/issues)进行问题反馈和建议
+ - 发布[issue](https://github.com/liaodeity/laravel-admin-cms/issues)进行问题反馈和建议
  
- - 通过[Pull Request](https://gitee.com/liaodeiy/laravel-admin-cms/pulls)提交修复
+ - 通过[Pull Request](https://github.com/liaodeity/laravel-admin-cms/pulls)提交修复
  
  - 完善我们的文档和例子
 
