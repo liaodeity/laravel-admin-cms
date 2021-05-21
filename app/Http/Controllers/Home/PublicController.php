@@ -22,9 +22,10 @@ class PublicController extends Controller
 {
     public function webViewBrowsing (Request $request)
     {
-        $web_user   = get_login_user_id ();
+        $web_user  = get_login_user_id ();
         $userAgent = $request->userAgent ();
-        $clientId  = $request->getClientIp ();
+        $clientIp  = $request->getClientIp ();
+        $referer   = $request->server ('HTTP_REFERER');
         $viewUrl   = $request->input ('url');
         if (!$viewUrl) {
             $viewUrl = $request->header ('referer');
@@ -35,7 +36,8 @@ class PublicController extends Controller
         $insArr = [
             'web_user'   => $web_user,
             'user_agent' => $userAgent,
-            'client_id'  => $clientId,
+            'client_ip'  => $clientIp ?? '',
+            'referer'    => $referer ?? '',
             'view_url'   => $viewUrl,
             'view_at'    => now ()
         ];
