@@ -36,7 +36,7 @@
 - 演示说明：理性演示，误删除基础数据，可自行添加数据，自行删除（数据库会不定时重置抹除数据）
 
 ### 项目仓库说明
-如果因网络原因无法下载，可通过`国内Gitee`版本下载，会定时同步到`Gitee`
+如果因网络原因无法下载，可通过`国内Gitee`版本下载，一旦有新的发行版将同步到`Gitee`
 
 - GitHub：[https://github.com/liaodeity/laravel-admin-cms](https://github.com/liaodeity/laravel-admin-cms)
 
