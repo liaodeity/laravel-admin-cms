@@ -65,8 +65,8 @@ class MenuController extends Controller
                     //进行了搜索，不进行上下级显示
                     $list[ $key ]['pid'] = 0;
                 }
-                $list[$key]['status'] = MenuStatusEnum::toHtml ($item->status);
-                $list[$key]['type'] = MenuTypeEnum::toHtml ($item->type);
+                $list[ $key ]['status']     = MenuStatusEnum::toHtml ($item->status);
+                $list[ $key ]['type']       = MenuTypeEnum::toHtml ($item->type);
                 $list[ $key ]['_view_auth'] = true;
                 $list[ $key ]['_edit_url']  = url ('admin/menu/' . $item->id . '/edit');
             }
@@ -92,7 +92,16 @@ class MenuController extends Controller
      */
     public function create ()
     {
-        //
+        if (!check_admin_auth ($this->module_name . '_' . __FUNCTION__)) {
+            return auth_error_return ();
+        }
+        $menu = $this->repository->makeModel ();
+        $_method     = 'POST';
+        $menus       = Menu::orderBy ('sort', 'asc')->get ();
+        $menus       = $menus->toArray ();
+        $menuPidList = list_to_tree ($menus);
+
+        return view ('admin.' . $this->module_name . '.add', compact ('menu', '_method', 'menuPidList'));
     }
 
     /**
@@ -103,7 +112,33 @@ class MenuController extends Controller
      */
     public function store (Request $request)
     {
-        //
+        $request->validate ([
+            'Menu.title'  => 'required',
+            'Menu.status' => 'required',
+        ], [], [
+            'Menu.title'  => '菜单名称',
+            'Menu.status' => '状态',
+        ]);
+        if (!check_admin_auth ($this->module_name . ' edit')) {
+            return auth_error_return ();
+        }
+        $input = $request->input ('Menu');
+        $input = $this->formatRequestInput (__FUNCTION__, $input);
+        try {
+            $input['type'] = MenuTypeEnum::MENU;
+            $input['uuid'] = get_uuid ();
+            $menu = $this->repository->create ($input);
+            if ($menu) {
+                Log::createLog (Log::EDIT_TYPE, '添加菜单', $menu->toArray (), $menu->id, Menu::class);
+
+                return ajax_success_result ('添加成功');
+            } else {
+                return ajax_success_result ('添加失败');
+            }
+
+        } catch (BusinessException $e) {
+            return ajax_error_result ($e->getMessage ());
+        }
     }
 
     /**
@@ -132,9 +167,12 @@ class MenuController extends Controller
         if (!check_admin_auth ($this->module_name . '_' . __FUNCTION__)) {
             return auth_error_return ();
         }
-        $_method = 'PUT';
+        $_method     = 'PUT';
+        $menus       = Menu::orderBy ('sort', 'asc')->get ();
+        $menus       = $menus->toArray ();
+        $menuPidList = list_to_tree ($menus);
 
-        return view ('admin.' . $this->module_name . '.add', compact ('menu', '_method'));
+        return view ('admin.' . $this->module_name . '.add', compact ('menu', '_method', 'menuPidList'));
     }
 
     /**
@@ -175,6 +213,9 @@ class MenuController extends Controller
 
     private function formatRequestInput (string $__FUNCTION__, $input)
     {
+        if(isset($input['pid']) && empty($input['pid'])){
+            $input['pid'] = 0;
+        }
         return $input;
     }
 

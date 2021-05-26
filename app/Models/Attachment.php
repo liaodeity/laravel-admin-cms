@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
 class Attachment extends Model
 {
     use DateTimeFormat;
-    protected $fillable = ['company_id', 'user_id', 'name', 'path', 'file_md5', 'file_sha1', 'status', 'created_at', 'updated_at'];
+    protected $fillable = [ 'user_id', 'name', 'path', 'file_md5', 'file_sha1', 'status'];
 
     /**
      * 保存附件信息，根据SHA和MD5判断是否重复，重复标记记录status=-1，

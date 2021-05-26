@@ -31,17 +31,6 @@
                                 </div>
                             </div>
                             <div class="layui-inline">
-                                <label class="layui-form-label">类型</label>
-                                <div class="layui-input-inline">
-                                    <select name="type" lay-filter="type">
-                                        <option value=""></option>
-                                        @foreach(\App\Enums\MenuTypeEnum::attrs () as $ind=>$val)
-                                            <option value="{{$ind}}">{{$val}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="layui-inline">
                                 <label class="layui-form-label">状态</label>
                                 <div class="layui-input-inline">
                                     <select name="status" lay-filter="status">
@@ -68,9 +57,14 @@
                 </div>
             </div>
         </div>
-
-
     </div>
+    <script type="text/html" id="toolbarFilter">
+        <div class="layui-btn-container">
+            @if( check_admin_auth ($MODULE_NAME.'_create'))
+                <button class="layui-btn layui-btn-sm data-add-btn" lay-event="add">{{__ ('message.buttons.create')}}</button>
+            @endif
+        </div>
+    </script>
     <script type="text/html" id="toolbarDemo">
         <div class="layui-btn-container">
             <a href="{{url('admin/menu/create')}}" class="layui-btn layui-btn-sm data-add-btn"
@@ -134,7 +128,6 @@
                     {field: 'auth_name', title: '权限标识'},
                     {field: 'href', title: '路由地址'},
                     {field: 'sort', width: 80, align: 'center', title: '排序号'},
-                    {field: 'type', width: 80, align: 'center', title: '类型'},
                     {field: 'status', width: 80, align: 'center', title: '状态'},
                     {templet: '#operateTableBar', width: 120, align: 'center', title: '操作'}
                 ]],
@@ -167,7 +160,23 @@
             $('#btn-fold').click(function () {
                 treetable.foldAll('#currentTableFilter');
             });
-
+            table.on('toolbar(currentTableFilter)', function (obj) {
+                var data = form.val("data-search-filter");
+                var searchParams = JSON.stringify(data);
+                switch (obj.event) {
+                    case 'add':
+                        var index = layer.open({
+                            title: '',
+                            type: 2,
+                            shade: 0.2,
+                            maxmin: false,
+                            shadeClose: false,
+                            area: ['60%', '65%'],
+                            content: '/admin/' + MODULE_NAME + '/create',
+                        });
+                        break;
+                }
+            });
             //监听工具条
             table.on('tool(currentTableFilter)', function (obj) {
                 var data = obj.data;

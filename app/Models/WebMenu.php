@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
 class WebMenu extends Model
 {
     use DateTimeFormat;
-    protected $fillable = ['id','pid','link_label','title','href','target','category_id','page_id','status','sort','user_id','created_at','updated_at','keyword','description'];
+    protected $fillable = ['pid','link_label','title','href','target','category_id','page_id','status','sort','user_id','keyword','description'];
 
     public function statusItem ($ind = 'all', $html = false)
     {
