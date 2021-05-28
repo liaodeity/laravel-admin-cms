@@ -27,7 +27,7 @@ class Log extends Model
     const INFO_TYPE   = 6;
     const ERROR_TYPE  = 7;
     const TO_DO_TYPE  = 8;
-    protected $fillable = ['content', 'created_at', 'source_id', 'source_type', 'title', 'type', 'updated_at', 'user_id'];
+    protected $fillable = ['content', 'source_id', 'source_type', 'title', 'type', 'user_id'];
 
     public function typeItem ($ind = 'all', $html = false)
     {

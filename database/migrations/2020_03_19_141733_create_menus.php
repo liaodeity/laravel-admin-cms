@@ -15,7 +15,7 @@ class CreateMenus extends Migration
     {
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger ('pid');
+            $table->unsignedBigInteger ('pid')->default (0);
             $table->uuid ('uuid')->unique ()->comment ('菜单唯一性');
             $table->tinyInteger ('type')->default (0)->comment ('类型【1=菜单、2=按钮】');
             $table->string ('cate_module', 20)->default ('')->comment ('分类模型');

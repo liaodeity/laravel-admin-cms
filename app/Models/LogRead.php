@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
 class LogRead extends Model
 {
     use DateTimeFormat;
-    protected $fillable = ['id', 'log_id', 'user_id', 'is_read', 'read_at', 'created_at', 'updated_at'];
+    protected $fillable = ['log_id', 'user_id', 'is_read', 'read_at'];
 
     public function user ()
     {

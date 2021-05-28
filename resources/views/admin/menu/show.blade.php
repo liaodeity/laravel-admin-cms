@@ -22,8 +22,8 @@
                                 </colgroup>
                                 <tbody>
                                 <tr>
-                                    <th>父ID</th>
-                                    <td>{{$menu->pid ?? ''}}</td>
+                                    <th>上级菜单</th>
+                                    <td>{{$menu->pidMenu->title ?? ''}}</td>
                                 </tr>
                                 <tr>
                                     <th>菜单标识名称</th>
