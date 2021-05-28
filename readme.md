@@ -15,6 +15,8 @@
 
 - 后台系统常用功能
 
+- 支持主题风格设置`单页面`和`iframe多标签`
+
 - 简单上手，快速开发
 
 - 更多插件功能，一键安装扩展
@@ -81,9 +83,7 @@ php artisan serve
 
 ### 开发文档
 
-- [https://www.jianbaizhan.com/cmf/docs](https://www.jianbaizhan.com/cmf/docs)
-
-
+- [https://www.jianbaizhan.com/docs/cms](https://www.jianbaizhan.com/docs/cms)[待完善]
 
 ### 基础功能
 
@@ -119,7 +119,7 @@ php artisan serve
 
 ## 其他
 
-`gui-giggle` 基于以下插件或服务（排名不分先后，罗列部分，[更多查看](https://www.jianbaizhan.com/cmf)）：
+`gui-giggle` 基于以下插件或服务（排名不分先后，罗列部分，[更多查看](https://www.jianbaizhan.com/cms)）：
 
 - [Laravel](https://laravel.com/)
 
