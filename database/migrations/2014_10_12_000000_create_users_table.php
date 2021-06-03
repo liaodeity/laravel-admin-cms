@@ -21,6 +21,8 @@ class CreateUsersTable extends Migration
             $table->timestamp ('email_verified_at')->nullable ();
             $table->string ('password');
             $table->rememberToken ();
+            $table->unsignedBigInteger ('login_count')->default (0)->comment ('登录次数');
+            $table->timestamp ('last_login_at')->nullable ()->comment ('最后登录时间');
             $table->timestamps ();
         });
     }

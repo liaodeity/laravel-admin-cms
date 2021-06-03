@@ -54,7 +54,8 @@ class UserAdminController extends Controller
         if (request ()->wantsJson ()) {
             $limit = $request->input ('limit', 15);
             QueryWhere::defaultOrderBy ('users.id', 'DESC')->setRequest ($request->all ());
-            $M = $this->repository->makeModel ()->select ('user_admins.*', 'users.name', 'user_infos.real_name', 'user_infos.gender', 'user_infos.telephone', 'user_infos.address');
+            $M = $this->repository->makeModel ()->select ('user_admins.*', 'users.name','users.login_count','users.last_login_at',
+                'user_infos.real_name', 'user_infos.gender', 'user_infos.telephone', 'user_infos.address');
             $M->join ('user_admins', 'users.id', '=', 'user_admins.user_id');
             $M->leftJoin ('user_infos', 'user_infos.user_id', '=', 'users.id');
             QueryWhere::eq ($M, 'user_admins.status');

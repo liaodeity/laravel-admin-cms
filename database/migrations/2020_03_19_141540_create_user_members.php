@@ -16,8 +16,6 @@ class CreateUserMembers extends Migration
         Schema::create('user_members', function (Blueprint $table) {
             $table->id();
             $table->foreignId ('user_id')->constrained ()->cascadeOnDelete ();
-            $table->unsignedBigInteger ('login_count')->default (0)->comment ('登录次数');
-            $table->timestamp ('last_login_at')->nullable ()->comment ('最后登录时间');
             $table->tinyInteger ('status')->default (0)->comment ('状态');
             $table->timestamps();
         });
