@@ -249,6 +249,11 @@ class UserAdminController extends Controller
             if ($isSuper && $user->id != get_login_user_id ()) {
                 throw new BusinessException('无法修改超级管理员信息，需管理员自行修改');
             }
+            //【可删除】演示站点测试专用-start
+            if ($isSuper && config ('gui.deny_edit_super_admin')) {
+                throw new BusinessException('演示站点无法修改超级管理员信息');
+            }
+            //【可删除】演示站点测试专用-end
 
             if (array_get ($input, 'password')) {
                 $input['password'] = Hash::make ($input['password']);
