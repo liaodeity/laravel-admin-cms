@@ -1,6 +1,16 @@
 # Release Notes
 
-## [Unreleased](https://github.com/liaodeity/laravel-admin-cms/compare/v8.1.14...8.x)
+## [Unreleased](https://github.com/liaodeity/laravel-admin-cms/compare/v8.2.0...8.x)
+
+## [v8.2.0(2021-06-03)](https://github.com/liaodeity/laravel-admin-cms/compare/v8.1.14...8.2.0)
+
+### Added
+- 更新用户表结构，将登录次数及登录时间字段加入主表users（[#5](https://github.com/liaodeity/laravel-admin-cms/pull/5)）
+- 新增变更日志`CHANGELOG.md`记录
+### Changed
+- 修改官网和文档地址
+- 调整字段长度限制
+- 添加演示站点代码判断，防止修改超级权限账号
 
 ## [v8.1.4 (2021-05-28)](https://github.com/liaodeity/laravel-admin-cms/compare/v8.1.3...v8.1.4)
 
