@@ -35,7 +35,7 @@ class PublicController extends Controller
         }
         $insArr = [
             'web_user'   => $web_user,
-            'user_agent' => $userAgent,
+            'user_agent' => str_limit ($userAgent, 500,''),
             'client_ip'  => $clientIp ?? '',
             'referer'    => $referer ?? '',
             'view_url'   => $viewUrl,

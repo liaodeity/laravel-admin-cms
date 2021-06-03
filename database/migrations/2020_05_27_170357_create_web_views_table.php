@@ -19,7 +19,7 @@ class CreateWebViewsTable extends Migration
             $table->string ('referer', 200)->default ('')->comment ('来源');
             $table->string ('view_url', 200)->default ('')->comment ('访问链接地址');
             $table->ipAddress ('client_ip')->default ('')->comment ('用户IP地址');
-            $table->string ('user_agent', 250)->default ('')->comment ('浏览器标识');
+            $table->string ('user_agent', 500)->default ('')->comment ('浏览器标识');
             $table->timestamp ('view_at')->nullable ()->comment ('浏览时间');
         });
     }
