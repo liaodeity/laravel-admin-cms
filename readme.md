@@ -140,11 +140,11 @@ php artisan serve
 ## 界面截图
 - 单页面效果
 
-![image](storage/app/public/onepage.png)
+![image](public/preview/onepage.png)
   
 - 多标签iframe
 
-![image](storage/app/public/tab_iframe.png)
+![image](public/preview/tab_iframe.png)
 
 ## 许可证
 
