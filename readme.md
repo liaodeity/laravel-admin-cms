@@ -137,6 +137,15 @@ php artisan serve
 
 - ......
 
+## 界面截图
+- 单页面效果
+
+![image](storage/app/public/onepage.png)
+  
+- 多标签iframe
+
+![image](storage/app/public/tab_iframe.png)
+
 ## 许可证
 
 完全开源免费，请保留项目开源版权说明。本项目遵循开源协议 [MIT license](https://opensource.org/licenses/MIT).
