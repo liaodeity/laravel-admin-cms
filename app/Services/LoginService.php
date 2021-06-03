@@ -13,6 +13,7 @@
 namespace App\Services;
 
 
+use App\Enums\UserStatusEnum;
 use App\Exceptions\BusinessException;
 use App\Models\Company;
 use App\Models\CompanyUser;
@@ -115,15 +116,14 @@ class LoginService
             throw new BusinessException('非管理员账号，无法进行登录');
         }
         if ($user->admin->status != 1) {
-            throw new BusinessException('账号' . $user->statusItem ($user->admin->status) . '，无法进行登录');
+            throw new BusinessException('账号' . UserStatusEnum::toLabel ($user->admin->status) . '，无法进行登录');
         }
         $this->setLoginSession ($user->id);
         session ()->put ('LOGIN_ADMIN', 'admin');
-        //登录日志
-        $userAdmin = $user->admin;
-        $userAdmin->login_count++;
-        $userAdmin->last_login_at = now ();
-        $userAdmin->save ();
+        //登录次数日志
+        $user->login_count++;
+        $user->last_login_at = now ();
+        $user->save ();
 
         return true;
     }

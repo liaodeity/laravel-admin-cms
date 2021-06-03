@@ -21,5 +21,15 @@ return [
       | 设置后台默认主题为"iframe"或"onepage".
       | 获取当前主题"get_admin_theme()".
       */
-    'admin_theme' => 'onepage',
+    'admin_theme'           => 'onepage',
+
+    /*
+      |--------------------------------------------------------------------------
+      | 演示站点测试专用
+      |--------------------------------------------------------------------------
+      |
+      | 防止修改超级管理权限用户【正式上线可以设置为false】
+      | 可删除判断代码：`app/Http/Controllers/Admin/UserAdminController.php:252`
+      */
+    'deny_edit_super_admin' => true,
 ];

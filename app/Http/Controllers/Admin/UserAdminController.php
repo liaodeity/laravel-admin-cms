@@ -54,7 +54,8 @@ class UserAdminController extends Controller
         if (request ()->wantsJson ()) {
             $limit = $request->input ('limit', 15);
             QueryWhere::defaultOrderBy ('users.id', 'DESC')->setRequest ($request->all ());
-            $M = $this->repository->makeModel ()->select ('user_admins.*', 'users.name', 'user_infos.real_name', 'user_infos.gender', 'user_infos.telephone', 'user_infos.address');
+            $M = $this->repository->makeModel ()->select ('user_admins.*', 'users.name','users.login_count','users.last_login_at',
+                'user_infos.real_name', 'user_infos.gender', 'user_infos.telephone', 'user_infos.address');
             $M->join ('user_admins', 'users.id', '=', 'user_admins.user_id');
             $M->leftJoin ('user_infos', 'user_infos.user_id', '=', 'users.id');
             QueryWhere::eq ($M, 'user_admins.status');
@@ -248,6 +249,11 @@ class UserAdminController extends Controller
             if ($isSuper && $user->id != get_login_user_id ()) {
                 throw new BusinessException('无法修改超级管理员信息，需管理员自行修改');
             }
+            //【可删除】演示站点测试专用-start
+            if ($isSuper && config ('gui.deny_edit_super_admin')) {
+                throw new BusinessException('演示站点无法修改超级管理员信息');
+            }
+            //【可删除】演示站点测试专用-end
 
             if (array_get ($input, 'password')) {
                 $input['password'] = Hash::make ($input['password']);
