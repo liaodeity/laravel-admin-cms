@@ -25,7 +25,7 @@
 
 - 定期更新laravel主版本
 
-希望本项目可以为你，节约开发时间。 
+希望本项目可以为你，节约开发时间。 多多`Star`给予我们维护动力。
 
 ### 演示demo
 
@@ -110,6 +110,8 @@ php artisan serve
  - 通过[Pull Request](https://github.com/liaodeity/laravel-admin-cms/pulls)提交修复
  
  - 完善我们的文档和例子
+ 
+ - 如果你有一个好的想法和需求功能（不成熟建议也行），告诉我们，一经采用，我们将加入开发计划
 
 
 ## 捐赠
