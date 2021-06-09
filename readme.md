@@ -68,6 +68,10 @@ php artisan migrate
 ```bash
 php artisan db:seed --class=InitSeeder
 ```
+- 上传文件路径符号链接
+```bash
+php artisan storage:link
+```
 - 项目启动
 ```bash
 php artisan serve
