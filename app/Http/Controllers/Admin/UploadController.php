@@ -31,7 +31,7 @@ class UploadController extends Controller
     {
         set_time_limit (0);
         $sourceType = $request->input ('type');
-        $sourceId   = $request->input ('id', '');
+        $sourceId   = $request->input ('id', 0);
         if ($sourceType) {
             $sourceType = urldecode ($sourceType);
         }
@@ -59,7 +59,7 @@ class UploadController extends Controller
             'file_md5'    => md5_file ($public_path),
             'file_sha1'   => sha1_file ($public_path),
             'source_type' => $sourceType,
-            'source_id'   => $sourceId,
+            'source_id'   => (int)$sourceId,
             'status'      => 1
         ];
         $Attachment  = Attachment::addFile ($insArr);
