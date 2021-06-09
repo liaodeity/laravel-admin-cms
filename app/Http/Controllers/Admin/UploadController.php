@@ -10,16 +10,15 @@
 | Author: 廖春贵 < liaodeity@gmail.com >
 |-----------------------------------------------------------------------------------------------------------
 */
+
 namespace App\Http\Controllers\Admin;
 
 
 use App\Http\Controllers\Controller;
 use App\Models\Attachment;
 use App\Models\Log;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class UploadController extends Controller
 {
@@ -31,9 +30,14 @@ class UploadController extends Controller
     public function image (Request $request)
     {
         set_time_limit (0);
+        $sourceType = $request->input ('type');
+        $sourceId   = $request->input ('id', '');
+        if ($sourceType) {
+            $sourceType = urldecode ($sourceType);
+        }
         $name       = $request->input ('name', 'upfile');
         $images     = $request->file ($name);
-        $filedir    = "Uploads/" . date ('Ym') . '/';
+        $filedir    = "uploads/" . date ('Ym') . '/';
         $imagesName = $images->getClientOriginalName ();
         $extension  = $images->getClientOriginalExtension ();
         $size       = $images->getSize ();
@@ -45,56 +49,53 @@ class UploadController extends Controller
         $newImagesName = get_uuid () . "." . $extension;
 
 
-        $path       = $filedir . $newImagesName;
+        $path    = $filedir . $newImagesName;
         $content = file_get_contents ($images->getRealPath ());
-        Storage::disk ('web_public')->put ($path, $content);
-        $insArr     = [
-            'name'      => $imagesName,
-            'path'      => $path,
-            'file_md5'  => md5_file ($path),
-            'file_sha1' => sha1_file ($path),
-            'status'    => 1
+        Storage::disk ('public')->put ($path, $content);
+        $public_path = 'storage/' . $path;
+        $insArr      = [
+            'name'        => $imagesName,
+            'path'        => $public_path,
+            'file_md5'    => md5_file ($public_path),
+            'file_sha1'   => sha1_file ($public_path),
+            'source_type' => $sourceType,
+            'source_id'   => $sourceId,
+            'status'      => 1
         ];
-        $Attachment = Attachment::addFile ($insArr);
+        $Attachment  = Attachment::addFile ($insArr);
         if (!$Attachment) {
             return ajax_error_result ('上传失败');
         }
-        //$result = [
-        //    'data' => [
-        //        'id'    => $Attachment->id,
-        //        'name'  => $Attachment->name,
-        //        'title' => str_replace ('.' . $extension, '', $picture->name),
-        //        'src'   => asset ($picture->path)
-        //    ]
-        //];
-        $data['id']           = $Attachment->id;
-        $data['size']         = $size;
-        $data['state']        = 'SUCCESS';
-        $data['name']         = $newImagesName;
-        $data['url']          = '/' . $Attachment->path;
-        $data['type']         = '.' . $extension;
-        $data['originalName'] = $Attachment->name;
 
-        // 图片水印
-        $watermark = get_config_value ('watermark_text', '');
-        if ($watermark) {
-            $img = \Intervention\Image\Facades\Image::make ($path);
-            $img->text ($watermark, $img->width () - 10, $img->height () - 10, function ($font) {
-                $font_dir = public_path ('fonts/gdht.ttf');
-                $font->file ($font_dir);
-                $font->size (18);
-                $font->color ('#FFFFFF');
-                $font->align ('right');
-                $font->valign ('bottom');
-            });
-            $img->save ($path);
+        Log::createLog (Log::INFO_TYPE, '上传图片记录', '', $Attachment->id, Attachment::class);
+        $type = config ('gui.rich_editor');
+        $data = [];
+        switch ($type) {
+            case 'umeditor':
+                $data['code']         = 0;
+                $data['id']           = $Attachment->id;
+                $data['size']         = $size;
+                $data['state']        = 'SUCCESS';
+                $data['name']         = $newImagesName;
+                $data['url']          = '/' . $Attachment->path;
+                $data['type']         = '.' . $extension;
+                $data['originalName'] = $Attachment->name;
+                $data['src']          = $data['url'];
+                //
+                return @json_encode ($data);
+                break;
+            case 'wangEditor':
+                $data['errno']  = 0;
+                $row            = [
+                    'url'  => '/' . $Attachment->path,
+                    'alt'  => $Attachment->name,
+                    'href' => '/' . $Attachment->path
+                ];
+                $data['data'][] = $row;
+                break;
         }
 
-        $data['src']  = $data['url'];
-        $data['code'] = 0;
-        Log::createLog (Log::INFO_TYPE, '上传图片记录', '', $Attachment->id, Attachment::class);
-
-        return json_encode ($data);
+        return $data;
     }
 
     /**

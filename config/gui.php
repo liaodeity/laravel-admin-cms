@@ -32,4 +32,13 @@ return [
       | 可删除判断代码：`app/Http/Controllers/Admin/UserAdminController.php:252`
       */
     'deny_edit_super_admin' => true,
+
+    /*
+     |--------------------------------------------------------------------------
+     | 富文本编辑器类型
+     |--------------------------------------------------------------------------
+     |
+     | `umeditor`和`wangEditor`
+     */
+    'rich_editor'           => 'wangEditor',
 ];

@@ -1,6 +1,13 @@
 # Release Notes
 
-## [Unreleased](https://github.com/liaodeity/laravel-admin-cms/compare/v8.2.0...8.x)
+## [Unreleased](https://github.com/liaodeity/laravel-admin-cms/compare/v8.2.1...8.x)
+
+## [v8.2.1(2021-06-09)](https://github.com/liaodeity/laravel-admin-cms/compare/v8.2.0...8.2.1)
+
+### Added
+- 添加单页面管理，添加富文本编辑器，修改图片上传
+- 更新wangEditor到最新4.7.2、修改富文本图片上传
+- 添加开发进度，修改说明
 
 ## [v8.2.0(2021-06-03)](https://github.com/liaodeity/laravel-admin-cms/compare/v8.1.14...8.2.0)
 

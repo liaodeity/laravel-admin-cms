@@ -67,5 +67,6 @@ Route::middleware ('admin')->prefix ('admin')->group (function () {
     Route::resource ('role', RoleController::class);
 
     Route::resource ('menu', \App\Http\Controllers\Admin\MenuController::class);
+    Route::resource ('page', \App\Http\Controllers\Admin\PageController::class);
 
 });

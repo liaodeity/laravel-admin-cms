@@ -10,6 +10,7 @@
 | Author: 廖春贵 < liaodeity@gmail.com >
 |-----------------------------------------------------------------------------------------------------------
 */
+
 namespace App\Models;
 
 use App\Traits\DateTimeFormat;
@@ -18,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
 class Attachment extends Model
 {
     use DateTimeFormat;
-    protected $fillable = [ 'user_id', 'name', 'path', 'file_md5', 'file_sha1', 'status'];
+    protected $fillable = ['user_id', 'name', 'path', 'file_md5', 'file_sha1', 'status', 'source_type', 'source_id'];
 
     /**
      * 保存附件信息，根据SHA和MD5判断是否重复，重复标记记录status=-1，
