@@ -66,34 +66,36 @@ class UploadController extends Controller
         if (!$Attachment) {
             return ajax_error_result ('上传失败');
         }
-        $data['id']           = $Attachment->id;
-        $data['size']         = $size;
-        $data['state']        = 'SUCCESS';
-        $data['name']         = $newImagesName;
-        $data['url']          = '/' . $Attachment->path;
-        $data['type']         = '.' . $extension;
-        $data['originalName'] = $Attachment->name;
 
-        // 图片水印
-        //$watermark = get_config_value ('watermark_text', '');
-        //if ($watermark) {
-        //    $img = \Intervention\Image\Facades\Image::make ($path);
-        //    $img->text ($watermark, $img->width () - 10, $img->height () - 10, function ($font) {
-        //        $font_dir = public_path ('fonts/gdht.ttf');
-        //        $font->file ($font_dir);
-        //        $font->size (18);
-        //        $font->color ('#FFFFFF');
-        //        $font->align ('right');
-        //        $font->valign ('bottom');
-        //    });
-        //    $img->save ($path);
-        //}
-
-        $data['src']  = $data['url'];
-        $data['code'] = 0;
         Log::createLog (Log::INFO_TYPE, '上传图片记录', '', $Attachment->id, Attachment::class);
+        $type = config ('gui.rich_editor');
+        $data = [];
+        switch ($type) {
+            case 'umeditor':
+                $data['code']         = 0;
+                $data['id']           = $Attachment->id;
+                $data['size']         = $size;
+                $data['state']        = 'SUCCESS';
+                $data['name']         = $newImagesName;
+                $data['url']          = '/' . $Attachment->path;
+                $data['type']         = '.' . $extension;
+                $data['originalName'] = $Attachment->name;
+                $data['src']          = $data['url'];
+                //
+                return @json_encode ($data);
+                break;
+            case 'wangEditor':
+                $data['errno']  = 0;
+                $row            = [
+                    'url'  => '/' . $Attachment->path,
+                    'alt'  => $Attachment->name,
+                    'href' => '/' . $Attachment->path
+                ];
+                $data['data'][] = $row;
+                break;
+        }
 
-        return json_encode ($data);
+        return $data;
     }
 
     /**

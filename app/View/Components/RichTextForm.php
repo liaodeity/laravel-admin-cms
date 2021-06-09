@@ -46,7 +46,7 @@ class RichTextForm extends Component
         $url         = '';
         if ($js) {
             $source_id   = $value->id ?? '';
-            $source_type = class_exists ($value) ? get_class ($value) : '';
+            $source_type =  is_object($value) ? get_class ($value) : '';
             $url         = url ('/admin/upload') . '?' . '_token=' . csrf_token () . '&id=' . $source_id . '&type=' . urlencode ($source_type);
         }
 
