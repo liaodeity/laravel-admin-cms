@@ -18,5 +18,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Page extends Model
 {
-    protected $fillable = ['name', 'title', 'cover_id', 'desc', 'content', 'status'];
+    protected $fillable = ['user_id', 'name', 'title', 'cover_id', 'desc', 'content', 'status'];
 }
