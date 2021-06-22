@@ -19,6 +19,17 @@ use Illuminate\Support\Carbon;
 #系统助手函数库，自定义函数请my_function.php#
 #########################################
 
+if (!function_exists ('get_upload_url')) {
+    function get_upload_url ($url, $source)
+    {
+        $source_id   = $source->id ?? '';
+        $source_type = is_object ($source) ? get_class ($source) : '';
+        $url         = $url . '?' . '_token=' . csrf_token () . '&id=' . $source_id . '&type=' . urlencode ($source_type);
+
+        return $url;
+    }
+}
+
 if (!function_exists ('get_admin_theme')) {
     function get_admin_theme ($clear = false)
     {

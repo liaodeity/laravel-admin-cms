@@ -49,7 +49,7 @@ return [
      |
      | 可以通过`php artisan dev:backup`备份基础表内容
      */
-    'base_table' => [
+    'base_table'            => [
         'users',
         'user_admins',
         'config_groups',
@@ -60,5 +60,27 @@ return [
         'role_has_permissions',
         'model_has_roles',
         'model_has_permissions',
+    ],
+    /*
+     |--------------------------------------------------------------------------
+     | 允许上传的附件后缀
+     |--------------------------------------------------------------------------
+     |
+     */
+    'allow_file_ext'        => [
+        'zip',
+        'rar',
+        'xls',
+        'doc',
+        'ppt',
+        'xlsx',
+        'docx',
+        'pptx',
+        'png',
+        'jpg',
+        'gif',
+        'mp4',
+        'mp3',
+        'ogg'
     ],
 ];

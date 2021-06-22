@@ -39,13 +39,13 @@
 
             <script type="text/html" id="toolbarFilter">
                 <div class="layui-btn-container">
-{{--                    <button class="layui-btn layui-btn-sm data-add-btn" lay-event="add"> 添加</button>--}}
+                    <button class="layui-btn layui-btn-sm data-add-btn" id="file_upload"> <i class="layui-icon"></i>上传附件</button>
                 </div>
             </script>
             <script type="text/html" id="currentTableBar">
                 @if( check_admin_auth ($MODULE_NAME.' show'))
                 @{{# if(d._src){ }}
-                    <a target="_blank" href="@{{ d._src }}" class="layui-btn layui-btn-xs layui-btn-primary" >预览</a>
+                <a target="_blank" href="@{{ d._src }}" class="layui-btn layui-btn-xs layui-btn-primary">预览</a>
                 @{{# } }}
                 @endif
             </script>
@@ -55,11 +55,12 @@
 
 @section('footer')
     <script>
-        layui.use(['form', 'table','laydate'], function () {
+        layui.use(['form', 'table', 'laydate', 'upload'], function () {
             var $ = layui.jquery,
                 form = layui.form,
                 table = layui.table,
                 layuimini = layui.layuimini;
+            upload = layui.upload;
             laydate = layui.laydate;
             form.render();
 
@@ -74,12 +75,15 @@
                     source_type: '{{request ()->input('source_type')}}',
                 },
                 cols: [[
-                    {field:'name',title: '附件名称',sort:true},
-                    {field:'_src',title: '附件地址',},
-                    {field:'_w_h',title: '尺寸（长度px*宽度px）',width:180,},
-                    {field:'_size',title: '大小',width:100,},
-                    {field:'user_id',title: '记录人',width:180,sort:true},
-                    {field:'created_at',title: '上传时间',width:180,sort:true},
+                    {field: 'name', title: '附件名称', sort: true},
+                    {field: '_src', title: '附件地址',},
+                    {field: '_w_h', title: '尺寸（长度px*宽度px）', width: 180,},
+                    {field: '_size', title: '大小', width: 100,},
+                    {field: 'file_md5', title: 'MD5', hide: true,},
+                    {field: 'file_sha1', title: 'SHA1', hide: true},
+                    {field: 'user_id', title: '记录人', width: 180, sort: true},
+                    {field: 'status', title: '状态', width: 100, sort: true},
+                    {field: 'created_at', title: '上传时间', width: 180, sort: true},
                     {title: '操作', width: 100, templet: '#currentTableBar', fixed: "right", align: "center"}
                 ]],
                 limits: [10, 15, 20, 25, 50, 100],
@@ -90,7 +94,7 @@
             laydate.render({
                 elem: '#created_at',
                 trigger: 'click'
-                ,range:true
+                , range: true
             });
             // 监听搜索操作
             form.on('submit(data-search-btn)', function (data) {
@@ -115,7 +119,39 @@
             table.on('checkbox(currentTableFilter)', function (obj) {
                 console.log(obj)
             });
+            upload.render({
+                elem: '#file_upload' //绑定元素
+                , url: '{!! get_upload_url(route('upload.file'), $attachment) !!}' //上传接口
+                , accept: 'file'
+                , done: function (res) {
+                    //code=0代表上传成功
+                    if (res.code === 0) {
+                        top.layer.msg(res.message, {
+                            icon: 1,
+                            time: SUCCESS_TIME,
+                            shade: 0.3
+                        });
+                        setTimeout(function () {
+                            $(".layui-form button[type='submit']").click();
+                        }, SUCCESS_TIME)
 
+                    } else {
+                        top.layer.msg(res.message, {
+                            icon: 2,
+                            time: FAIL_TIME,
+                            shade: 0.3
+                        });
+                    }
+                }
+                , error: function () {
+                    //请求异常回调
+                    top.layer.msg('上传接口异常', {
+                        icon: 2,
+                        time: FAIL_TIME,
+                        shade: 0.3
+                    });
+                }
+            });
             table.on('toolbar(currentTableFilter)', function (obj) {
                 console.log(obj);
                 var data = form.val("data-search-filter");

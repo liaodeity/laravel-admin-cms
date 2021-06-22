@@ -27,6 +27,7 @@ Route::middleware ('admin')->prefix ('admin')->group (function () {
 
     //上传
     Route::post ('/upload', [UploadController::class, 'image'])->name ('upload.image');
+    Route::post ('/upload_file', [UploadController::class, 'file'])->name ('upload.file');
     Route::post ('/upload_excel', [UploadController::class, 'excel'])->name ('upload.excel');
 
     Route::get ('config_base_info', [\App\Http\Controllers\Admin\ConfigBaseInfoController::class, 'index']);

@@ -13,6 +13,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\AttachmentStatusEnum;
 use App\Enums\StatusEnum;
 use App\Exceptions\BusinessException;
 use App\Http\Controllers\Controller;
@@ -83,7 +84,7 @@ class AttachmentController extends Controller
                 $data[ $key ]['_w_h']    = $wh;
                 $data[ $key ]['_size']   = $size;
                 $data[ $key ]['user_id'] = User::showName ($item->user_id);
-                $data[ $key ]['status']  = StatusEnum::toLabel ($item->status);
+                $data[ $key ]['status']  = AttachmentStatusEnum::toHtml ($item->status);
             }
             $result = [
                 'count' => $count,
