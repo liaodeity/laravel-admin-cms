@@ -47,5 +47,6 @@ Route::middleware ('admin')->prefix ('admin')->group (function () {
 
     Route::resource ('menu', \App\Http\Controllers\Admin\MenuController::class);
     Route::resource ('page', \App\Http\Controllers\Admin\PageController::class);
+    Route::resource ('attachment', \App\Http\Controllers\Admin\AttachmentController::class);
 
 });

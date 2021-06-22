@@ -54,13 +54,14 @@ class UploadController extends Controller
         Storage::disk ('public')->put ($path, $content);
         $public_path = 'storage/' . $path;
         $insArr      = [
-            'name'        => $imagesName,
-            'path'        => $public_path,
-            'file_md5'    => md5_file ($public_path),
-            'file_sha1'   => sha1_file ($public_path),
-            'source_type' => $sourceType,
-            'source_id'   => (int)$sourceId,
-            'status'      => 1
+            'name'         => $imagesName,
+            'path'         => $public_path,
+            'storage_path' => $path,
+            'file_md5'     => md5_file ($public_path),
+            'file_sha1'    => sha1_file ($public_path),
+            'source_type'  => $sourceType,
+            'source_id'    => (int)$sourceId,
+            'status'       => 1
         ];
         $Attachment  = Attachment::addFile ($insArr);
         if (!$Attachment) {
@@ -81,6 +82,7 @@ class UploadController extends Controller
                 $data['type']         = '.' . $extension;
                 $data['originalName'] = $Attachment->name;
                 $data['src']          = $data['url'];
+
                 //
                 return @json_encode ($data);
                 break;

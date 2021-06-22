@@ -13,26 +13,28 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Enums\SexEnum;
 use App\Enums\StatusEnum;
 use App\Exceptions\BusinessException;
 use App\Http\Controllers\Controller;
 use App\Libs\QueryWhere;
+use App\Models\Attachment;
 use App\Models\Log;
-use App\Models\Page;
-use App\Repositories\PageRepository;
+use App\Models\User;
+use App\Repositories\AttachmentRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
+use Intervention\Image\Facades\Image;
 
-class PageController extends Controller
+class AttachmentController extends Controller
 {
-    protected $module_name = 'page';
+    protected $module_name = 'attachment';
     /**
-     * @var PageRepository
+     * @var AttachmentRepository
      */
     private $repository;
 
-    public function __construct (PageRepository $repository)
+    public function __construct (AttachmentRepository $repository)
     {
         View::share ('MODULE_NAME', $this->module_name);//模块名称
         $this->repository = $repository;
@@ -49,21 +51,39 @@ class PageController extends Controller
         $category_id = $request->input ('category_id', 0);
         if (request ()->wantsJson ()) {
             $limit = $request->input ('limit', 15);
-            QueryWhere::defaultOrderBy ('pages.id', 'DESC')->setRequest ($request->all ());
-            $M = $this->repository->makeModel ()->select ('pages.*');
-            QueryWhere::eq ($M, 'pages.category_id', $category_id);
-            QueryWhere::eq ($M, 'pages.status');
-            QueryWhere::eq ($M, 'pages.istop');
-            QueryWhere::like ($M, 'pages.title');
-            QueryWhere::like ($M, 'pages.link_label');
+            QueryWhere::defaultOrderBy ('attachments.id', 'DESC')->setRequest ($request->all ());
+            $M = $this->repository->makeModel ()->select ('attachments.*');
+            QueryWhere::date ($M, 'attachments.created_at');
+            QueryWhere::like ($M, 'attachments.name');
             QueryWhere::orderBy ($M);
 
             $M     = $M->paginate ($limit);
             $count = $M->total ();
             $data  = $M->items ();
             foreach ($data as $key => $item) {
-                $data[ $key ]['_url']   = url ('page/detail/' . $item->id);
-                $data[ $key ]['status'] = StatusEnum::toLabel ($item->status);
+                $wh    = '-';
+                $size  = '-';
+                $src   = '';
+                $path  = $item->storage_path;
+                $exits = Storage::disk ('public')->exists ($path);
+                if ($exits) {
+                    $src      = asset ($item->path);
+                    $size     = Storage::disk ('public')->size ($path);
+                    $size     = format_size ($size);
+                    $mineType = mime_content_type ($item->path);
+                    if ($mineType && strstr ($mineType, 'image')) {
+                        $img    = Image::make ($item->path);
+                        $width  = $img->getWidth ();
+                        $height = $img->getHeight ();
+                        $wh     = $width . '*' . $height;
+                    }
+                }
+
+                $data[ $key ]['_src']    = $src;
+                $data[ $key ]['_w_h']    = $wh;
+                $data[ $key ]['_size']   = $size;
+                $data[ $key ]['user_id'] = User::showName ($item->user_id);
+                $data[ $key ]['status']  = StatusEnum::toLabel ($item->status);
             }
             $result = [
                 'count' => $count,
@@ -73,9 +93,9 @@ class PageController extends Controller
             return ajax_success_result ('成功', $result);
 
         } else {
-            $page = $this->repository->makeModel ();
+            $attachment = $this->repository->makeModel ();
 
-            return view ('admin.' . $this->module_name . '.index', compact ('page', 'category_id'));
+            return view ('admin.' . $this->module_name . '.index', compact ('attachment', 'category_id'));
         }
     }
 
@@ -86,11 +106,11 @@ class PageController extends Controller
      */
     public function create (Request $request)
     {
-        $page         = $this->repository->makeModel ();
-        $_method      = 'POST';
-        $page->status = StatusEnum::NORMAL;
+        $attachment         = $this->repository->makeModel ();
+        $_method            = 'POST';
+        $attachment->status = StatusEnum::NORMAL;
 
-        return view ('admin.' . $this->module_name . '.add', compact ('page', '_method'));
+        return view ('admin.' . $this->module_name . '.add', compact ('attachment', '_method'));
     }
 
     /**
@@ -102,27 +122,27 @@ class PageController extends Controller
     public function store (Request $request)
     {
         $request->validate ([
-            'Page.title'   => 'required',
-            'Page.name'    => 'unique:pages,name',
-            'Page.content' => 'required',
-            'Page.status'  => 'required',
+            'Attachment.title'   => 'required',
+            'Attachment.name'    => 'unique:attachments,name',
+            'Attachment.content' => 'required',
+            'Attachment.status'  => 'required',
         ], [], [
-            'Page.title'   => '标题',
-            'Page.name'    => '英文标识',
-            'Page.content' => '内容',
-            'Page.status'  => '状态',
+            'Attachment.title'   => '标题',
+            'Attachment.name'    => '英文标识',
+            'Attachment.content' => '内容',
+            'Attachment.status'  => '状态',
         ]);
         if (!check_admin_auth ($this->module_name . '_edit')) {
             return auth_error_return ();
         }
-        $input = $request->input ('Page');
+        $input = $request->input ('Attachment');
         $input = $this->formatRequestInput (__FUNCTION__, $input);
         try {
             $input['user_id'] = get_login_user_id ();
-            $page             = $this->repository->create ($input);
-            if ($page) {
-                $log_title = '添加单页面记录';
-                Log::createLog (Log::ADD_TYPE, $log_title, '', $page->id, Page::class);
+            $attachment       = $this->repository->create ($input);
+            if ($attachment) {
+                $log_title = '添加附件记录';
+                Log::createLog (Log::ADD_TYPE, $log_title, '', $attachment->id, Attachment::class);
 
                 return ajax_success_result ('添加成功');
             } else {
@@ -142,10 +162,10 @@ class PageController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\Page $page
+     * @param \App\Models\Attachment $attachment
      * @return \Illuminate\Http\Response
      */
-    public function show (Page $page)
+    public function show (Attachment $attachment)
     {
         //
     }
@@ -153,45 +173,45 @@ class PageController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\Page $page
+     * @param \App\Models\Attachment $attachment
      * @return \Illuminate\Http\Response
      */
-    public function edit (Page $page)
+    public function edit (Attachment $attachment)
     {
         $_method = 'PUT';
 
-        return view ('admin.' . $this->module_name . '.add', compact ('page', '_method'));
+        return view ('admin.' . $this->module_name . '.add', compact ('attachment', '_method'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Page         $page
+     * @param \App\Models\Attachment   $attachment
      * @return \Illuminate\Http\Response
      */
-    public function update (Request $request, Page $page)
+    public function update (Request $request, Attachment $attachment)
     {
         $request->validate ([
-            'Page.title'   => 'required',
-            'Page.name'    => 'unique:pages,name,' . $page->id,
-            'Page.content' => 'required',
-            'Page.status'  => 'required',
+            'Attachment.title'   => 'required',
+            'Attachment.name'    => 'unique:attachments,name,' . $attachment->id,
+            'Attachment.content' => 'required',
+            'Attachment.status'  => 'required',
         ], [], [
-            'Page.title'   => '标题',
-            'Page.name'    => '英文标识',
-            'Page.content' => '内容',
-            'Page.status'  => '状态',
+            'Attachment.title'   => '标题',
+            'Attachment.name'    => '英文标识',
+            'Attachment.content' => '内容',
+            'Attachment.status'  => '状态',
         ]);
-        $input = $request->input ('Page');
+        $input = $request->input ('Attachment');
         $input = $this->formatRequestInput (__FUNCTION__, $input);
         try {
             $input['user_id'] = get_login_user_id ();
-            $page             = $this->repository->update ($input, $page->id);
-            if ($page) {
-                $content   = $page->toArray () ?? '';
-                $log_title = '修改单页面记录';
-                Log::createLog (Log::EDIT_TYPE, $log_title, $content, $page->id, Page::class);
+            $attachment       = $this->repository->update ($input, $attachment->id);
+            if ($attachment) {
+                $content   = $attachment->toArray () ?? '';
+                $log_title = '修改附件记录';
+                Log::createLog (Log::EDIT_TYPE, $log_title, $content, $attachment->id, Attachment::class);
 
                 return ajax_success_result ('修改成功');
             } else {
@@ -225,12 +245,12 @@ class PageController extends Controller
             } catch (BusinessException $e) {
                 return ajax_error_result ($e->getMessage ());
             }
-            $log_title = '删除单页面[' . ($item->category->title ?? '') . '->' . $item->title . ']记录';
+            $log_title = '删除附件[' . ($item->category->title ?? '') . '->' . $item->title . ']记录';
             $check     = $this->repository->allowDelete ($item->id);
             if ($check) {
                 $ret = $this->repository->delete ($item->id);
                 if ($ret) {
-                    Log::createLog (Log::DELETE_TYPE, $log_title, $item, $item->id, Page::class);
+                    Log::createLog (Log::DELETE_TYPE, $log_title, $item, $item->id, Attachment::class);
                     $num++;
                 }
             }
