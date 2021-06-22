@@ -160,5 +160,77 @@
         "title": "auth",
         "created_at": "2021-04-14 15:15:09",
         "updated_at": "2021-04-14 15:15:09"
+    },
+    {
+        "id": 91,
+        "name": "config_base_info_index",
+        "guard_name": "web",
+        "menu_id": 36,
+        "title": "列表",
+        "created_at": "2021-06-03 16:59:02",
+        "updated_at": "2021-06-03 16:59:02"
+    },
+    {
+        "id": 92,
+        "name": "menu_create",
+        "guard_name": "web",
+        "menu_id": 58,
+        "title": "创建",
+        "created_at": "2021-06-08 11:50:42",
+        "updated_at": "2021-06-08 11:50:42"
+    },
+    {
+        "id": 93,
+        "name": "page_index",
+        "guard_name": "web",
+        "menu_id": 61,
+        "title": "列表",
+        "created_at": "2021-06-08 12:04:05",
+        "updated_at": "2021-06-08 12:04:05"
+    },
+    {
+        "id": 94,
+        "name": "page_create",
+        "guard_name": "web",
+        "menu_id": 61,
+        "title": "创建",
+        "created_at": "2021-06-08 12:06:15",
+        "updated_at": "2021-06-08 12:06:15"
+    },
+    {
+        "id": 95,
+        "name": "page_edit",
+        "guard_name": "web",
+        "menu_id": 61,
+        "title": "修改",
+        "created_at": "2021-06-08 12:06:15",
+        "updated_at": "2021-06-08 12:06:15"
+    },
+    {
+        "id": 96,
+        "name": "config_base_info_edit",
+        "guard_name": "web",
+        "menu_id": 36,
+        "title": "修改",
+        "created_at": "2021-06-09 10:20:24",
+        "updated_at": "2021-06-09 10:20:24"
+    },
+    {
+        "id": 97,
+        "name": "attachment_index",
+        "guard_name": "web",
+        "menu_id": 62,
+        "title": "列表",
+        "created_at": "2021-06-22 14:13:24",
+        "updated_at": "2021-06-22 14:13:24"
+    },
+    {
+        "id": 98,
+        "name": "attachment_show",
+        "guard_name": "web",
+        "menu_id": 62,
+        "title": "查看",
+        "created_at": "2021-06-22 14:18:39",
+        "updated_at": "2021-06-22 14:18:39"
     }
 ]

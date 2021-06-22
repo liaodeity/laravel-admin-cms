@@ -21,18 +21,7 @@ class InitSeeder extends Seeder
             dd ('数据已经初始化过，无法操作');
         }
         //恢复基础表内容
-        $tables = [
-            'users',
-            'user_admins',
-            'config_groups',
-            'configs',
-            'menus',
-            'roles',
-            'permissions',
-            'role_has_permissions',
-            'model_has_roles',
-            'model_has_permissions',
-        ];
+        $tables = config ('gui.base_table');
         foreach ($tables as $table) {
             $file = 'database/dev-backup/' . $table . '.json';
             if (!Storage::disk ('base')->exists ($file)) {

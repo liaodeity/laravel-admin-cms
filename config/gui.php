@@ -41,4 +41,24 @@ return [
      | `umeditor`和`wangEditor`
      */
     'rich_editor'           => 'wangEditor',
+
+    /*
+     |--------------------------------------------------------------------------
+     | 基础数据表
+     |--------------------------------------------------------------------------
+     |
+     | 可以通过`php artisan dev:backup`备份基础表内容
+     */
+    'base_table' => [
+        'users',
+        'user_admins',
+        'config_groups',
+        'configs',
+        'menus',
+        'roles',
+        'permissions',
+        'role_has_permissions',
+        'model_has_roles',
+        'model_has_permissions',
+    ],
 ];
