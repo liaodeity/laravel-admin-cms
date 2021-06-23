@@ -37,6 +37,7 @@ Route::middleware ('admin')->prefix ('admin')->group (function () {
     Route::any ('/user/password', [UserController::class, 'password']);
     Route::resource ('user', UserController::class);
     Route::resource ('user_admin', \App\Http\Controllers\Admin\UserAdminController::class);
+    Route::get ('user_member/export', [\App\Http\Controllers\Admin\UserMemberController::class, 'export']);
     Route::resource ('user_member', \App\Http\Controllers\Admin\UserMemberController::class);
     Route::resource ('log', LogController::class);
 

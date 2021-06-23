@@ -14,6 +14,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exceptions\BusinessException;
+use App\Exports\UserMemberExport;
 use App\Http\Controllers\Controller;
 use App\Libs\Parameter;
 use App\Libs\QueryWhere;
@@ -25,6 +26,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\View;
+use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Models\Role;
 
 class UserMemberController extends Controller
@@ -52,31 +54,7 @@ class UserMemberController extends Controller
             return auth_error_return ();
         }
         if (request ()->wantsJson ()) {
-            $limit = $request->input ('limit', 15);
-            QueryWhere::defaultOrderBy ('users.id', 'DESC')->setRequest ($request->all ());
-            $M = $this->repository->makeModel ()->select ('user_members.*', 'users.name','users.login_count','users.last_login_at',
-                'user_infos.real_name', 'user_infos.gender', 'user_infos.telephone', 'user_infos.address');
-            $M->join ('user_members', 'users.id', '=', 'user_members.user_id');
-            $M->leftJoin ('user_infos', 'user_infos.user_id', '=', 'users.id');
-            QueryWhere::eq ($M, 'user_members.status');
-            QueryWhere::like ($M, 'users.name');
-            QueryWhere::like ($M, 'user_infos.real_name');
-            QueryWhere::orderBy ($M);
-
-            $roleId = QueryWhere::input ('role_id');
-            if ($roleId) {
-                $role    = Role::find ($roleId);
-                $usersid = $role->users ()->pluck ('model_id');
-                QueryWhere::in ($M, 'users.id', $usersid);
-            }
-
-            $M     = $M->paginate ($limit);
-            $count = $M->total ();
-            $data  = $M->items ();
-            foreach ($data as $key => $item) {
-                $data[ $key ]['gender'] = Parameter::genderItem ($item->gender);
-                $data[ $key ]['status'] = Parameter::userStatusItem ($item->status);
-            }
+            list($data, $count) = $this->getData ($request, false);
             $result = [
                 'count' => $count,
                 'data'  => $data
@@ -91,6 +69,42 @@ class UserMemberController extends Controller
 
             return view ('admin.' . $this->module_name . '.index', compact ('user', 'roles'));
         }
+    }
+
+    private function getData (Request $request, bool $export = false)
+    {
+        $limit = $request->input ('limit', 15);
+        QueryWhere::defaultOrderBy ('users.id', 'DESC')->setRequest ($request->all ());
+        $M = $this->repository->makeModel ()->select ('user_members.*', 'users.name','users.email', 'users.login_count', 'users.last_login_at',
+            'user_infos.real_name', 'user_infos.gender', 'user_infos.telephone', 'user_infos.address');
+        $M->join ('user_members', 'users.id', '=', 'user_members.user_id');
+        $M->leftJoin ('user_infos', 'user_infos.user_id', '=', 'users.id');
+        QueryWhere::eq ($M, 'user_members.status');
+        QueryWhere::like ($M, 'users.name');
+        QueryWhere::like ($M, 'user_infos.real_name');
+        QueryWhere::orderBy ($M);
+
+        $roleId = QueryWhere::input ('role_id');
+        if ($roleId) {
+            $role    = Role::find ($roleId);
+            $usersid = $role->users ()->pluck ('model_id');
+            QueryWhere::in ($M, 'users.id', $usersid);
+        }
+        if ($export) {
+            $data  = $M->get ();
+            $count = count ($data);
+        } else {
+            $M     = $M->paginate ($limit);
+            $count = $M->total ();
+            $data  = $M->items ();
+        }
+
+        foreach ($data as $key => $item) {
+            $data[ $key ]['gender'] = Parameter::genderItem ($item->gender);
+            $data[ $key ]['status'] = Parameter::userStatusItem ($item->status);
+        }
+
+        return [$data, $count];
     }
 
     /**
@@ -271,5 +285,15 @@ class UserMemberController extends Controller
     public function destroy (UserMember $userMember)
     {
         //
+    }
+
+    public function export (Request $request)
+    {
+        if (!check_admin_auth ($this->module_name . '_export')) {
+            return auth_error_return ();
+        }
+        list($data, $count) = $this->getData ($request, true);
+
+        return Excel::download (new UserMemberExport($data), date ('Y-m-d') . '会员账号记录.xlsx');
     }
 }

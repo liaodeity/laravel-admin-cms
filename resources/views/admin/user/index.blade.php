@@ -160,7 +160,7 @@
                             table.resize();//
                         }, TABLE_RESIZE_TIME)
                         break;
-                    case 'LAYTABLE_EXPORT_DATA':
+                    case 'export_data':
                         window.location.href = '/admin/' + MODULE_NAME + '/export?searchParams=' + searchParams;
                         break;
                     case 'LAYTABLE_TIPS':

@@ -79,7 +79,11 @@
                 elem: '#currentTableId',
                 url: '/admin/' + MODULE_NAME,
                 toolbar: '#toolbarFilter',
-                defaultToolbar: ['filter', ],
+                defaultToolbar: ['filter',{
+                    title: '导出'
+                    ,layEvent: 'export_data'
+                    ,icon: 'layui-icon-export'
+                }],
                 cols: [[
                     {field: 'name', title: '登录账号',sort:true},
                     {field: 'real_name', title: '真实姓名',sort:true},
@@ -164,8 +168,8 @@
                             table.resize();//
                         }, TABLE_RESIZE_TIME)
                         break;
-                    case 'LAYTABLE_EXPORT_DATA':
-                        window.location.href = '/admin/' + MODULE_NAME + '/export?searchParams=' + searchParams;
+                    case 'export_data':
+                        window.open('/admin/' + MODULE_NAME + '/export?searchParams=' + searchParams);
                         break;
                     case 'LAYTABLE_TIPS':
                         top.layer_module_tips(MODULE_NAME)
