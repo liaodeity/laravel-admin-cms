@@ -169,7 +169,14 @@
                         }, TABLE_RESIZE_TIME)
                         break;
                     case 'export_data':
-                        window.open('/admin/' + MODULE_NAME + '/export?searchParams=' + searchParams);
+                        layer.msg('确认导出当前查询的所有记录？', {
+                            time: 15000,
+                            btn: ['导出', '取消'],
+                            yes: function (index) {
+                                layer.close(index)
+                                window.open('/admin/' + MODULE_NAME + '/export?searchParams=' + searchParams);
+                            }
+                        });
                         break;
                     case 'LAYTABLE_TIPS':
                         top.layer_module_tips(MODULE_NAME)
