@@ -54,13 +54,14 @@ class UploadController extends Controller
         Storage::disk ('public')->put ($path, $content);
         $public_path = 'storage/' . $path;
         $insArr      = [
-            'name'        => $imagesName,
-            'path'        => $public_path,
-            'file_md5'    => md5_file ($public_path),
-            'file_sha1'   => sha1_file ($public_path),
-            'source_type' => $sourceType,
-            'source_id'   => (int)$sourceId,
-            'status'      => 1
+            'name'         => $imagesName,
+            'path'         => $public_path,
+            'storage_path' => $path,
+            'file_md5'     => md5_file ($public_path),
+            'file_sha1'    => sha1_file ($public_path),
+            'source_type'  => $sourceType,
+            'source_id'    => (int)$sourceId,
+            'status'       => 1
         ];
         $Attachment  = Attachment::addFile ($insArr);
         if (!$Attachment) {
@@ -81,6 +82,7 @@ class UploadController extends Controller
                 $data['type']         = '.' . $extension;
                 $data['originalName'] = $Attachment->name;
                 $data['src']          = $data['url'];
+
                 //
                 return @json_encode ($data);
                 break;
@@ -129,6 +131,67 @@ class UploadController extends Controller
             'status'    => 1
         ];
         $attachment = Attachment::addFile ($insArr);
+
+        $result = [
+            'data' => [
+                'id'    => $attachment->id,
+                'name'  => $attachment->name,
+                'title' => str_replace ('.' . $extension, '', $attachment->name),
+                'src'   => asset ($attachment->path)
+            ]
+        ];
+        Log::createLog (Log::INFO_TYPE, '上传附件记录', '', $attachment->id, Attachment::class);
+
+        return ajax_success_result ('上传成功', $result);
+    }
+
+    public function file (Request $request, $name = 'file')
+    {
+        set_time_limit (0);
+        $sourceType = $request->input ('type','');
+        $sourceId   = $request->input ('id', 0);
+        if ($sourceType) {
+            $sourceType = urldecode ($sourceType);
+        }
+        $files      = $request->file ($name);
+        $filedir    = "uploads/file/" . date ('Ymd') . '/';
+        $imagesName = $files->getClientOriginalName ();
+        $extension  = $files->getClientOriginalExtension ();
+        $size       = $files->getSize ();
+        $extension  = strtolower ($extension);
+        $allowExt   = config ('gui.allow_file_ext');
+        if (!in_array ($extension, $allowExt)) {
+            return ['status' => 0, 'info' => '.' . $extension . '的后缀不允许上传'];
+        }
+
+        $newFileName = get_uuid () . "." . $extension;
+
+        $path    = $filedir . $newFileName;
+        $content = file_get_contents ($files->getRealPath ());
+        Storage::disk ('public')->put ($path, $content);
+        $public_path = 'storage/' . $path;
+        $insArr      = [
+            'name'         => $imagesName,
+            'path'         => $public_path,
+            'storage_path' => $path,
+            'file_md5'     => md5_file ($public_path),
+            'file_sha1'    => sha1_file ($public_path),
+            'source_type'  => $sourceType,
+            'source_id'    => (int)$sourceId,
+            'status'       => 1
+        ];
+        $attachment  = Attachment::addFile ($insArr);
+
+        //$files->move ($filedir, $newImagesName);
+        //$path       = $filedir . $newImagesName;
+        //$insArr     = [
+        //    'name'      => $imagesName,
+        //    'path'      => $path,
+        //    'file_md5'  => md5_file ($path),
+        //    'file_sha1' => sha1_file ($path),
+        //    'status'    => 1
+        //];
+        //$attachment = Attachment::addFile ($insArr);
 
         $result = [
             'data' => [

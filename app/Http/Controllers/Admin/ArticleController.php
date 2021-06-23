@@ -35,7 +35,6 @@ class ArticleController extends Controller
 
     public function __construct (ArticleRepository $repository)
     {
-        SexEnum::attrs ();
         View::share ('MODULE_NAME', $this->module_name);//模块名称
         $this->repository = $repository;
     }
