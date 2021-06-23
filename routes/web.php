@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Home\PublicController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,5 +22,5 @@ Route::get ('/', function () {
 
 Route::namespace ('Home')->middleware ('home')->group (function () {
     //Route::get ('/', 'IndexController@index');
-    Route::post ('/view_browsing', [\App\Http\Controllers\Home\PublicController::class, 'webViewBrowsing']);
+    Route::post ('/view_browsing', [PublicController::class, 'webViewBrowsing']);
 });
