@@ -1,15 +1,35 @@
 # Release Notes
 
-## [Unreleased](https://github.com/liaodeity/laravel-admin-cms/compare/v8.2.1...8.x)
+## [Unreleased](https://github.com/liaodeity/laravel-admin-cms/compare/v8.2.4...8.x)
 
-## [v8.2.1(2021-06-09)](https://github.com/liaodeity/laravel-admin-cms/compare/v8.2.0...8.2.1)
+## [v8.2.4(2021-06-23)](https://github.com/liaodeity/laravel-admin-cms/compare/v8.2.3...v8.2.4)
+
+### Added
+- 添加附件管理列表（[#10](https://github.com/liaodeity/laravel-admin-cms/pull/10)）
+- 添加支持图片附件上传
+
+### Changed
+- 变更route目录，添加admin.php路由（[47411f0](https://github.com/liaodeity/laravel-admin-cms/pull/10/commits/47411f0eea800ef0cfc9551090bccc84fcb05cd1)）
+- 更新菜单和权限，添加基础表配置
+
+## [v8.2.3(2021-06-10)](https://github.com/liaodeity/laravel-admin-cms/compare/v8.2.2...v8.2.3)
+
+### Fixed
+- 修复发现问题
+
+## [v8.2.2(2021-06-09)](https://github.com/liaodeity/laravel-admin-cms/compare/v8.2.1...v8.2.2)
+
+### Fixed
+- 修复发现问题
+
+## [v8.2.1(2021-06-09)](https://github.com/liaodeity/laravel-admin-cms/compare/v8.2.0...v8.2.1)
 
 ### Added
 - 添加单页面管理，添加富文本编辑器，修改图片上传
 - 更新wangEditor到最新4.7.2、修改富文本图片上传
 - 添加开发进度，修改说明
 
-## [v8.2.0(2021-06-03)](https://github.com/liaodeity/laravel-admin-cms/compare/v8.1.14...8.2.0)
+## [v8.2.0(2021-06-03)](https://github.com/liaodeity/laravel-admin-cms/compare/v8.1.14...v8.2.0)
 
 ### Added
 - 更新用户表结构，将登录次数及登录时间字段加入主表users（[#5](https://github.com/liaodeity/laravel-admin-cms/pull/5)）
