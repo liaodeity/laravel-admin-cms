@@ -168,49 +168,21 @@
             });
             table.on('tool(currentTableFilter)', function (obj) {
                 var data = obj.data;
-                console.log(data);
-                if (obj.event === 'edit') {
+                switch (obj.event) {
+                    case 'view':
+                        var index = layer.open({
+                            title: '',
+                            type: 2,
+                            shade: 0.2,
+                            maxmin: false,
+                            shadeClose: false,
+                            area: ['60%', '65%'],
+                            content: '/admin/' + MODULE_NAME + '/' + data.id,
+                        });
+                        break;
+                    case 'delete':
 
-                    var index = layer.open({
-                        title: '',
-                        type: 2,
-                        shade: 0.2,
-                        maxmin: false,
-                        shadeClose: false,
-                        area: ['60%', '65%'],
-                        content: '/admin/' + MODULE_NAME + '/' + data.id + '/edit',
-                    });
-                    return false;
-                } else if (obj.event === 'add') {
-                    var index = layer.open({
-                        title: '',
-                        type: 2,
-                        shade: 0.2,
-                        maxmin: false,
-                        shadeClose: false,
-                        area: ['60%', '65%'],
-                        content: '/admin/' + MODULE_NAME + '/create?pid=' + data.id,
-                    });
-                } else if (obj.event === 'view') {
-
-                    var index = layer.open({
-                        title: '',
-                        type: 2,
-                        shade: 0.2,
-                        maxmin: false,
-                        shadeClose: false,
-                        area: ['60%', '65%'],
-                        content: '/admin/' + MODULE_NAME + '/' + data.id,
-                    });
-                    return false;
-                } else if (obj.event === 'delete') {
-                    layer.confirm('确认删除记录？', function (index) {
-                        obj.del();
-                        layer.msg('删除1条记录', {icon: 6});
-                        layer.close(index);
-                    });
-                } else {
-                    console.log(obj.event);
+                        break;
                 }
             });
 

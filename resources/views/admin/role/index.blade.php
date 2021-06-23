@@ -196,60 +196,43 @@
             table.on('tool(currentTableFilter)', function (obj) {
                 var data = obj.data;
                 console.log(data);
-                if (obj.event === 'auth') {
+                switch (obj.event) {
+                    case 'edit':
+                        var index = layer.open({
+                            title: '',
+                            type: 2,
+                            shade: 0.2,
+                            maxmin: false,
+                            shadeClose: false,
+                            area: ['60%', '65%'],
+                            content: '/admin/' + MODULE_NAME + '/' + data.id + '/edit',
+                        });
+                        break;
+                    case 'view':
+                        var index = layer.open({
+                            title: '',
+                            type: 2,
+                            shade: 0.2,
+                            maxmin: false,
+                            shadeClose: false,
+                            area: ['60%', '65%'],
+                            content: '/admin/' + MODULE_NAME + '/' + data.id,
+                        });
+                        break;
+                    case 'auth':
+                        var index = layer.open({
+                            title: '',
+                            type: 2,
+                            shade: 0.2,
+                            maxmin: false,
+                            shadeClose: false,
+                            area: ['60%', '65%'],
+                            content: '/admin/' + MODULE_NAME + '/auth/' + data.id,
+                        });
+                        break;
+                    case 'delete':
 
-                    var index = layer.open({
-                        title: '',
-                        type: 2,
-                        shade: 0.2,
-                        maxmin: false,
-                        shadeClose: false,
-                        area: ['60%', '65%'],
-                        content: '/admin/' + MODULE_NAME + '/auth/' + data.id,
-                    });
-                    return false;
-                } else if (obj.event === 'edit') {
-                    var index = layer.open({
-                        title: '',
-                        type: 2,
-                        shade: 0.2,
-                        maxmin: false,
-                        shadeClose: false,
-                        area: ['60%', '65%'],
-                        content: '/admin/' + MODULE_NAME + '/' + data.id + '/edit',
-                    });
-                } else if (obj.event === 'view') {
-
-                    var index = layer.open({
-                        title: '',
-                        type: 2,
-                        shade: 0.2,
-                        maxmin: false,
-                        shadeClose: false,
-                        area: ['60%', '65%'],
-                        content: '/admin/' + MODULE_NAME + '/' + data.id,
-                    });
-                    return false;
-                } else if (obj.event === 'preview') {
-
-                    var index = layer.open({
-                        title: '',
-                        type: 2,
-                        shade: 0.2,
-                        maxmin: false,
-                        shadeClose: false,
-                        area: ['60%', '65%'],
-                        content: '/admin/survey/preview/' + data.survey_id,
-                    });
-                    return false;
-                } else if (obj.event === 'delete') {
-                    layer.confirm('确认删除记录？', function (index) {
-                        obj.del();
-                        layer.msg('删除1条记录', {icon: 6});
-                        layer.close(index);
-                    });
-                } else {
-                    console.log(obj.event);
+                        break;
                 }
             });
 

@@ -50,7 +50,7 @@
             <script type="text/html" id="toolbarFilter">
                 <div class="layui-btn-container">
                     @if( check_admin_auth ($MODULE_NAME.' create'))
-                    <button class="layui-btn layui-btn-sm data-add-btn" lay-event="add"> 添加</button>
+                        <button class="layui-btn layui-btn-sm data-add-btn" lay-event="add"> 添加</button>
                     @endif
                 </div>
             </script>
@@ -68,7 +68,7 @@
 
 @section('footer')
     <script>
-        layui.use(['form', 'table','element'], function () {
+        layui.use(['form', 'table', 'element'], function () {
             var $ = layui.jquery,
                 form = layui.form,
                 table = layui.table,
@@ -79,30 +79,30 @@
                 elem: '#currentTableId',
                 url: '/admin/' + MODULE_NAME,
                 toolbar: '#toolbarFilter',
-                defaultToolbar: ['filter',{
+                defaultToolbar: ['filter', {
                     title: '导出'
-                    ,layEvent: 'export_data'
-                    ,icon: 'layui-icon-export'
+                    , layEvent: 'export_data'
+                    , icon: 'layui-icon-export'
                 }],
                 cols: [[
-                    {field: 'name', title: '登录账号',sort:true},
-                    {field: 'real_name', title: '真实姓名',sort:true},
-                    {field: 'telephone', title: '电话',hide:true,sort:true},
-                    {field: 'email', title: '电子邮件',hide:true,sort:true},
-                    {field: 'address', title: '地址', hide: true,sort:true},
-                    {field: 'gender', title: '性别',width:100,sort:true},
-                    {field: 'login_count', title: '登录次数',width:120,sort:true},
-                    {field: 'created_at', title: '注册时间',width:180, hide: true,sort:true},
-                    {field: 'updated_at', title: '更新时间',width:180,hide:true,sort:true},
-                    {field: 'last_login_at', title: '最后登录时间',width:180,sort:true},
-                    {field: 'status', title: '状态',width:100,sort:true},
+                    {field: 'name', title: '登录账号', sort: true},
+                    {field: 'real_name', title: '真实姓名', sort: true},
+                    {field: 'telephone', title: '电话', hide: true, sort: true},
+                    {field: 'email', title: '电子邮件', hide: true, sort: true},
+                    {field: 'address', title: '地址', hide: true, sort: true},
+                    {field: 'gender', title: '性别', width: 100, sort: true},
+                    {field: 'login_count', title: '登录次数', width: 120, sort: true},
+                    {field: 'created_at', title: '注册时间', width: 180, hide: true, sort: true},
+                    {field: 'updated_at', title: '更新时间', width: 180, hide: true, sort: true},
+                    {field: 'last_login_at', title: '最后登录时间', width: 180, sort: true},
+                    {field: 'status', title: '状态', width: 100, sort: true},
                     {title: '操作', width: 220, templet: '#currentTableBar', fixed: "right", align: "center"}
                 ]],
                 limits: [10, 15, 20, 25, 50, 100],
                 limit: 15,
                 page: true,
             });
-            element.on('tab(tabList)', function(data){
+            element.on('tab(tabList)', function (data) {
                 var status = '';
                 switch (data.index) {
                     case 1:
@@ -178,49 +178,32 @@
             });
             table.on('tool(currentTableFilter)', function (obj) {
                 var data = obj.data;
-                console.log(data);
-                if (obj.event === 'edit') {
+                switch (obj.event) {
+                    case 'edit':
+                        var index = layer.open({
+                            title: '',
+                            type: 2,
+                            shade: 0.2,
+                            maxmin: false,
+                            shadeClose: false,
+                            area: ['60%', '65%'],
+                            content: '/admin/' + MODULE_NAME + '/' + data.id + '/edit',
+                        });
+                        break;
+                    case 'view':
+                        var index = layer.open({
+                            title: '',
+                            type: 2,
+                            shade: 0.2,
+                            maxmin: false,
+                            shadeClose: false,
+                            area: ['60%', '65%'],
+                            content: '/admin/' + MODULE_NAME + '/' + data.id,
+                        });
+                        break;
+                    case 'delete':
 
-                    var index = layer.open({
-                        title: '',
-                        type: 2,
-                        shade: 0.2,
-                        maxmin: false,
-                        shadeClose: false,
-                        area: ['60%', '65%'],
-                        content: '/admin/' + MODULE_NAME + '/' + data.id + '/edit',
-                    });
-                    return false;
-                } else if (obj.event === 'add') {
-                    var index = layer.open({
-                        title: '',
-                        type: 2,
-                        shade: 0.2,
-                        maxmin: false,
-                        shadeClose: false,
-                        area: ['60%', '65%'],
-                        content: '/admin/' + MODULE_NAME + '/create?pid=' + data.id,
-                    });
-                } else if (obj.event === 'view') {
-
-                    var index = layer.open({
-                        title: '',
-                        type: 2,
-                        shade: 0.2,
-                        maxmin: false,
-                        shadeClose: false,
-                        area: ['60%', '65%'],
-                        content: '/admin/' + MODULE_NAME + '/' + data.id,
-                    });
-                    return false;
-                } else if (obj.event === 'delete') {
-                    layer.confirm('确认删除记录？', function (index) {
-                        obj.del();
-                        layer.msg('删除1条记录', {icon: 6});
-                        layer.close(index);
-                    });
-                } else {
-                    console.log(obj.event);
+                        break;
                 }
             });
 
