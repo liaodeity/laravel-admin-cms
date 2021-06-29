@@ -62,6 +62,9 @@ class BaseRepository implements InterfaceRepository
         return $this->model = $model;
     }
 
+    /**
+     * 模型类 add by gui
+     */
     public function model ()
     {
 
@@ -91,6 +94,9 @@ class BaseRepository implements InterfaceRepository
         return $this->validator = $validator;
     }
 
+    /**
+     * 表单认证类 add by gui
+     */
     public function validator ()
     {
 
@@ -151,8 +157,13 @@ class BaseRepository implements InterfaceRepository
         return $this->model->find ($id);
     }
 
+    /**
+     * 是否允许删除 add by gui
+     * @param $id
+     * @return bool
+     */
     public function allowDelete ($id)
     {
-
+        return true;
     }
 }
