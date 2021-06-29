@@ -10,6 +10,7 @@
 | Author: 廖春贵 < liaodeity@gmail.com >
 |-----------------------------------------------------------------------------------------------------------
 */
+
 namespace App\Repositories;
 
 
@@ -17,6 +18,7 @@ use App\Exceptions\BusinessException;
 use App\Models\Log;
 use App\Models\User;
 use App\Services\LoginService;
+use App\Validators\User\UserValidator;
 use Illuminate\Support\Facades\Hash;
 
 class UserRepository extends BaseRepository implements InterfaceRepository
@@ -25,6 +27,11 @@ class UserRepository extends BaseRepository implements InterfaceRepository
     public function model ()
     {
         return User::class;
+    }
+
+    public function validator ()
+    {
+        return UserValidator::class;
     }
 
     public function allowDelete ($id)

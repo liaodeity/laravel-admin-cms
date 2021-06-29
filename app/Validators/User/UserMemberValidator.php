@@ -11,28 +11,22 @@
 |-----------------------------------------------------------------------------------------------------------
 */
 
-namespace App\Repositories;
+namespace App\Validators\User;
 
 
-use App\Models\User\UserMember;
-use App\Validators\User\UserMemberValidator;
+use App\Validators\BaseValidator;
 
-class UserMemberRepository extends BaseRepository implements InterfaceRepository
+class UserMemberValidator extends BaseValidator
 {
-
-    public function model ()
-    {
-        return UserMember::class;
-    }
-
-    public function validator ()
-    {
-        return UserMemberValidator::class;
-    }
-
-    public function allowDelete ($id)
-    {
-        return true;
-    }
-
+    protected $rules      = [
+        self::RULE_CREATE => [
+            'status' => 'required'
+        ],
+        self::RULE_UPDATE => [
+            'status' => 'required'
+        ]
+    ];
+    protected $attributes = [
+        'status' => '状态'
+    ];
 }

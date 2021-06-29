@@ -22,6 +22,8 @@ use App\Models\Log;
 use App\Models\User;
 use App\Models\User\UserMember;
 use App\Repositories\UserRepository;
+use App\Validators\User\UserMemberValidator;
+use App\Validators\User\UserValidator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -75,7 +77,7 @@ class UserMemberController extends Controller
     {
         $limit = $request->input ('limit', 15);
         QueryWhere::defaultOrderBy ('users.id', 'DESC')->setRequest ($request->all ());
-        $M = $this->repository->makeModel ()->select ('user_members.*', 'users.name','users.email', 'users.login_count', 'users.last_login_at',
+        $M = $this->repository->makeModel ()->select ('user_members.*', 'users.name', 'users.email', 'users.login_count', 'users.last_login_at',
             'user_infos.real_name', 'user_infos.gender', 'user_infos.telephone', 'user_infos.address');
         $M->join ('user_members', 'users.id', '=', 'user_members.user_id');
         $M->leftJoin ('user_infos', 'user_infos.user_id', '=', 'users.id');
@@ -132,15 +134,6 @@ class UserMemberController extends Controller
      */
     public function store (Request $request)
     {
-        $request->validate ([
-            'User.name'         => 'required',
-            'User.password'     => 'required',
-            'UserMember.status' => 'required'
-        ], [], [
-            'User.name'         => '登录账号',
-            'User.password'     => '登录密码',
-            'UserMember.status' => '状态'
-        ]);
         if (!check_admin_auth ($this->module_name . '_create')) {
             return auth_error_return ();
         }
@@ -148,6 +141,8 @@ class UserMemberController extends Controller
         $inputUser = $request->input ('User');
         $input     = $this->formatRequestInput (__FUNCTION__, $inputUser);
         try {
+            $this->repository->makeValidator ()->with ($request->input ('User'))->passes (UserValidator::RULE_CREATE);
+            $this->repository->makeValidator (UserMemberValidator::class)->with ($request->input ('UserMember'))->passes (UserMemberValidator::RULE_CREATE);
             if (!User::isSuperAdmin ()) {
                 throw new BusinessException('非超级管理员，无法操作');
             }
@@ -236,20 +231,14 @@ class UserMemberController extends Controller
      */
     public function update (Request $request, UserMember $userMember)
     {
-        $request->validate ([
-            'User.name'         => 'required',
-            'UserMember.status' => 'required'
-        ], [], [
-            'User.name'         => '登录账号',
-            'User.password'     => '登录密码',
-            'UserMember.status' => '状态'
-        ]);
         if (!check_admin_auth ($this->module_name . ' edit')) {
             return auth_error_return ();
         }
         $input = $request->input ('User');
         $input = $this->formatRequestInput (__FUNCTION__, $input);
         try {
+            $this->repository->makeValidator ()->with ($request->input ('User'))->passes (UserValidator::RULE_UPDATE);
+            $this->repository->makeValidator (UserMemberValidator::class)->with ($request->input ('UserMember'))->passes (UserMemberValidator::RULE_UPDATE);
             if (array_get ($input, 'password')) {
                 $input['password'] = Hash::make ($input['password']);
             } else {

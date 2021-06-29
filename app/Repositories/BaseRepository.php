@@ -14,7 +14,9 @@
 namespace App\Repositories;
 
 use App\Exceptions\BusinessException;
+use App\Validators\BaseValidator;
 use Illuminate\Container\Container as Application;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -22,13 +24,20 @@ use Illuminate\Database\Eloquent\Model;
  * Class BaseRepository
  * @package App\Repositories
  */
-class BaseRepository
+class BaseRepository implements InterfaceRepository
 {
     /**
      * @var Application
      */
     protected $app;
+    /**
+     * @var Model
+     */
     protected $model;
+    /**
+     * @var BaseValidator
+     */
+    protected $validator;
 
     public function __construct (Application $app)
     {
@@ -40,6 +49,7 @@ class BaseRepository
      * add by gui
      * @return Model|mixed
      * @throws BusinessException
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function makeModel ()
     {
@@ -50,6 +60,40 @@ class BaseRepository
         }
 
         return $this->model = $model;
+    }
+
+    public function model ()
+    {
+
+    }
+
+    /**
+     * add by gui
+     * @param null $validator
+     * @return Model|mixed
+     * @throws BusinessException
+     */
+    public function makeValidator ($validator = null): BaseValidator
+    {
+        if (is_null ($validator)) {
+            $validator = $this->validator ();
+        }
+        try {
+            $validator = $this->app->make ($validator);
+        } catch (BindingResolutionException $e) {
+            throw new BusinessException($e->getMessage ());
+        }
+
+        if (!$validator instanceof BaseValidator) {
+            throw new BusinessException("Class {$validator} must be an instance of App\\Validators\\LiaoValidator");
+        }
+
+        return $this->validator = $validator;
+    }
+
+    public function validator ()
+    {
+
     }
 
     /**
@@ -105,5 +149,10 @@ class BaseRepository
     public function find ($id)
     {
         return $this->model->find ($id);
+    }
+
+    public function allowDelete ($id)
+    {
+
     }
 }
