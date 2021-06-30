@@ -3,7 +3,7 @@
 
 <p align="center">
   <a href="https://github.com/laravel/framework">
-    <img src="https://img.shields.io/badge/laravel-8.40.0-brightgreen.svg" alt="laravel">
+    <img src="https://img.shields.io/badge/laravel-8.48.2-brightgreen.svg" alt="laravel">
   </a>
   <a href="https://www.layui.com">
     <img src="https://img.shields.io/badge/layui-2.5.5-brightgreen.svg" alt="layui">
