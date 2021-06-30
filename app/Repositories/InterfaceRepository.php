@@ -10,6 +10,7 @@
 | Author: 廖春贵 < liaodeity@gmail.com >
 |-----------------------------------------------------------------------------------------------------------
 */
+
 namespace App\Repositories;
 
 
@@ -19,5 +20,7 @@ interface InterfaceRepository
 {
     public function model ();
 
-    public function allowDelete (Model $model);
+    public function validator ();
+
+    public function allowDelete ($id);
 }

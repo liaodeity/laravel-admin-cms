@@ -1,6 +1,16 @@
 # Release Notes
 
-## [Unreleased](https://github.com/liaodeity/laravel-admin-cms/compare/v8.2.4...8.x)
+## [Unreleased](https://github.com/liaodeity/laravel-admin-cms/compare/v8.2.5...8.x)
+
+## [v8.2.5(2021-06-28)](https://github.com/liaodeity/laravel-admin-cms/compare/v8.2.4...v8.2.5)
+
+### Added
+- 添加会员管理导出记录功能（[#11](https://github.com/liaodeity/laravel-admin-cms/pull/11)）
+
+### Changed
+- 更新路由归类
+- 调整视图文件操作按钮判断
+- 添加导出询问确认
 
 ## [v8.2.4(2021-06-23)](https://github.com/liaodeity/laravel-admin-cms/compare/v8.2.3...v8.2.4)
 

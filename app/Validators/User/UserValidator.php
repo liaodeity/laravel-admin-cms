@@ -11,28 +11,27 @@
 |-----------------------------------------------------------------------------------------------------------
 */
 
-namespace App\Repositories;
+namespace App\Validators\User;
 
 
-use App\Models\User\UserMember;
-use App\Validators\User\UserMemberValidator;
+use App\Validators\BaseValidator;
 
-class UserMemberRepository extends BaseRepository implements InterfaceRepository
+class UserValidator extends BaseValidator
 {
-
-    public function model ()
-    {
-        return UserMember::class;
-    }
-
-    public function validator ()
-    {
-        return UserMemberValidator::class;
-    }
-
-    public function allowDelete ($id)
-    {
-        return true;
-    }
-
+    protected $rules      = [
+        self::RULE_CREATE => [
+            'name'     => 'required',
+            'password' => 'required',
+        ],
+        self::RULE_UPDATE => [
+            'name' => 'required',
+        ]
+    ];
+    protected $attributes = [
+        'name'     => '登录账号',
+        'password' => '登录密码',
+    ];
+    protected $messages   = [
+        'password.required' => '创建新账号需要设置密码'
+    ];
 }

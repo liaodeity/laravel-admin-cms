@@ -24,7 +24,7 @@ class LogRepository extends BaseRepository implements InterfaceRepository
         return Log::class;
     }
 
-    public function allowDelete (Model $model)
+    public function allowDelete ($id)
     {
         return true;
     }
