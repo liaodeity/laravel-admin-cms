@@ -15,6 +15,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\MenuStatusEnum;
 use App\Enums\MenuTypeEnum;
+use App\Enums\MySqlEnum;
 use App\Http\Controllers\Controller;
 use App\Libs\QueryWhere;
 use App\Models\Log;
@@ -95,11 +96,13 @@ class MenuController extends Controller
         if (!check_admin_auth ($this->module_name . '_' . __FUNCTION__)) {
             return auth_error_return ();
         }
-        $menu = $this->repository->makeModel ();
+        $menu        = $this->repository->makeModel ();
         $_method     = 'POST';
         $menus       = Menu::orderBy ('sort', 'asc')->get ();
         $menus       = $menus->toArray ();
         $menuPidList = list_to_tree ($menus);
+        $maxSort     = Menu::max ('sort');
+        $menu->sort  = $maxSort ? $maxSort + 1 : 99;
 
         return view ('admin.' . $this->module_name . '.add', compact ('menu', '_method', 'menuPidList'));
     }
@@ -115,9 +118,11 @@ class MenuController extends Controller
         $request->validate ([
             'Menu.title'  => 'required',
             'Menu.status' => 'required',
+            'Menu.sort'   => 'integer|between:' . MySqlEnum::SMALLINT_MIN . ',' . MySqlEnum::SMALLINT_MAX
         ], [], [
             'Menu.title'  => '菜单名称',
             'Menu.status' => '状态',
+            'Menu.sort'   => '排序'
         ]);
         if (!check_admin_auth ($this->module_name . ' edit')) {
             return auth_error_return ();
@@ -127,7 +132,7 @@ class MenuController extends Controller
         try {
             $input['type'] = MenuTypeEnum::MENU;
             $input['uuid'] = get_uuid ();
-            $menu = $this->repository->create ($input);
+            $menu          = $this->repository->create ($input);
             if ($menu) {
                 Log::createLog (Log::EDIT_TYPE, '添加菜单', $menu->toArray (), $menu->id, Menu::class);
 
@@ -187,9 +192,11 @@ class MenuController extends Controller
         $request->validate ([
             'Menu.title'  => 'required',
             'Menu.status' => 'required',
+            'Menu.sort'   => 'integer|between:' . MySqlEnum::SMALLINT_MIN . ',' . MySqlEnum::SMALLINT_MAX
         ], [], [
             'Menu.title'  => '菜单名称',
             'Menu.status' => '状态',
+            'Menu.sort'   => '排序'
         ]);
         if (!check_admin_auth ($this->module_name . ' edit')) {
             return auth_error_return ();
@@ -213,9 +220,13 @@ class MenuController extends Controller
 
     private function formatRequestInput (string $__FUNCTION__, $input)
     {
-        if(isset($input['pid']) && empty($input['pid'])){
+        if (isset($input['pid']) && empty($input['pid'])) {
             $input['pid'] = 0;
         }
+        if (isset($input['sort']) && $input['sort'] == '') {
+            unset($input['sort']);
+        }
+
         return $input;
     }
 

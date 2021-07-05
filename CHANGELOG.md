@@ -1,6 +1,16 @@
 # Release Notes
 
-## [Unreleased](https://github.com/liaodeity/laravel-admin-cms/compare/v8.2.5...8.x)
+## [Unreleased](https://github.com/liaodeity/laravel-admin-cms/compare/v8.3.0...8.x)
+
+## [v8.3.0(2021-06-30)](https://github.com/liaodeity/laravel-admin-cms/compare/v8.2.5...v8.3.0)
+
+### Added
+- 增加Validator类用于表单认证（[#12](https://github.com/liaodeity/laravel-admin-cms/pull/12)）
+
+### Changed
+- 修改注释
+- composer update
+
 
 ## [v8.2.5(2021-06-28)](https://github.com/liaodeity/laravel-admin-cms/compare/v8.2.4...v8.2.5)
 

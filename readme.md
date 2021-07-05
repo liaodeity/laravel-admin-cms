@@ -3,7 +3,7 @@
 
 <p align="center">
   <a href="https://github.com/laravel/framework">
-    <img src="https://img.shields.io/badge/laravel-8.40.0-brightgreen.svg" alt="laravel">
+    <img src="https://img.shields.io/badge/laravel-8.48.2-brightgreen.svg" alt="laravel">
   </a>
   <a href="https://www.layui.com">
     <img src="https://img.shields.io/badge/layui-2.5.5-brightgreen.svg" alt="layui">
@@ -38,11 +38,13 @@
 - 演示说明：理性演示，误删除基础数据，可自行添加数据，自行删除（数据库会不定时重置抹除数据）
 
 ### 项目仓库说明
-如果因网络原因无法下载，可通过`国内Gitee`版本下载，一旦有新的发行版将同步到`Gitee`
 
-- GitHub：[https://github.com/liaodeity/laravel-admin-cms](https://github.com/liaodeity/laravel-admin-cms)
+因网络访问原因，目前通过首发`Gitee`版本，一旦有新的发行版将同步到`GitHub`
 
-- 国内Gitee：[https://gitee.com/liaodeiy/laravel-admin-cms](https://gitee.com/liaodeiy/laravel-admin-cms)
+- 首发Gitee：[https://gitee.com/liaodeiy/laravel-admin-cms](https://gitee.com/liaodeiy/laravel-admin-cms)
+
+- 同步GitHub：[https://github.com/liaodeity/laravel-admin-cms](https://github.com/liaodeity/laravel-admin-cms)
+
 
 ### 如何使用
 
@@ -52,7 +54,7 @@
 
 - 获取代码
 ```bash
-git clone https://github.com/liaodeity/laravel-admin-cms.git
+git clone https://gitee.com/liaodeiy/laravel-admin-cms.git
 cd laravel-admin-cms
 composer install
 ```
@@ -109,9 +111,9 @@ php artisan serve
 
 ### 如何贡献
  
- - 发布[issue](https://github.com/liaodeity/laravel-admin-cms/issues)进行问题反馈和建议
+ - 发布[issue](https://gitee.com/liaodeiy/laravel-admin-cms/issues)进行问题反馈和建议
  
- - 通过[Pull Request](https://github.com/liaodeity/laravel-admin-cms/pulls)提交修复
+ - 通过[Pull Request](https://gitee.com/liaodeiy/laravel-admin-cms/pulls)提交修复
  
  - 完善我们的文档和例子
  
