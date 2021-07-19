@@ -13,6 +13,7 @@
 
 namespace App\Models;
 
+use App\Enums\ConfigTypeEnum;
 use App\Traits\DateTimeFormat;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,6 +29,10 @@ class Config extends Model
     const TEXT_TYPE = 6;
     protected $fillable = ['name', 'title', 'group_id', 'type', 'content', 'param_json', 'description'];
 
+    public function group ()
+    {
+        return $this->belongsTo (ConfigGroup::class);
+    }
     public static function getValue ($name, $default = null)
     {
         $name   = strtolower (trim ($name));
@@ -37,19 +42,19 @@ class Config extends Model
         }
         $content = $config->content;
         switch ($config->type) {
-            case self::NUM_TYPE:
+            case ConfigTypeEnum::NUM_TYPE:
                 $content = (int)$content;
                 break;
-            case self::ARR_TYPE:
+            case ConfigTypeEnum::ARR_TYPE:
                 $content = json_decode ($content, true);
                 if (!$content || !is_array ($content)) {
                     $content = [];
                 }
                 break;
-            case self::ITEM_TYPE:
+            case ConfigTypeEnum::ITEM_TYPE:
                 //
                 break;
-            case self::JSON_TYPE:
+            case ConfigTypeEnum::JSON_TYPE:
                 $json = json_decode ($content, true);
                 if (!$json) {
                     $content = '{}';
@@ -87,14 +92,14 @@ class Config extends Model
     {
         $json = $config->param_json ?? '';
         switch ($config->type) {
-            case self::ARR_TYPE;
+            case ConfigTypeEnum::ARR_TYPE;
                 if ($json) {
                     return json_decode ($json);
                 } else {
                     return [];
                 }
                 break;
-            case self::ITEM_TYPE:
+            case ConfigTypeEnum::ITEM_TYPE:
                 if ($json) {
                     return json_decode ($json);
                 } else {

@@ -13,8 +13,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\ConfigTypeEnum;
 use App\Exceptions\BusinessException;
 use App\Http\Controllers\Controller;
+use App\Libs\QueryWhere;
 use App\Models\Config;
 use App\Models\ConfigGroup;
 use App\Models\Log;
@@ -43,9 +45,41 @@ class ConfigController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index ()
+    public function index (Request $request)
     {
+        if (!check_admin_auth ($this->module_name . '_' . __FUNCTION__)) {
+            return auth_error_return ();
+        }
+        if (request ()->wantsJson ()) {
+            $limit = $request->input ('limit', 15);
+            QueryWhere::setRequest ($request->all ());
+            $M = $this->repository->makeModel ()->select ('configs.*');
+            QueryWhere::eq ($M, 'group_id');
+            QueryWhere::eq ($M, 'type');
+            QueryWhere::like ($M, 'title');
+            QueryWhere::orderBy ($M, 'configs.group_id');
+            $M->orderBy('configs.type');
+            $list  = $M->paginate ($limit);
+            $count = $list->total ();
+            $data  = $list->items ();
+            foreach ($data as $key => $item) {
+                $data[ $key ]['group_id'] = $item->group->title ?? '';
+                $data[ $key ]['type']     = ConfigTypeEnum::toLabel ($item->type);
+            }
+            $result = [
+                'code'  => 0,
+                'count' => $count,
+                'data'  => $data,
+            ];
 
+            return response ()->json ($result);
+
+        } else {
+            $config = $this->repository->makeModel ();
+            $groups = ConfigGroup::all ();
+
+            return view ('admin.' . $this->module_name . '.index', compact ('config','groups'));
+        }
     }
 
     /**
@@ -77,7 +111,11 @@ class ConfigController extends Controller
      */
     public function show (Config $config)
     {
-        //
+        if (!check_admin_auth ($this->module_name.'_show')) {
+            return auth_error_return ();
+        }
+
+        return view ('admin.' . $this->module_name . '.show', compact ('config'));
     }
 
     /**
@@ -88,11 +126,12 @@ class ConfigController extends Controller
      */
     public function edit (Config $config)
     {
-        if (!check_admin_auth ($this->module_name)) {
+        if (!check_admin_auth ($this->module_name.'_edit')) {
             return auth_error_return ();
         }
+        $_method = 'PUT';
 
-        return view ('admin.' . $this->module_name . '.add', compact ('config'));
+        return view ('admin.' . $this->module_name . '.add', compact ('config', '_method'));
     }
 
     /**
@@ -104,16 +143,16 @@ class ConfigController extends Controller
      */
     public function update (Request $request, Config $config)
     {
-        if (!check_admin_auth ($this->module_name . ' edit')) {
+        if (!check_admin_auth ($this->module_name . '_edit')) {
             return auth_error_return ();
         }
         $input = $request->input ('Config');
         $input = $this->formatRequestInput (__FUNCTION__, $input);
         try {
-            $this->repository->makeValidator ()->with ($input)->passes (ConfigValidator::RULE_UPDATE);
-            $ret = $this->repository->update ($input, $config->id);
-            if ($ret) {
-                Log::createLog (Log::EDIT_TYPE, '修改配置信息记录', $config->toArray (), $ret->id, Config::class);
+            $config = $this->repository->update ($input, $config->id);
+            if ($config) {
+                $this->repository->saveContent ($config, $config->content);
+                Log::createLog (Log::EDIT_TYPE, '修改配置信息记录', $config->toArray (), $config->id, Config::class);
 
                 return ajax_success_result ('修改成功');
             } else {
@@ -155,12 +194,12 @@ class ConfigController extends Controller
         }
         if ($request->isMethod ('post')) {
             $input = $request->input ('Config');
-            if(!$input){
+            if (!$input) {
                 throw new BusinessException('没有配置参数');
             }
             DB::beginTransaction ();
-            foreach ($input as $id => $content){
-                $this->repository->saveContent (Config::find($id), $content);
+            foreach ($input as $id => $content) {
+                $this->repository->saveContent (Config::find ($id), $content);
             }
             DB::commit ();
 
