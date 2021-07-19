@@ -1,6 +1,14 @@
 # Release Notes
 
-## [Unreleased](https://github.com/liaodeity/laravel-admin-cms/compare/v8.3.0...8.x)
+## [Unreleased](https://github.com/liaodeity/laravel-admin-cms/compare/v8.3.2...8.x)
+
+## [v8.3.2](https://github.com/liaodeity/laravel-admin-cms/compare/v8.3.1...v8.3.2)
+
+### Added
+- 添加系统配置设置功能（[#8](https://gitee.com/liaodeiy/laravel-admin-cms/pulls/8)）
+
+### Changed
+- 代码整理优化
 
 ## [v8.3.1](https://github.com/liaodeity/laravel-admin-cms/compare/v8.3.0...v8.3.1)
 ### Changed
