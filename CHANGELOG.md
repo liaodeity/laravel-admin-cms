@@ -2,6 +2,13 @@
 
 ## [Unreleased](https://github.com/liaodeity/laravel-admin-cms/compare/v8.3.0...8.x)
 
+## [v8.3.1](https://github.com/liaodeity/laravel-admin-cms/compare/v8.3.0...v8.3.1)
+### Changed
+- 首发Gitee，更新说明信息
+
+### Fixed
+- 修复菜单排序字段默认值([I3Z64V](https://gitee.com/liaodeiy/laravel-admin-cms/issues/I3Z64V))
+
 ## [v8.3.0(2021-06-30)](https://github.com/liaodeity/laravel-admin-cms/compare/v8.2.5...v8.3.0)
 
 ### Added
