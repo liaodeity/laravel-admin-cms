@@ -46,7 +46,7 @@ class UploadController extends Controller
             return ['status' => 0, 'info' => '.' . $extension . '的后缀不允许上传'];
         }
 
-        $newImagesName = get_uuid () . "." . $extension;
+        $newImagesName = md5_file ($images->getRealPath ()). "." . $extension;
 
 
         $path    = $filedir . $newImagesName;
@@ -78,7 +78,7 @@ class UploadController extends Controller
                 $data['size']         = $size;
                 $data['state']        = 'SUCCESS';
                 $data['name']         = $newImagesName;
-                $data['url']          = '/' . $Attachment->path;
+                $data['url']          = $Attachment->url;
                 $data['type']         = '.' . $extension;
                 $data['originalName'] = $Attachment->name;
                 $data['src']          = $data['url'];
@@ -89,9 +89,9 @@ class UploadController extends Controller
             case 'wangEditor':
                 $data['errno']  = 0;
                 $row            = [
-                    'url'  => '/' . $Attachment->path,
+                    'url'  => $Attachment->url,
                     'alt'  => $Attachment->name,
-                    'href' => '/' . $Attachment->path
+                    'href' => $Attachment->url
                 ];
                 $data['data'][] = $row;
                 break;
@@ -119,7 +119,7 @@ class UploadController extends Controller
             return ['status' => 0, 'info' => '.' . $extension . '的后缀不允许上传'];
         }
 
-        $newImagesName = get_uuid () . "." . $extension;
+        $newImagesName = md5_file ($files->getRealPath ()) . "." . $extension;
 
         $files->move ($filedir, $newImagesName);
         $path       = $filedir . $newImagesName;
@@ -137,7 +137,7 @@ class UploadController extends Controller
                 'id'    => $attachment->id,
                 'name'  => $attachment->name,
                 'title' => str_replace ('.' . $extension, '', $attachment->name),
-                'src'   => asset ($attachment->path)
+                'src'   => $attachment->url
             ]
         ];
         Log::createLog (Log::INFO_TYPE, '上传附件记录', '', $attachment->id, Attachment::class);
@@ -164,7 +164,7 @@ class UploadController extends Controller
             return ['status' => 0, 'info' => '.' . $extension . '的后缀不允许上传'];
         }
 
-        $newFileName = get_uuid () . "." . $extension;
+        $newFileName = md5_file ($files->getRealPath ()) . "." . $extension;
 
         $path    = $filedir . $newFileName;
         $content = file_get_contents ($files->getRealPath ());
@@ -182,23 +182,12 @@ class UploadController extends Controller
         ];
         $attachment  = Attachment::addFile ($insArr);
 
-        //$files->move ($filedir, $newImagesName);
-        //$path       = $filedir . $newImagesName;
-        //$insArr     = [
-        //    'name'      => $imagesName,
-        //    'path'      => $path,
-        //    'file_md5'  => md5_file ($path),
-        //    'file_sha1' => sha1_file ($path),
-        //    'status'    => 1
-        //];
-        //$attachment = Attachment::addFile ($insArr);
-
         $result = [
             'data' => [
                 'id'    => $attachment->id,
                 'name'  => $attachment->name,
                 'title' => str_replace ('.' . $extension, '', $attachment->name),
-                'src'   => asset ($attachment->path)
+                'src'   => $attachment->url
             ]
         ];
         Log::createLog (Log::INFO_TYPE, '上传附件记录', '', $attachment->id, Attachment::class);

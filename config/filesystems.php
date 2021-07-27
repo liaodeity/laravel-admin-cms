@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DRIVER', 'local'),
+    'default' => env ('FILESYSTEM_DRIVER', 'local'),
 
     /*
     |--------------------------------------------------------------------------
@@ -30,38 +30,47 @@ return [
 
     'disks' => [
 
-        'local' => [
+        'local'  => [
             'driver' => 'local',
-            'root' => storage_path('app'),
+            'root'   => storage_path ('app'),
         ],
-        'base' => [
+        'base'   => [
             'driver' => 'local',
-            'root' => base_path (''),
+            'root'   => base_path (''),
         ],
         'public' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'driver'     => 'local',
+            'root'       => storage_path ('app/public'),
+            'url'        => env ('APP_URL') . '/storage',
             'visibility' => 'public',
         ],
-        's3' => [
-            'driver' => 's3',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'region' => env('AWS_DEFAULT_REGION'),
-            'bucket' => env('AWS_BUCKET'),
-            'url' => env('AWS_URL'),
-            'endpoint' => env('AWS_ENDPOINT'),
+        's3'     => [
+            'driver'   => 's3',
+            'key'      => env ('AWS_ACCESS_KEY_ID'),
+            'secret'   => env ('AWS_SECRET_ACCESS_KEY'),
+            'region'   => env ('AWS_DEFAULT_REGION'),
+            'bucket'   => env ('AWS_BUCKET'),
+            'url'      => env ('AWS_URL'),
+            'endpoint' => env ('AWS_ENDPOINT'),
         ],
-        'qiniu' => [
+        'kodo'   => [
             'driver' => 'kodo',
-            'prefix' => env ('QINIU_PREFIX'),
+            'prefix' => env ('QINIU_PREFIX',''),
             'key'    => env ('QINIU_ACCESS_KEY', ''),
             'secret' => env ('QINIU_SECRET_KEY', ''),
             'region' => env ('QINIU_DEFAULT_REGION', ''),
             'bucket' => env ('QINIU_BUCKET', ''),
             'url'    => env ('QINIU_URL', '')
         ],
+        'oss'    => [
+            'driver'     => 'oss',
+            'prefix'     => env ('ALIYUN_OSS_PREFIX',''),
+            'key_id'     => env ('ALIYUN_OSS_KEY_ID', ''),
+            'key_secret' => env ('ALIYUN_OSS_KEY_SECRET', ''),
+            'endpoint'     => env ('ALIYUN_OSS_ENDPOINT', ''),
+            'bucket'     => env ('ALIYUN_OSS_BUCKET', ''),
+            'url'        => env ('ALIYUN_OSS_URL', '')
+        ]
     ],
 
     /*
@@ -76,7 +85,7 @@ return [
     */
 
     'links' => [
-        public_path('storage') => storage_path('app/public'),
+        public_path ('storage') => storage_path ('app/public'),
     ],
 
 ];

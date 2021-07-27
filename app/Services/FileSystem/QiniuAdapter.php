@@ -2,6 +2,7 @@
 
 namespace App\Services\FileSystem;
 
+use App\Enums\UploadDriverEnum;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use League\Flysystem\Adapter\AbstractAdapter;
 use League\Flysystem\Config;
@@ -23,11 +24,12 @@ class QiniuAdapter extends AbstractAdapter
 
     public function __construct ($prefix = '')
     {
+        $driver              = UploadDriverEnum::QINIU;
         $this->uploadManager = new UploadManager();
-        $this->accessKey     = \config ('filesystems.disks.qiniu.key');
-        $this->accessSecret  = \config ('filesystems.disks.qiniu.secret');
-        $this->bucketName    = \config ('filesystems.disks.qiniu.bucket');
-        $this->url           = config ('filesystems.disks.qiniu.url');
+        $this->accessKey     = \config ('filesystems.disks.' . $driver . '.key');
+        $this->accessSecret  = \config ('filesystems.disks.' . $driver . '.secret');
+        $this->bucketName    = \config ('filesystems.disks.' . $driver . '.bucket');
+        $this->url           = config ('filesystems.disks.' . $driver . '.url');
         $auth                = new Auth($this->accessKey, $this->accessSecret);
         $this->bucketManager = new BucketManager($auth);
         $this->token         = $auth->uploadToken ($this->bucketName);
@@ -313,8 +315,8 @@ class QiniuAdapter extends AbstractAdapter
      */
     public function getTimestamp ($path)
     {
-        $fileInfo = $this->read ($path);
-        $fileInfo['timestamp'] = (int)$fileInfo['putTime']/10000000;
+        $fileInfo              = $this->read ($path);
+        $fileInfo['timestamp'] = (int)$fileInfo['putTime'] / 10000000;
 
         return $fileInfo;
     }

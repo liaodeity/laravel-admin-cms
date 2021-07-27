@@ -13,9 +13,11 @@
 
 namespace App\Models;
 
+use App\Exceptions\BusinessException;
 use App\Services\FileSystem\UploadService;
 use App\Traits\DateTimeFormat;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Attachment extends Model
 {
@@ -72,4 +74,32 @@ class Attachment extends Model
         return Attachment::create ($insArr);
     }
 
+    /**
+     * 删除附件，同时上传云文件和本地文件 add by gui
+     * @param Attachment $attachment
+     * @return bool
+     * @throws BusinessException
+     */
+    public static function deleteFile (Attachment $attachment)
+    {
+        if ($attachment->driver) {
+            //刪除云文件
+            $ret = UploadService::disk ($attachment->driver)->delete ($attachment->storage_path);
+            if (!$ret) {
+                throw new BusinessException('远程云文件删除失败');
+            }
+        }
+        if (Storage::disk ('public')->exists ($attachment->storage_path)) {
+            $ret = Storage::disk ('public')->delete ($attachment->storage_path);
+            if (!$ret) {
+                throw new BusinessException('本地文件删除失败');
+            }
+        }
+        if ($attachment->delete ()) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 }

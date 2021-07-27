@@ -21,6 +21,12 @@ use League\Flysystem\Filesystem;
 
 class UploadService
 {
+    /**
+     *  add by gui
+     * @param null $driver
+     * @return UploadInterface
+     * @throws BusinessException
+     */
     public static function disk ($driver = null)
     {
         if (is_null ($driver)) {
@@ -32,7 +38,7 @@ class UploadService
                 $app = new QiniuService();
                 break;
             case UploadDriverEnum::ALIYUN:
-
+                $app  = new OssService();
                 break;
             default:
                 throw new BusinessException('不存在' . $driver . '云驱动');
@@ -53,9 +59,9 @@ class UploadService
                 return new Filesystem(new QiniuAdapter($config['prefix']));
             });
             // 注册阿里云驱动
-            //Storage::extend (UploadDriverEnum::ALIYUN, function ($app, $config) {
-            //    return new Filesystem(new AliyunAdapter($config['prefix']));
-            //});
+            Storage::extend (UploadDriverEnum::ALIYUN, function ($app, $config) {
+                return new Filesystem(new AliyunAdapter($config['prefix']));
+            });
         }
     }
 }

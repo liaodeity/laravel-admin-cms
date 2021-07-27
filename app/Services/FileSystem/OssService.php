@@ -18,18 +18,19 @@ use App\Enums\UploadDriverEnum;
 use App\Exceptions\BusinessException;
 use Illuminate\Support\Facades\Storage;
 
-class QiniuService implements UploadInterface
+class OssService implements UploadInterface
 {
-    protected $driver = '';
+    private $driver = '';
 
     public function __construct ()
     {
-        $this->driver = UploadDriverEnum::QINIU;
+        $this->driver = UploadDriverEnum::ALIYUN;
     }
 
     /**
      *  add by gui
      * @param $path
+     * @return string
      * @throws BusinessException
      */
     public function upload ($path)
@@ -37,8 +38,8 @@ class QiniuService implements UploadInterface
         if (!Storage::disk ('public')->exists ($path)) {
             throw  new BusinessException('本地文件不存在' . $path);
         }
-        $storagePath = Storage::disk ('public')->path ($path);
-        $ret         = Storage::disk ($this->driver)->put ($path, $storagePath);
+        $real_path = Storage::disk ('public')->path($path);
+        $ret = Storage::disk ($this->driver)->put ($path, $real_path);
         if ($ret) {
             $url = Storage::disk ($this->driver)->url ($path);
 
