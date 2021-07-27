@@ -44,7 +44,6 @@ return [
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
-
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
@@ -54,7 +53,15 @@ return [
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
         ],
-
+        'qiniu' => [
+            'driver' => 'kodo',
+            'prefix' => env ('QINIU_PREFIX'),
+            'key'    => env ('QINIU_ACCESS_KEY', ''),
+            'secret' => env ('QINIU_SECRET_KEY', ''),
+            'region' => env ('QINIU_DEFAULT_REGION', ''),
+            'bucket' => env ('QINIU_BUCKET', ''),
+            'url'    => env ('QINIU_URL', '')
+        ],
     ],
 
     /*

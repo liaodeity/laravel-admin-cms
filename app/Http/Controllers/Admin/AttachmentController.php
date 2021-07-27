@@ -68,7 +68,7 @@ class AttachmentController extends Controller
                 $path  = $item->storage_path;
                 $exits = Storage::disk ('public')->exists ($path);
                 if ($exits) {
-                    $src      = asset ($item->path);
+                    $src      = $item->url ? $item->url : asset ($item->path);
                     $size     = Storage::disk ('public')->size ($path);
                     $size     = format_size ($size);
                     $mineType = mime_content_type ($item->path);
