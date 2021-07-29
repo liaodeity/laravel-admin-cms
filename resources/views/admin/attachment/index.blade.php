@@ -48,6 +48,9 @@
                 <a target="_blank" href="@{{ d._src }}" class="layui-btn layui-btn-xs layui-btn-primary">预览</a>
                 @{{# } }}
                 @endif
+                @if( check_admin_auth ($MODULE_NAME.'_delete'))
+                <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">{{__('message.buttons.delete')}}</a>
+                @endif
             </script>
         </div>
     </div>
@@ -84,11 +87,46 @@
                     {field: 'user_id', title: '记录人', width: 180, sort: true},
                     {field: 'status', title: '状态', width: 100, sort: true},
                     {field: 'created_at', title: '上传时间', width: 180, sort: true},
-                    {title: '操作', width: 100, templet: '#currentTableBar', fixed: "right", align: "center"}
+                    {title: '操作', width: 120, templet: '#currentTableBar', fixed: "right", align: "center"}
                 ]],
                 limits: [10, 15, 20, 25, 50, 100],
                 limit: 15,
                 page: true,
+                done:function (res) {
+                    upload.render({
+                        elem: '#file_upload' //绑定元素
+                        , url: '{!! get_upload_url(route('upload.file'), $attachment) !!}' //上传接口
+                        , accept: 'file'
+                        , done: function (res) {
+                            //code=0代表上传成功
+                            if (res.code === 0) {
+                                top.layer.msg(res.message, {
+                                    icon: 1,
+                                    time: SUCCESS_TIME,
+                                    shade: 0.3
+                                });
+                                setTimeout(function () {
+                                    $(".layui-form button[type='submit']").click();
+                                }, SUCCESS_TIME)
+
+                            } else {
+                                top.layer.msg(res.message, {
+                                    icon: 2,
+                                    time: FAIL_TIME,
+                                    shade: 0.3
+                                });
+                            }
+                        }
+                        , error: function () {
+                            //请求异常回调
+                            top.layer.msg('上传接口异常', {
+                                icon: 2,
+                                time: FAIL_TIME,
+                                shade: 0.3
+                            });
+                        }
+                    });
+                }
             });
             //日期
             laydate.render({
@@ -119,39 +157,7 @@
             table.on('checkbox(currentTableFilter)', function (obj) {
                 console.log(obj)
             });
-            upload.render({
-                elem: '#file_upload' //绑定元素
-                , url: '{!! get_upload_url(route('upload.file'), $attachment) !!}' //上传接口
-                , accept: 'file'
-                , done: function (res) {
-                    //code=0代表上传成功
-                    if (res.code === 0) {
-                        top.layer.msg(res.message, {
-                            icon: 1,
-                            time: SUCCESS_TIME,
-                            shade: 0.3
-                        });
-                        setTimeout(function () {
-                            $(".layui-form button[type='submit']").click();
-                        }, SUCCESS_TIME)
 
-                    } else {
-                        top.layer.msg(res.message, {
-                            icon: 2,
-                            time: FAIL_TIME,
-                            shade: 0.3
-                        });
-                    }
-                }
-                , error: function () {
-                    //请求异常回调
-                    top.layer.msg('上传接口异常', {
-                        icon: 2,
-                        time: FAIL_TIME,
-                        shade: 0.3
-                    });
-                }
-            });
             table.on('toolbar(currentTableFilter)', function (obj) {
                 console.log(obj);
                 var data = form.val("data-search-filter");
@@ -215,7 +221,48 @@
                         });
                         break;
                     case 'delete':
-
+                        layer.msg('确认永久删除附件？', {
+                            time: 0 //不自动关闭
+                            ,btn: ['确认', '取消']
+                            ,yes: function(index){
+                                layer.close(index);
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '/admin/' + MODULE_NAME + '/' + data.id,
+                                    data: {
+                                        _method: 'DELETE'
+                                    },
+                                    dataType: 'json',
+                                    beforeSend: function () {
+                                        loading = layer.load(2)
+                                    },
+                                    complete: function () {
+                                        layer.close(loading)
+                                    },
+                                    error: function () {
+                                        top.layer.msg(AJAX_ERROR_TIP, {
+                                            icon: 2,
+                                            time: FAIL_TIME,
+                                            shade: 0.3
+                                        });
+                                    },
+                                    success: function (data) {
+                                        if (data.code === 0) {
+                                            layer.msg(data.message, {icon: 6, time: SUCCESS_TIME, shade: 0.2});
+                                            setTimeout(function () {
+                                                $('button[lay-filter="data-search-btn"]').click();//刷新列表
+                                            }, SUCCESS_TIME);
+                                        } else {
+                                            top.layer.msg(data.message, {
+                                                icon: 2,
+                                                time: FAIL_TIME,
+                                                shade: 0.3
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                        });
                         break;
                 }
             });

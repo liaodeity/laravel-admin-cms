@@ -21,6 +21,9 @@ class CreateAttachments extends Migration
             $table->string ('storage_path')->default ('')->comment ('私有附件地址');
             $table->string ('file_md5', 32)->default ('')->comment ('文件MD5');
             $table->string ('file_sha1', 60)->default ('')->comment ('文件SHA1');
+            $table->string ('url')->default ('')->comment ('云地址');
+            $table->decimal ('file_size',12,2)->default (0)->comment ('文件大小（KB）');
+            $table->string ('driver', 10)->default ('')->comment ('类型');
             $table->tinyInteger ('status')->default (0)->comment ('');
             $table->morphs ('source');
             $table->timestamps ();

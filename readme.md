@@ -105,7 +105,17 @@ php artisan serve
 
 - 插件管理
 
-## 插件扩展
+### 云存储支持
+
+开启云存储后，在上传附件到本地后，同时上传一份到云存储位置，并获取云地址。
+
+查看配置文件`gui.upload_driver`和`filesystems.disks.*`了解配置认证秘钥
+
+- 阿里云：oss（[开通地址](https://www.aliyun.com/product/oss?userCode=hhlk0aji)）
+- 七牛云：kodo（[开通地址，免费10G](https://s.qiniu.com/jyQv6v)）
+
+
+### 插件扩展
 
 - 暂无
 
